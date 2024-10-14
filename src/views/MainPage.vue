@@ -1,20 +1,21 @@
 <template>
   <div>
     <div class="header_container">
-      <Header />
+      <header 
+      />
     </div>
   </div>
 </template>
 
 <script>
+import Header from '@/components/Header.vue';
 import Header from '../components/Header.vue';
 
 export default {
-  name: 'MainPage',
   components: {
-    Header,
+    Header
   }
-}
+};
 </script>
 
 <style scoped>
