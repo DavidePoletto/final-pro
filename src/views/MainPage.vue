@@ -1,20 +1,32 @@
 <template>
-  <div>
-    <div class="header_container">
-      <header />
-    </div>
+  <div class="page">
+    <MainBar />
+    <div class="main_content"></div>
+    
   </div>
 </template>
 
 <script>
-import Header from '../components/Header.vue';
+import MainBar from '@/components/Header.vue';
+import title from '@/components/title.vue'
 
 export default {
   components: {
-    Header
+    MainBar,
+    title,
   }
 };
 </script>
 
 <style scoped>
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main_content {
+  height: 100%;
+  background-color: gray;
+}
 </style>
