@@ -114,10 +114,11 @@ export default {
 
 .big_button button {
   width: 80%;
-  color: rgb(0, 0, 0);
+  color: white;
   background-color: #f1752d;
   border: none;
   border-radius: 2px;
+  font-weight: bold;
 }
 
 .s_button {
