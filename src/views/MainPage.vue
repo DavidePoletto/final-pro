@@ -4,7 +4,7 @@
     <div class="container">
       <div ref="parallaxWrap" class="parallax_wrap">
         <img class="first_bg" src="../assets/IMG/sfondo3.png" alt="background">
-        <img class="second_bg" src="../assets/IMG/sfondo223.png" alt="background2">
+        <img class="second_bg" src="../assets/IMG/sfondo21.png" alt="background2">
       </div>
       <div class="info_box">
         <h1>GAMEVERSE</h1>
@@ -30,17 +30,35 @@ export default {
     MainBar,
   },
   mounted() {
-    document.addEventListener("mousemove", this.parallax);
+    this.$nextTick(() => {
+      if (this.$refs.parallaxWrap) {
+        document.addEventListener("mousemove", this.parallax);
+      } else {
+        console.error("parallaxWrap not found.");
+      }
+    });
   },
   methods: {
     parallax(event) {
-      this.$refs.parallaxWrap.querySelectorAll("img").forEach((shift) => {
-        const position = shift.classList.contains('first_bg') ? 3 : 1; // Usare i classi per determinare lo spostamento
-        const x = (event.pageX - centerX) * (position / 50);
-        const y = (event.pageY - centerY) * (position / 50);
-        
-        shift.style.transform = `translateX(${x}px) translateY(${y}px)`;
-      });
+      // Controlla che parallaxWrap esista
+      if (!this.$refs.parallaxWrap) {
+        return;
+      }
+
+      // Calcola il centro della finestra
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+
+      // Applica il movimento solo alla prima immagine (first_bg)
+      const firstImage = this.$refs.parallaxWrap.querySelector(".first_bg");
+      if (firstImage) {
+        const position = 1.5; // Imposta l'intensità del movimento
+
+        const x = (event.pageX - centerX) * (position / -100); 
+        const y = (event.pageY - centerY) * (position / 100);
+
+        firstImage.style.transform = `translateX(${x}px) translateY(${y}px)`;
+      }
     }
   },
   beforeDestroy() {
@@ -50,16 +68,21 @@ export default {
 </script>
 
 
+
+
+
 <style scoped>
 .page {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  width: 100vw;
 }
 
 .container {
+  width: 100%;
   height: 100vh;
-  margin-top: 80px;
+  margin-top: 75px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -77,11 +100,13 @@ export default {
 .first_bg {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: -10px;
+  width: 110%;
   height: 100%;
+  transform-origin: center;
   object-fit: cover;
   z-index: 1;
+  filter: brightness();
 }
 
 .second_bg {
@@ -141,8 +166,8 @@ export default {
 }
 
 .big_box {
-  width: 400px;
-  height: 300px;
+  width: 30%;
+  height: 30%;
   position: absolute;
   z-index: 1;
   background-image: url(./src/assets/IMG/GAMEVERSE.png);
