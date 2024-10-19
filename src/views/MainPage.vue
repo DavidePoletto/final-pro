@@ -67,10 +67,6 @@ export default {
 }
 </script>
 
-
-
-
-
 <style scoped>
 .page {
   height: 100vh;

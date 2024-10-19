@@ -4,11 +4,11 @@
     <div class="logo_container"><img class="logo" src="../assets/IMG/GAMEVERSE.png" alt="logo"></div>
     <div class="nav_container">
       <ul class="menu">
-        <li><a href="">HOME</a></li>
-        <li><a href="">GAMES</a></li>
+        <li><router-link to="/">HOME</router-link></li>
+        <li><router-link to="/ShopPage">SHOP</router-link></li>
         <li><a href="">CARD GAME</a></li>
-        <li><a href="">NEWS</a></li>
-        <li><a href="">EVENTS</a></li>
+        <li><router-link to="/NewsPage">NEWS</router-link></li>
+        <li><router-link to="/EventsPage">EVENTS</router-link></li>
       </ul>
     </div>
     <div class="login_container">
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import router from '../router';
+
 export default {
   name: 'MainBar',
 }
