@@ -1,14 +1,20 @@
 <template>
   <div class="Shop_page">
     <MainBar />
-    <div class="game-library">
+    <div class="cover_container">
+      <div class="cover"></div>
+    </div>
+    <div class="game_library">
+      <h2>Videogames</h2>
       <div v-if="loading">Caricamento...</div>
-      <div v-else class="game-list">
-        <div v-for="game in games" :key="game.id" class="game-card">
-          <img :src="game.background_image" :alt="game.name" />
-          <div class="game_info"> 
+      <div v-else class="game_list">
+        <div v-for="game in games" :key="game.id" class="game_card">
+          <div class="image_wrapper">
+            <img :src="game.background_image" :alt="game.name" />
+          </div>
+          <div class="game_info">
             <h2>{{ game.name }}</h2>
-            <p>€{{ game.price.toFixed(2) }}</p> <!-- Visualizzazione del prezzo casuale -->
+            <p>€{{ game.price.toFixed(2) }}</p>
           </div>
         </div>
       </div>
@@ -25,42 +31,37 @@ export default {
     MainBar,
   },
   setup() {
-    const games = ref([]);  // Variabile reattiva per i giochi
-    const loading = ref(true);  // Variabile per gestire lo stato di caricamento
+    const games = ref([]);
+    const loading = ref(true);
 
-    // Funzione per generare un prezzo casuale tra 2 e 30 euro
     const getRandomPrice = () => {
       return Math.random() * (30 - 2) + 2;
     };
 
-    // Funzione per ottenere i giochi dall'API di RAWG
     const fetchGames = async () => {
-      const API_KEY = '90736d80468d4a0c956e9428d59f8bbe'; // RAWG API Key
+      const API_KEY = '90736d80468d4a0c956e9428d59f8bbe';
       try {
-        // Chiamata all'API di RAWG
         const response = await fetch(`https://api.rawg.io/api/games?key=${API_KEY}`);
         const data = await response.json();
 
-        // Aggiunge un prezzo casuale a ogni gioco
         games.value = data.results.map(game => ({
           ...game,
-          price: getRandomPrice() // Assegna un prezzo casuale
+          price: getRandomPrice(),
         }));
       } catch (error) {
         console.error('Errore durante il caricamento dei giochi:', error);
       } finally {
-        loading.value = false;  // Imposta lo stato di caricamento su false
+        loading.value = false;
       }
     };
 
-    // Esegui la chiamata all'API una volta che il componente è montato
     onMounted(() => {
       fetchGames();
     });
 
     return {
-      games,  // Ritorna i dati dei giochi per essere utilizzati nel template
-      loading,  // Ritorna lo stato di caricamento
+      games,
+      loading,
     };
   },
 };
@@ -72,41 +73,112 @@ export default {
   flex-direction: column;
 }
 
-.game-list {
+.cover_container {
+  margin-top: 75px;
+  height: 400px;
+}
+
+.cover {
+  background-image: url(../assets/IMG/destiny2.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game_library {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  
+}
+
+.game_library h2 {
+  align-items: center;
+  align-self: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.game_list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 75px;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  
 }
 
-.game-card {
-  margin: 10px;
-  padding: 10px;
-  width: 30%;
+.game_card {
   display: flex;
   flex-direction: column;
+  margin: 15px;
+  min-width: 0;
+  position: relative;
+  width: calc(33.33333% - 30px);
 }
 
-.game-card img {
-  max-width: 100%;
-  height: auto;
+.image_wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  /* Mantiene il rapporto 16:9 */
+  overflow: hidden;
 }
 
-.game-card h2 {
-  font-size: small;
-  margin: 0; /* Rimuovi margine extra */
+.image_wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.game_card h2 {
+  font-size: medium;
+  margin: 0;
 }
 
 .game_info {
+  padding: 10px;
   display: flex;
   justify-content: space-between;
-  width: 100%; /* Rendi l'info box a tutta larghezza */
 }
 
 .game_info h2, .game_info p {
   margin: 0;
   font-size: small;
 }
+
+@media (max-width: 1024px) {
+  .game_list {
+    padding: 0 20px;
+  }
+
+  .game_card {
+    flex: 1 1 calc(33% - 20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .game_card {
+    flex: 1 1 calc(50% - 20px);
+  }
+}
+
+@media (max-width: 480px) {
+  .game_card {
+    flex: 1 1 100%;
+  }
+}
 </style>
-
-
