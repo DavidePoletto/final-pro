@@ -1,9 +1,7 @@
 <template>
   <div class="Shop_page">
     <MainBar />
-    <div class="cover_container">
-      <div class="cover"></div>
-    </div>
+    <ParallaxImage :imageUrl="'../assets/IMG/destiny2.jpg'" title="Destiny 2: The Final Shape" />
     <div class="game_library">
       <h2>Videogames</h2>
       <div v-if="loading">Caricamento...</div>
@@ -24,20 +22,18 @@
 
 <script>
 import MainBar from '@/components/Header.vue';
+import ParallaxImage from '@/components/ParallaxImage.vue';
 import { ref, onMounted } from 'vue';
 
 export default {
   components: {
     MainBar,
+    ParallaxImage,
   },
   setup() {
     const games = ref([]);
     const loading = ref(true);
-
-    const getRandomPrice = () => {
-      return Math.random() * (30 - 2) + 2;
-    };
-
+    const getRandomPrice = () => Math.random() * (30 - 2) + 2;
     const fetchGames = async () => {
       const API_KEY = '90736d80468d4a0c956e9428d59f8bbe';
       try {
@@ -63,7 +59,7 @@ export default {
       games,
       loading,
     };
-  },
+  }
 };
 </script>
 
@@ -71,31 +67,16 @@ export default {
 .Shop_page {
   display: flex;
   flex-direction: column;
-}
-
-.cover_container {
-  margin-top: 75px;
-  height: 400px;
-}
-
-.cover {
-  background-image: url(../assets/IMG/destiny2.jpg);
-  background-size: cover;
-  background-position: center;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: rgb(48, 44, 44);
 }
 
 .game_library {
   display: flex;
   flex-direction: column;
-  max-width: 1200px;
+  max-width: 1400px;
   width: 100%;
   margin: 0 auto;
   padding: 0 20px;
-  
 }
 
 .game_library h2 {
@@ -106,6 +87,7 @@ export default {
   margin-bottom: 40px;
   max-width: 1200px;
   width: 100%;
+  color: white;
 }
 
 .game_list {
@@ -115,7 +97,6 @@ export default {
   padding: 0 20px;
   max-width: 1200px;
   margin: 0 auto;
-  
 }
 
 .game_card {
@@ -125,14 +106,19 @@ export default {
   min-width: 0;
   position: relative;
   width: calc(33.33333% - 30px);
+  transition: transform 0.3s ease;
+}
+
+.game_card:hover {
+  transform: scale(1.05);
 }
 
 .image_wrapper {
   position: relative;
   width: 100%;
   padding-top: 56.25%;
-  /* Mantiene il rapporto 16:9 */
   overflow: hidden;
+  border-radius: 10px;
 }
 
 .image_wrapper img {
@@ -147,6 +133,7 @@ export default {
 .game_card h2 {
   font-size: medium;
   margin: 0;
+  font-weight: 500;
 }
 
 .game_info {
@@ -155,9 +142,11 @@ export default {
   justify-content: space-between;
 }
 
-.game_info h2, .game_info p {
+.game_info p {
   margin: 0;
-  font-size: small;
+  color: white;
+  font-weight: bolder;
+  font-size: larger;
 }
 
 @media (max-width: 1024px) {
@@ -182,3 +171,4 @@ export default {
   }
 }
 </style>
+
