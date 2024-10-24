@@ -19,15 +19,18 @@
       </div>
     </div>
     <div class="big_box"></div>
+    <MainFooter/>
   </div>
 </template>
 
 <script>
 import MainBar from '@/components/Header.vue';
+import MainFooter from '@/components/footer.vue'
 
 export default {
   components: {
     MainBar,
+    MainFooter,
   },
   mounted() {
     this.$nextTick(() => {
@@ -69,7 +72,6 @@ export default {
 
 <style scoped>
 .page {
-  height: 100vh;
   display: flex;
   flex-direction: column;
   width: 100vw;

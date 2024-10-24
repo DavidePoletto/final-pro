@@ -17,18 +17,21 @@
         </div>
       </div>
     </div>
+    <MainFooter/>
   </div>
 </template>
 
 <script>
 import MainBar from '@/components/Header.vue';
 import ParallaxImage from '@/components/ParallaxImage.vue';
+import MainFooter from '@/components/footer.vue'
 import { ref, onMounted } from 'vue';
 
 export default {
   components: {
     MainBar,
     ParallaxImage,
+    MainFooter,
   },
   setup() {
     const games = ref([]);
