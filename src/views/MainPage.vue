@@ -17,9 +17,15 @@
           <button>GAYIOS</button>
         </div>
       </div>
+      <div class="small_box_container">
+      <div class="small_box"></div>
+      <div class="small_box"></div>
+      <div class="small_box"></div>
+      <div class="small_box"></div>
+      <div class="small_box"></div>
+    </div>
     </div>
     <div class="big_box"></div>
-    <MainFooter/>
   </div>
 </template>
 
@@ -80,10 +86,11 @@ export default {
 .container {
   width: 100%;
   height: 100vh;
-  margin-top: 75px;
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
 .parallax_wrap {
@@ -92,19 +99,19 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  z-index: 0;
 }
 
 .first_bg {
   position: absolute;
-  top: 0;
-  left: -10px;
+  top: -30px;
+  left: -30px;
   width: 110%;
   height: 100%;
   transform-origin: center;
   object-fit: cover;
   z-index: 1;
-  filter: brightness();
+  filter: brightness(60%);
 }
 
 .second_bg {
@@ -125,7 +132,9 @@ export default {
   align-items: flex-start;
   color: white;
   position: fixed;
-  z-index: 2;
+  z-index: 4;
+  margin-top: 100px;
+  margin-left: 30px;
 }
 
 .info_box h1 {
@@ -167,7 +176,7 @@ export default {
   width: 30%;
   height: 30%;
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   background-image: url(./src/assets/IMG/GAMEVERSE.png);
   background-color: black;
   background-size: contain;
@@ -176,6 +185,22 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.small_box_container {
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid rgb(214, 252, 0);
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  bottom: 50px;
+}
+
+.small_box {
+  border: 1px solid red;
+  width: 15%;
+  background-color: black;
 }
 
 @media (max-width: 768px) {

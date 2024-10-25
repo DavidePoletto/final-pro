@@ -38,7 +38,6 @@ export default {
 
 <style scoped>
 .cover_container {
-  margin-top: 75px;
   height: 500px;
   position: relative;
   overflow: hidden;

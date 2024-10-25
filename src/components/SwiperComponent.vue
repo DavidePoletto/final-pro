@@ -1,15 +1,13 @@
 <template>
     <div class="swiper" ref="swiperContainer">
       <div class="swiper-wrapper">
-        <div class="swiper-slide">slide 1</div>
-        <div class="swiper-slide">slide 2</div>
-        <div class="swiper-slide">slide 3</div>
-        <div class="swiper-slide">slide 4</div>
-        <div class="swiper-slide">slide 5</div>
+        <div class="swiper-slide"><img class="swiperone" src="../assets/IMG/eventsIMG/giveaway.jpg" alt="giveaway image"></div>
+        <div class="swiper-slide"><img class="swiperone" src="../assets/IMG/eventsIMG/nerd.webp" alt="slideimg"></div>
+        <div class="swiper-slide"><img class="swiperone" src="../assets/IMG/eventsIMG/nerd1.webp" alt="slideimg"></div>
+        <div class="swiper-slide"><img class="swiperone" src="../assets/IMG/eventsIMG/nerd3.webp" alt="slideimg"></div>
+        <div class="swiper-slide"><img class="swiperone" src="../assets/IMG/eventsIMG/nerd4.webp" alt="slideimg"></div>
       </div>
       <div class="swiper-pagination"></div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
     </div>
   </template>
   
@@ -34,16 +32,12 @@
             spaceBetween: -70,
             centeredSlides: true,
             autoplay: {
-              delay: 4000,
+              delay: 7000,
               disableOnInteraction: false,
             },
             pagination: {
               el: '.swiper-pagination',
               clickable: true,
-            },
-            navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
             },
           });
         }
@@ -58,9 +52,9 @@
   
   <style scoped>
   .swiper {
-    margin-top: 40px;
-    width: 100%;
-    height: 60vh;
+    margin-top: 90px;
+    width: 100vw;
+    height: 40vw;
     overflow: visible;
   }
   
@@ -74,7 +68,6 @@
     width: 85%;
     height: 100%;
     transition: transform 0.3s ease;
-    border-radius: 10px;
     margin: 0;
     padding: 0;
   }
@@ -100,8 +93,11 @@
     right: 0;
   }
   
-  .swiper-button-prev, .swiper-button-next {
-    color: #000;
+  .swiperone {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
   }
+
   </style>
   
