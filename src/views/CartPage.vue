@@ -49,9 +49,9 @@ export default {
 }
 
 .cart_container {
-  background-color: rgba(0, 0, 0, 0.8); /* Colore scuro per contrastare lo sfondo */
+  background-color: rgba(0, 0, 0, 0.8);
   padding: 20px;
-  width: 90%; /* Per renderlo responsive */
+  width: 90%;
   max-width: 1200px;
   height: 60vh;
   display: flex;

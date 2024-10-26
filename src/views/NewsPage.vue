@@ -25,32 +25,27 @@ export default {
     const articles = ref([]); // Array di articoli
     const loading = ref(true); // Stato di caricamento
 
-    // Funzione per caricare le news dai feed RSS
+    // Funzione per caricare le news dal server su Render
     const fetchRSSFeed = async () => {
       try {
-        const response = await fetch('https://cors-anywhere.herokuapp.com/https://www.polygon.com/rss/index.xml');
-        const data = await response.text();
+        const response = await fetch('https://server-node.onrender.com/api/gamerpower/news');
+        const data = await response.json();
 
-        // Converte XML in DOMParser per estrarre informazioni
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(data, 'text/xml');
-        const items = xml.querySelectorAll('item');
-
-        // Estrai titolo, descrizione e link di ogni articolo
-        articles.value = Array.from(items).map(item => ({
-          title: item.querySelector('title').textContent,
-          description: item.querySelector('description').textContent,
-          link: item.querySelector('link').textContent,
+        // Trasforma i dati ricevuti dal server in formato leggibile
+        articles.value = data.map(item => ({
+          title: item.title,
+          description: item.description,
+          link: item.open_giveaway_url, // Link per accedere all'offerta
         }));
 
       } catch (error) {
-        console.error('Errore durante il caricamento del feed RSS:', error);
+        console.error('Errore durante il caricamento delle news:', error);
       } finally {
         loading.value = false; // Termina il caricamento
       }
     };
 
-    // Carica i feed RSS quando il componente è montato
+    // Carica i feed dal server quando il componente è montato
     onMounted(() => {
       fetchRSSFeed();
     });
