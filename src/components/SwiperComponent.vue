@@ -32,7 +32,7 @@
             spaceBetween: -70,
             centeredSlides: true,
             autoplay: {
-              delay: 7000,
+              delay: 3000,
               disableOnInteraction: false,
             },
             pagination: {

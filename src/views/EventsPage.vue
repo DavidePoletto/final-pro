@@ -4,7 +4,7 @@
     <div class="events_container">
       <SwiperComponent />
       <div class="title_box">
-        <h1>Events ></h1>
+        <h1>Events</h1>
       </div>
       <div class="news_section">
         <div class="news_grid">

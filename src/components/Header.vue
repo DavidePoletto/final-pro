@@ -11,7 +11,7 @@
         <div><router-link to="/EventsPage">EVENTS</router-link></div>
         <div class="search_container">
           <!-- Icona della lente -->
-          <img class="search_icon" src="../assets/IMG/search.png" @click="toggleSearch" />
+          <img class="search_icon" src="../assets/IMG/search.png" @click="toggleSearch">
           <!-- Campo di ricerca -->
           <input 
             v-if="isSearchOpen" 
@@ -27,8 +27,8 @@
     </header>
   </div>
   <div class="cart_container">
-    <img class="cart" src="../assets/IMG/cart.png" alt="icon">
-    <img class="login" src="../assets/IMG/login.png" alt="icon">
+    <router-link to="/CartPage"><img class="cart" src="../assets/IMG/cart.png" alt="icon"></router-link>
+    <router-link to="/LoginPage"><img class="login" src="../assets/IMG/login.png" alt="icon"></router-link>
   </div>
 </template>
 

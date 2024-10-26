@@ -3,6 +3,8 @@ import MainPage from '@/views/MainPage.vue'
 import ShopPage from '@/views/ShopPage.vue'
 import NewsPage from '@/views/Newspage.vue'
 import EventsPage from '@/views/EventsPage.vue'
+import LoginPage from '@/views/LoginPage.vue'
+import CartPage from '../views/CartPage.vue'
 
 const routes = [
   {
@@ -24,7 +26,17 @@ const routes = [
     path: '/EventsPage',
     name: 'EventsPage',
     component: EventsPage,
-  }
+  },
+  {
+    path: '/LoginPage',
+    name: 'LoginPage',
+    component: LoginPage,
+  },
+  {
+    path: '/CartPage',
+    name: 'CartPage',
+    component: CartPage,
+  },
 
 ]
 
