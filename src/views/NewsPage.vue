@@ -2,9 +2,12 @@
   <div class="news-page">
     <MainBar />
     <div class="news-container">
-      <h1 class="page-title">Notizie sul Gaming</h1>
       <div v-if="loading" class="loading">Caricamento delle news...</div>
       <div v-else class="news-grid">
+        <div class="big-news">
+          <h2>Notizia in evidenza</h2>
+          <p>Questa è la notizia in evidenza, visualizzata come primo elemento.</p>
+        </div>
         <div v-for="article in articles" :key="article.title" class="news-item">
           <div class="news-image">
             <img :src="article.image_url || 'placeholder.jpg'" alt="News Image" />
@@ -14,9 +17,9 @@
             </div>
           </div>
         </div>
-        <button v-if="!loadingMore" @click="loadMoreNews" class="load-more">Carica altre news</button>
-        <div v-if="loadingMore" class="loading">Caricamento...</div>
       </div>
+      <button v-if="!loadingMore" @click="loadMoreNews" class="load-more">Carica altre news</button>
+      <div v-if="loadingMore" class="loading">Caricamento...</div>
     </div>
   </div>
 </template>
@@ -33,15 +36,14 @@ export default {
     const articles = ref([]);
     const loading = ref(true);
     const loadingMore = ref(false);
-    const nextPage = ref(''); // Mantiene il valore di `nextPage`
+    const nextPage = ref('');
 
     const fetchNews = async (page = '') => {
       try {
-        // Costruisce la URL in base alla presenza di `nextPage`
         const url = page
           ? `https://server-node-lcxi.onrender.com/api/news/gaming?nextPage=${page}`
           : 'https://server-node-lcxi.onrender.com/api/news/gaming';
-          
+
         const response = await fetch(url);
         const data = await response.json();
 
@@ -49,13 +51,9 @@ export default {
           throw new Error("Formato dei dati non corretto");
         }
 
-        // Aggiungi nuovi articoli evitando duplicati
         const newArticles = data.articles.filter(item => !articles.value.some(article => article.title === item.title));
         articles.value = [...articles.value, ...newArticles];
-        
-        // Aggiorna `nextPage` solo se presente
         nextPage.value = data.nextPage || '';
-
       } catch (error) {
         console.error('Errore durante il caricamento delle news:', error);
       } finally {
@@ -67,12 +65,12 @@ export default {
     const loadMoreNews = () => {
       if (nextPage.value) {
         loadingMore.value = true;
-        fetchNews(nextPage.value); // Usa `nextPage` come parametro solo se presente
+        fetchNews(nextPage.value);
       }
     };
 
     onMounted(() => {
-      fetchNews(); // Carica la prima pagina
+      fetchNews();
     });
 
     return {
@@ -92,63 +90,108 @@ export default {
   align-items: center;
   background-color: #111;
   color: #fff;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-.page-title {
-  font-size: 2.5em;
-  color: #ffcc00;
-  margin: 20px 0;
-  text-align: center;
 }
 
 .news-container {
+  margin-top: 150px;
+  max-width: 1300px;
   width: 100%;
-  max-width: 1200px;
+  padding: 0 20px;
 }
 
-.loading {
-  font-size: 1.5em;
-  color: #ffcc00;
-  text-align: center;
-  padding: 50px 0;
+.loading,
+.load-more {
 }
 
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(10, 1fr); /* Colonne con proporzioni uniformi */
+  grid-template-rows: repeat(16, 130px); /* Altezza delle righe */
 }
 
 .news-item {
+  border: 1px solid red;
   position: relative;
-  overflow: hidden;
-  border-radius: 10px;
   transition: transform 0.3s;
+  overflow: hidden;
+}
+
+.big-news {
+  grid-column: span 10;
+  grid-row: span 4;
+  background-color: #222;
+  color: #fff;
+  padding: 20px;
+}
+
+.news-item:nth-child(2) {
+  grid-column: span 5;
+  grid-row: span 4;
+}
+.news-item:nth-child(3) {
+  grid-column: span 5;
+  grid-row: span 2;
+}
+.news-item:nth-child(4) {
+  grid-column: span 5;
+  grid-row: span 2;
+}
+.news-item:nth-child(5) {
+  grid-column: span 5;
+  grid-row: span 2;
+}
+.news-item:nth-child(6) {
+  grid-column: span 5;
+  grid-row: span 2;
+}
+.news-item:nth-child(7) {
+  grid-column: span 5;
+  grid-row: span 2;
+}
+
+.news-item:nth-child(8) {
+  grid-column: span 5;
+  grid-row: span 2;
+}
+
+.news-item:nth-child(9) {
+  grid-column: span 5;
+  grid-row: span 2;
+}
+
+.news-item:nth-child(10) {
+  grid-column: span 5;
+  grid-row: span 2;
+}
+
+.news-item:nth-child(11) {
+  grid-column: span 5;
+  grid-row: span 2;
 }
 
 .news-item:hover {
-  transform: scale(1.05);
+  
+}
+
+.news-image {
+  overflow: hidden;
 }
 
 .news-image img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .news-overlay {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-  padding: 20px;
   color: #fff;
   opacity: 0;
   transition: opacity 0.3s;
@@ -161,14 +204,13 @@ export default {
 .news-title {
   font-size: 1.2em;
   font-weight: bold;
-  margin-bottom: 10px;
+  max-width: 200px;
 }
 
 .read-more {
   color: #ffcc00;
   font-weight: bold;
   text-decoration: none;
-  margin-top: 10px;
   transition: color 0.3s;
 }
 
@@ -176,6 +218,3 @@ export default {
   color: #ffdd57;
 }
 </style>
-
-
-
