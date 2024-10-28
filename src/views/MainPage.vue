@@ -7,18 +7,12 @@
         <h1>GAMEVERSE</h1>
         <h2>VIDEO GAME STORE</h2>
         <p>
-          Benvenuto su GAMEVERSE, qui potrai trovare una vasta scelta di videogames e card game, tuffati anche tu nel nostro fantastico mondo di canaglia!!
+          Benvenuto su GAMEVERSE, qui potrai trovare una vasta scelta di videogames e card game!
         </p>
         <div class="shop_button">
-          <button>SHOP NOW</button>
-          <button>GAYIOS</button>
+          <button @click="navigateToShop">SHOP NOW</button>
+          <button @click="navigateToNews">NEWS</button>
         </div>
-      </div>
-      <div class="small_box_container">
-        <div class="small_box"></div>
-        <div class="small_box"></div>
-        <div class="small_box"></div>
-        <div class="small_box"></div>
       </div>
     </div>
   </div>
@@ -27,11 +21,37 @@
 <script>
 import MainBar from '@/components/Header.vue';
 import ParallaxBackground from '@/components/ParallaxBackground.vue';
+import { onMounted } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   components: {
     MainBar,
     ParallaxBackground,
+  },
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+
+    onMounted(() => {
+  store.dispatch('fetchShopGames');
+  store.dispatch('fetchNews');
+});
+
+
+    const navigateToShop = () => {
+      router.push('/ShopPage');
+    };
+
+    const navigateToNews = () => {
+      router.push('/NewsPage');
+    };
+
+    return {
+      navigateToShop,
+      navigateToNews,
+    };
   },
 };
 </script>

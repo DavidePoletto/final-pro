@@ -9,20 +9,6 @@
         <div><router-link to="/ShopPage">SHOP</router-link></div>
         <div><router-link to="/NewsPage">NEWS</router-link></div>
         <div><router-link to="/EventsPage">EVENTS</router-link></div>
-        <div class="search_container">
-          <!-- Icona della lente -->
-          <img class="search_icon" src="../assets/IMG/search.png" @click="toggleSearch">
-          <!-- Campo di ricerca -->
-          <input 
-            v-if="isSearchOpen" 
-            v-model="searchQuery" 
-            type="text" 
-            class="search_box" 
-            placeholder="Destiny, GDR, Co-op,..." 
-            @keyup.enter="searchGames"
-            @blur="closeSearch" 
-          />
-        </div>
       </div>
     </header>
   </div>
@@ -37,55 +23,29 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 export default {
   name: 'MainBar',
-  emits: ['search'], // Evento che verrà emesso al genitore
-  setup(props, { emit }) {
+  setup() {
     const isScrolled = ref(false);
-    const isSearchOpen = ref(false);
-    const searchQuery = ref(''); // Salva il valore della barra di ricerca
 
-    // Funzione per gestire lo scroll
     const handleScroll = () => {
       isScrolled.value = window.scrollY > 100;
     };
 
-    // Funzione per aprire e chiudere la barra di ricerca
-    const toggleSearch = () => {
-      isSearchOpen.value = !isSearchOpen.value;
-    };
-
-    const closeSearch = () => {
-      isSearchOpen.value = false;
-    };
-
-    // Emette l'evento per la ricerca dei giochi
-    const searchGames = () => {
-      emit('search', searchQuery.value);
-    };
-
-    // Aggiunge l'evento scroll quando il componente è montato
     onMounted(() => {
       window.addEventListener('scroll', handleScroll);
     });
 
-    // Rimuove l'evento scroll quando il componente viene smontato
     onBeforeUnmount(() => {
       window.removeEventListener('scroll', handleScroll);
     });
 
     return {
       isScrolled,
-      isSearchOpen,
-      searchQuery,
-      toggleSearch,
-      closeSearch,
-      searchGames,
     };
   }
 };
 </script>
 
 <style scoped>
-/* Lo stile del tuo header rimane invariato */
 .header_container {
   width: 30%;
   position: fixed;
@@ -149,55 +109,6 @@ export default {
   padding: 10px;
 }
 
-.search_container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  cursor: pointer;
-  background-color: #fff;
-  width: 38px;
-}
-
-.search_icon {
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-  z-index: 20;
-}
-
-.search_box {
-  position: absolute;
-  right: 0;
-  width: 0;
-  height: 70px;
-  padding: 0;
-  border: none;
-  border-radius: 5px;
-  transition: width 0.2s ease-in;
-  border-radius: 50px;
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.search_box:focus {
-  outline: none;
-}
-
-.search_container:hover .search_box {
-  width: 481px;
-  padding: 5px 10px;
-  height: 60px;
-  border-radius: 50px;
-  text-indent: 20px;
-  background-color: #ffffff;
-}
-
-.search_box::placeholder {
-  color: #ff9500;
-  opacity: 0.6;
-}
-
 .cart_container {
   width: 150px;
   display: flex;
@@ -218,3 +129,4 @@ export default {
   width: 40px;
 }
 </style>
+

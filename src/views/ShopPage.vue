@@ -1,198 +1,237 @@
 <template>
   <div class="Shop_page">
-    <MainBar @search="filterGames" />
-    <ParallaxImage :imageUrl="'../assets/IMG/destiny2.jpg'" title="Destiny 2: The Final Shape" />
+    <MainBar />
 
-    <!-- Sezione TENDENZA -->
-    <div class="section_container">
-      <h2>TENDENZA</h2>
-      <div v-if="loading">Caricamento...</div>
-      <div v-else class="game_list">
-        <div v-for="game in trendingGames" :key="game.id" class="game_card">
-          <div class="image_wrapper">
-            <img :src="game.background_image" :alt="game.name" />
+    <div class="big_container">
+      <!-- Sezione TENDENZA -->
+      <div class="section_container">
+        <h2>TENDENZA</h2>
+        <div v-if="loading">Caricamento...</div>
+        <div v-else class="game_list">
+          <div v-for="game in trendingGames" :key="game.id" class="game_card">
+            <img :src="game.background_image" :alt="game.name" class="game_image" />
+            <h3>{{ game.name }}</h3>
+            <p>€{{ game.price }}</p>
           </div>
-          <div class="game_info">
-            <h2>{{ game.name }}</h2>
-            <p>€{{ game.price.toFixed(2) }}</p>
+        </div>
+      </div>
+
+      <!-- Sezione NOVITÀ -->
+      <div class="section_container">
+        <h2>NOVITÀ</h2>
+        <div v-if="loading">Caricamento...</div>
+        <div v-else class="game_list">
+          <div v-for="game in newReleases" :key="game.id" class="game_card">
+            <img :src="game.background_image" :alt="game.name" class="game_image" />
+            <h3>{{ game.name }}</h3>
+            <p>€{{ game.price }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sezione MIGLIORI VOTATI -->
+      <div class="section_container">
+        <h2>MIGLIORI VOTATI</h2>
+        <div v-if="loading">Caricamento...</div>
+        <div v-else class="game_list">
+          <div v-for="game in topRated" :key="game.id" class="game_card">
+            <img :src="game.background_image" :alt="game.name" class="game_image" />
+            <h3>{{ game.name }}</h3>
+            <p>€{{ game.price }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sezione IN USCITA -->
+      <div class="section_container">
+        <h2>IN USCITA</h2>
+        <div v-if="loading">Caricamento...</div>
+        <div v-else class="game_list">
+          <div v-for="game in upcomingGames" :key="game.id" class="game_card">
+            <img :src="game.background_image" :alt="game.name" class="game_image" />
+            <h3>{{ game.name }}</h3>
+            <p>€{{ game.price }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sezione INDIE -->
+      <div class="section_container">
+        <h2>INDIE</h2>
+        <div v-if="loading">Caricamento...</div>
+        <div v-else class="game_list">
+          <div v-for="game in indieGames" :key="game.id" class="game_card">
+            <img :src="game.background_image" :alt="game.name" class="game_image" />
+            <h3>{{ game.name }}</h3>
+            <p>€{{ game.price }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sezione MULTIPLAYER -->
+      <div class="section_container">
+        <h2>MULTIPLAYER</h2>
+        <div v-if="loading">Caricamento...</div>
+        <div v-else class="game_list">
+          <div v-for="game in multiplayerGames" :key="game.id" class="game_card">
+            <img :src="game.background_image" :alt="game.name" class="game_image" />
+            <h3>{{ game.name }}</h3>
+            <p>€{{ game.price }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sezione OPEN WORLD -->
+      <div class="section_container">
+        <h2>OPEN WORLD</h2>
+        <div v-if="loading">Caricamento...</div>
+        <div v-else class="game_list">
+          <div v-for="game in openWorldGames" :key="game.id" class="game_card">
+            <img :src="game.background_image" :alt="game.name" class="game_image" />
+            <h3>{{ game.name }}</h3>
+            <p>€{{ game.price }}</p>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Sezione NOVITÀ -->
-    <div class="section_container">
-      <h2>NOVITÀ</h2>
-      <div v-if="loading">Caricamento...</div>
-      <div v-else class="game_list">
-        <div v-for="game in newGames" :key="game.id" class="game_card">
-          <div class="image_wrapper">
-            <img :src="game.background_image" :alt="game.name" />
-          </div>
-          <div class="game_info">
-            <h2>{{ game.name }}</h2>
-            <p>€{{ game.price.toFixed(2) }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sezione GIOCHI SCONTO -->
-    <div class="section_container">
-      <h2>GIOCHI IN SCONTO</h2>
-      <div v-if="loading">Caricamento...</div>
-      <div v-else class="game_list">
-        <div v-for="game in discountedGames" :key="game.id" class="game_card">
-          <div class="image_wrapper">
-            <img :src="game.background_image" :alt="game.name" />
-          </div>
-          <div class="game_info">
-            <h2>{{ game.name }}</h2>
-            <p>€{{ game.price.toFixed(2) }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <MainFooter/>
   </div>
 </template>
 
 <script>
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 import MainBar from '@/components/Header.vue';
-import ParallaxImage from '@/components/ParallaxImage.vue';
-import MainFooter from '@/components/footer.vue';
-import { ref, onMounted } from 'vue';
 
 export default {
   components: {
     MainBar,
-    ParallaxImage,
-    MainFooter,
   },
   setup() {
-    const games = ref([]);
-    const trendingGames = ref([]);
-    const newGames = ref([]);
-    const discountedGames = ref([]);
-    const loading = ref(true);
+    const store = useStore();
 
-    const getRandomPrice = () => Math.random() * (30 - 2) + 2;
+    // Usa i getters per ottenere i dati per tutte le categorie
+    const trendingGames = computed(() => store.getters.trendingGames);
+    const newReleases = computed(() => store.getters.newReleases);
+    const topRated = computed(() => store.getters.topRatedGames);
+    const upcomingGames = computed(() => store.getters.upcomingGames);
+    const indieGames = computed(() => store.getters.indieGames);
+    const multiplayerGames = computed(() => store.getters.multiplayerGames);
+    const openWorldGames = computed(() => store.getters.openWorldGames);
 
-    const fetchGames = async () => {
-      const API_KEY = '90736d80468d4a0c956e9428d59f8bbe';
-      try {
-        const response = await fetch(`https://api.rawg.io/api/games?key=${API_KEY}`);
-        const data = await response.json();
-        games.value = data.results.map(game => ({
-          ...game,
-          price: getRandomPrice(),
-        }));
+    const loading = computed(() => {
+  // Considera che il caricamento sia completato se almeno una categoria ha dati
+  return !(
+    trendingGames.value.length ||
+    newReleases.value.length ||
+    topRated.value.length ||
+    upcomingGames.value.length ||
+    multiplayerGames.value.length ||
+    openWorldGames.value.length
+  );
+});
 
-        // Dividi i giochi in diverse sezioni
-        trendingGames.value = games.value.slice(0, 9); // Primi 9 giochi per TENDENZA
-        newGames.value = games.value.slice(10, 19); // Successivi per NOVITÀ
-        discountedGames.value = games.value.slice(20, 29); // Altri per GIOCHI SCONTO
-      } catch (error) {
-        console.error('Errore durante il caricamento dei giochi:', error);
-      } finally {
-        loading.value = false;
-      }
-    };
 
     onMounted(() => {
-      fetchGames();
-    });
+  store.dispatch('fetchShopGames').then(() => {
+    console.log("Trending games:", trendingGames.value);
+    console.log("New releases:", newReleases.value);
+    // aggiungi log per tutte le categorie
+  });
+});
 
     return {
-      games,
-      trendingGames,
-      newGames,
-      discountedGames,
       loading,
+      trendingGames,
+      newReleases,
+      topRated,
+      upcomingGames,
+      indieGames,
+      multiplayerGames,
+      openWorldGames,
     };
-  }
+  },
 };
 </script>
+
 
 <style scoped>
 .Shop_page {
   display: flex;
   flex-direction: column;
-  background-color: rgb(48, 44, 44);
+  align-items: center;
+  background-color: #111;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.big_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1400px;
+  width: 100%;
+  padding: 0 20px;
 }
 
 .section_container {
-  margin: 50px 0;
+  width: 100%;
+  margin: 40px 0;
 }
 
 .section_container h2 {
-  color: white;
-  text-align: center;
+  color: #ffcc00;
+  font-size: 1.8rem;
+  text-align: left;
+  margin-bottom: 15px;
 }
 
 .game_list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  padding: 0 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  gap: 20px;
+  justify-content: space-evenly;
 }
 
 .game_card {
+  width: calc(33.333% - 20px); /* Tre giochi per riga */
+  max-width: 300px;
+  background-color: #222;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
   display: flex;
   flex-direction: column;
-  margin: 15px;
-  min-width: 0;
-  position: relative;
-  width: calc(33.33333% - 30px);
-  transition: transform 0.3s ease;
+  align-items: center;
+  text-align: center;
 }
 
 .game_card:hover {
   transform: scale(1.05);
 }
 
-.image_wrapper {
-  position: relative;
+.game_image {
   width: 100%;
-  padding-top: 56.25%;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.image_wrapper img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  height: 200px;
   object-fit: cover;
+  border-bottom: 2px solid #ffcc00;
 }
 
-.game_info {
+.game_card h3 {
+  font-size: 1rem;
+  color: #fff;
   padding: 10px;
-  display: flex;
-  justify-content: space-between;
 }
 
-.game_info h2, .game_info p {
-  color: white;
+@media (max-width: 1024px) {
+  .game_card {
+    width: calc(50% - 20px); /* Due giochi per riga */
+  }
 }
 
 @media (max-width: 768px) {
   .game_card {
-    flex: 1 1 calc(50% - 20px);
+    width: 100%; /* Un gioco per riga */
   }
 }
 
-@media (max-width: 480px) {
-  .game_card {
-    flex: 1 1 100%;
-  }
-}
 </style>
-
-
-

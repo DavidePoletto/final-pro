@@ -43,6 +43,7 @@ export default {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: #333;
 }
 
 .events_container {
@@ -70,7 +71,8 @@ export default {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-auto-rows: minmax(150px, auto);
-  grid-gap: 13px; 
+  grid-gap: 13px;
+  margin-bottom: 50px;
 }
 
 .news_item {
