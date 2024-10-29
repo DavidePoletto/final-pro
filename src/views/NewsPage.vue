@@ -144,7 +144,11 @@ export default {
 .news-item:nth-child(8),
 .news-item:nth-child(9),
 .news-item:nth-child(10),
-.news-item:nth-child(11) {
+.news-item:nth-child(11),
+.news-item:nth-child(12),
+.news-item:nth-child(13),
+.news-item:nth-child(14),
+.news-item:nth-child(15) {
   grid-column: span 5;
   grid-row: span 2;
 }

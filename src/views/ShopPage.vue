@@ -1,167 +1,93 @@
 <template>
   <div class="Shop_page">
     <MainBar />
-
-    <div class="big_container">
-      <!-- Sezione TENDENZA -->
-      <div class="section_container">
-        <h2>TENDENZA</h2>
-        <div v-if="loading">Caricamento...</div>
-        <div v-else class="game_list">
-          <div v-for="game in trendingGames" :key="game.id" class="game_card">
-            <img :src="game.background_image" :alt="game.name" class="game_image" />
-            <h3>{{ game.name }}</h3>
-            <p>€{{ game.price }}</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sezione NOVITÀ -->
-      <div class="section_container">
-        <h2>NOVITÀ</h2>
-        <div v-if="loading">Caricamento...</div>
-        <div v-else class="game_list">
-          <div v-for="game in newReleases" :key="game.id" class="game_card">
-            <img :src="game.background_image" :alt="game.name" class="game_image" />
-            <h3>{{ game.name }}</h3>
-            <p>€{{ game.price }}</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sezione MIGLIORI VOTATI -->
-      <div class="section_container">
-        <h2>MIGLIORI VOTATI</h2>
-        <div v-if="loading">Caricamento...</div>
-        <div v-else class="game_list">
-          <div v-for="game in topRated" :key="game.id" class="game_card">
-            <img :src="game.background_image" :alt="game.name" class="game_image" />
-            <h3>{{ game.name }}</h3>
-            <p>€{{ game.price }}</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sezione IN USCITA -->
-      <div class="section_container">
-        <h2>IN USCITA</h2>
-        <div v-if="loading">Caricamento...</div>
-        <div v-else class="game_list">
-          <div v-for="game in upcomingGames" :key="game.id" class="game_card">
-            <img :src="game.background_image" :alt="game.name" class="game_image" />
-            <h3>{{ game.name }}</h3>
-            <p>€{{ game.price }}</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sezione INDIE -->
-      <div class="section_container">
-        <h2>INDIE</h2>
-        <div v-if="loading">Caricamento...</div>
-        <div v-else class="game_list">
-          <div v-for="game in indieGames" :key="game.id" class="game_card">
-            <img :src="game.background_image" :alt="game.name" class="game_image" />
-            <h3>{{ game.name }}</h3>
-            <p>€{{ game.price }}</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sezione MULTIPLAYER -->
-      <div class="section_container">
-        <h2>MULTIPLAYER</h2>
-        <div v-if="loading">Caricamento...</div>
-        <div v-else class="game_list">
-          <div v-for="game in multiplayerGames" :key="game.id" class="game_card">
-            <img :src="game.background_image" :alt="game.name" class="game_image" />
-            <h3>{{ game.name }}</h3>
-            <p>€{{ game.price }}</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sezione OPEN WORLD -->
-      <div class="section_container">
-        <h2>OPEN WORLD</h2>
-        <div v-if="loading">Caricamento...</div>
-        <div v-else class="game_list">
-          <div v-for="game in openWorldGames" :key="game.id" class="game_card">
-            <img :src="game.background_image" :alt="game.name" class="game_image" />
-            <h3>{{ game.name }}</h3>
-            <p>€{{ game.price }}</p>
-          </div>
-        </div>
-      </div>
+    <div class="bigimg_container">
+      <ParallaxImage />
     </div>
+    <div class="big_container">
+      <CategorySection
+        v-for="(games, category) in gamesWithPrices"
+        :key="category"
+        :title="categoryTitles[category]"
+        :games="games"
+        :loading="loading"
+      />
+    </div>
+    <MainFooter />
   </div>
 </template>
 
 <script>
+import MainFooter from '@/components/footer.vue';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import MainBar from '@/components/Header.vue';
+import ParallaxImage from '@/components/ParallaxImage.vue';
+import CategorySection from '@/components/CategorySection.vue';
 
 export default {
   components: {
     MainBar,
+    ParallaxImage,
+    MainFooter,
+    CategorySection,
   },
+
   setup() {
     const store = useStore();
 
-    // Usa i getters per ottenere i dati per tutte le categorie
-    const trendingGames = computed(() => store.getters.trendingGames);
-    const newReleases = computed(() => store.getters.newReleases);
-    const topRated = computed(() => store.getters.topRatedGames);
-    const upcomingGames = computed(() => store.getters.upcomingGames);
-    const indieGames = computed(() => store.getters.indieGames);
-    const multiplayerGames = computed(() => store.getters.multiplayerGames);
-    const openWorldGames = computed(() => store.getters.openWorldGames);
+    const generateRandomPrice = () => (Math.random() * (40 - 5) + 5).toFixed(2);
 
-    const loading = computed(() => {
-  // Considera che il caricamento sia completato se almeno una categoria ha dati
-  return !(
-    trendingGames.value.length ||
-    newReleases.value.length ||
-    topRated.value.length ||
-    upcomingGames.value.length ||
-    multiplayerGames.value.length ||
-    openWorldGames.value.length
-  );
-});
+    const mapGamesWithPrice = (games) => {
+      return (games || []).map((game) => ({ ...game, price: game.price || generateRandomPrice() }));
+    };
 
+    const gamesWithPrices = computed(() => ({
+      trending: mapGamesWithPrice(store.getters.trendingGames),
+      newReleases: mapGamesWithPrice(store.getters.newReleases),
+      topRated: mapGamesWithPrice(store.getters.topRatedGames),
+      upcoming: mapGamesWithPrice(store.getters.upcomingGames),
+      singleplayer: mapGamesWithPrice(store.getters.singleplayerGames),
+      multiplayer: mapGamesWithPrice(store.getters.multiplayerGames),
+      openWorld: mapGamesWithPrice(store.getters.openWorldGames),
+    }));
+
+    const loading = computed(() => !Object.values(gamesWithPrices.value).some(games => games.length));
+
+    const categoryTitles = {
+      trending: 'TENDENZA',
+      newReleases: 'NOVITÀ',
+      topRated: 'PIÚ VOTATI',
+      upcoming: 'IN USCITA',
+      singleplayer: 'SINGLEPLAYER',
+      multiplayer: 'MULTIPLAYER',
+      openWorld: 'OPEN WORLD',
+    };
 
     onMounted(() => {
-  store.dispatch('fetchShopGames').then(() => {
-    console.log("Trending games:", trendingGames.value);
-    console.log("New releases:", newReleases.value);
-    // aggiungi log per tutte le categorie
-  });
-});
+      store.dispatch('fetchShopGames');
+    });
 
     return {
       loading,
-      trendingGames,
-      newReleases,
-      topRated,
-      upcomingGames,
-      indieGames,
-      multiplayerGames,
-      openWorldGames,
+      gamesWithPrices,
+      categoryTitles,
     };
   },
 };
 </script>
-
-
-<style scoped>
+<style>
 .Shop_page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #111;
+  background-color: #2e2a2a;
   color: #fff;
   min-height: 100vh;
+}
+
+.bigimg_container {
+  width: 100%;
 }
 
 .big_container {
@@ -172,66 +98,4 @@ export default {
   width: 100%;
   padding: 0 20px;
 }
-
-.section_container {
-  width: 100%;
-  margin: 40px 0;
-}
-
-.section_container h2 {
-  color: #ffcc00;
-  font-size: 1.8rem;
-  text-align: left;
-  margin-bottom: 15px;
-}
-
-.game_list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: space-evenly;
-}
-
-.game_card {
-  width: calc(33.333% - 20px); /* Tre giochi per riga */
-  max-width: 300px;
-  background-color: #222;
-  border-radius: 10px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.game_card:hover {
-  transform: scale(1.05);
-}
-
-.game_image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-bottom: 2px solid #ffcc00;
-}
-
-.game_card h3 {
-  font-size: 1rem;
-  color: #fff;
-  padding: 10px;
-}
-
-@media (max-width: 1024px) {
-  .game_card {
-    width: calc(50% - 20px); /* Due giochi per riga */
-  }
-}
-
-@media (max-width: 768px) {
-  .game_card {
-    width: 100%; /* Un gioco per riga */
-  }
-}
-
 </style>

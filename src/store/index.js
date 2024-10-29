@@ -7,7 +7,7 @@ export default createStore({
       newReleases: [],
       topRated: [],
       upcoming: [],
-      indie: [],
+      singleplayer: [], // Coerenza nel nome della categoria
       multiplayer: [],
       openWorld: [],
     },
@@ -15,7 +15,6 @@ export default createStore({
   },
   mutations: {
     setGames(state, { category, games }) {
-      console.log(`Setting games for category: ${category}`, games);
       state.games[category] = games;
     },
     setNews(state, news) {
@@ -27,13 +26,12 @@ export default createStore({
       try {
         const response = await fetch('https://server-node-lcxi.onrender.com/api/shop/games');
         const data = await response.json();
-        console.log('Dati ricevuti:', data); // Log per verificare i dati
-        
+
         commit('setGames', { category: 'trending', games: data.trending });
         commit('setGames', { category: 'newReleases', games: data.newReleases });
         commit('setGames', { category: 'topRated', games: data.topRated });
         commit('setGames', { category: 'upcoming', games: data.upcoming });
-        commit('setGames', { category: 'indie', games: data.indieGames });
+        commit('setGames', { category: 'singleplayer', games: data.singleplayerGames }); // Usa "singleplayer"
         commit('setGames', { category: 'multiplayer', games: data.multiplayerGames });
         commit('setGames', { category: 'openWorld', games: data.openWorldGames });
       } catch (error) {
@@ -55,7 +53,7 @@ export default createStore({
     newReleases: (state) => state.games.newReleases,
     topRatedGames: (state) => state.games.topRated,
     upcomingGames: (state) => state.games.upcoming,
-    indieGames: (state) => state.games.indie,
+    singleplayerGames: (state) => state.games.singleplayer, // Usa "singleplayerGames"
     multiplayerGames: (state) => state.games.multiplayer,
     openWorldGames: (state) => state.games.openWorld,
     allNews: (state) => state.news,
