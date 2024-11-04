@@ -1,37 +1,56 @@
 <template>
-    <div class="section_container">
-      <h2>{{ title }}</h2>
-      <div v-if="loading">Caricamento...</div>
-      <div v-else class="game_list">
-        <div v-for="game in games" :key="game.id" class="game_card">
-          <img :src="game.background_image" :alt="game.name" class="game_image" />
-          <div class="game_details">
-            <h3>{{ game.name }}</h3>
-            <p class="price">€{{ game.price }}</p>
-          </div>
+  <div class="section_container">
+    <h2>{{ title }}</h2>
+    <div v-if="loading">Caricamento...</div>
+    <div v-else class="game_list">
+      <div
+        v-for="game in games"
+        :key="game.id"
+        class="game_card"
+        @click="goToGameDetails(game.id)"
+      >
+        <img :src="game.background_image" :alt="game.name" class="game_image" />
+        <div class="game_details">
+          <h3>{{ game.name }}</h3>
+          <p class="price">€{{ game.price }}</p>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    props: {
-      title: {
-        type: String,
-        required: true
-      },
-      games: {
-        type: Array,
-        required: true
-      },
-      loading: {
-        type: Boolean,
-        default: false
-      }
-    }
-  };
-  </script>
+  </div>
+</template>
+
+<script>
+import { useRouter } from 'vue-router';
+
+export default {
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    games: {
+      type: Array,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  setup() {
+    const router = useRouter();
+
+    const goToGameDetails = (gameId) => {
+      router.push(`/shop/${gameId}`);
+    };
+
+    return {
+      goToGameDetails,
+    };
+  },
+};
+</script>
+
   
   <style scoped>
   .section_container {

@@ -14,7 +14,6 @@
   </div>
   <div class="cart_container">
     <router-link to="/CartPage"><img class="cart" src="../assets/IMG/cart.png" alt="icon"></router-link>
-    <router-link to="/LoginPage"><img class="login" src="../assets/IMG/login.png" alt="icon"></router-link>
   </div>
 </template>
 
