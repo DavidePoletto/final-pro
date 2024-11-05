@@ -39,7 +39,13 @@ export default {
     const generateRandomPrice = () => (Math.random() * (40 - 5) + 5).toFixed(2);
 
     const mapGamesWithPrice = (games) => {
-      return (games || []).map((game) => ({ ...game, price: game.price || generateRandomPrice() }));
+      return (games || []).map((game) => {
+        const price = store.getters.getGamePrice(game.id) || generateRandomPrice();
+        if (!store.getters.getGamePrice(game.id)) {
+          store.commit('setGamePrice', { gameId: game.id, price });
+        }
+        return { ...game, price };
+      });
     };
 
     const gamesWithPrices = computed(() => ({
@@ -76,6 +82,7 @@ export default {
   },
 };
 </script>
+
 <style>
 .Shop_page {
   display: flex;

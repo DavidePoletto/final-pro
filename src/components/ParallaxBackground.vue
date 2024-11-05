@@ -2,7 +2,6 @@
   <div ref="parallaxWrap" class="parallax_wrap">
     <img class="first_bg" src="../assets/IMG/sfondo1.png" alt="background">
     
-    <!-- Usa `v-show` per nascondere `big_box` con `display: none` -->
     <div v-show="showBigBox" class="big_box"></div>
     
     <img class="second_bg" src="../assets/IMG/sfondo2.png" alt="background2">
@@ -19,7 +18,7 @@ export default {
   props: {
     showBigBox: {
       type: Boolean,
-      default: true // Impostazione predefinita, visibile
+      default: true
     }
   },
   setup() {

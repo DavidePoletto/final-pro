@@ -14,6 +14,12 @@
           <button @click="navigateToNews">NEWS</button>
         </div>
       </div>
+      <div class="small_box_container">
+        <div class="small_box"></div>
+        <div class="small_box"></div>
+        <div class="small_box"></div>
+        <div class="small_box"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -37,6 +43,7 @@ export default {
     onMounted(() => {
   store.dispatch('fetchShopGames');
   store.dispatch('fetchNews');
+  console.log("Data loading triggered in Main component");
 });
 
 

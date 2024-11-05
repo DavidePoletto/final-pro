@@ -7,7 +7,7 @@
         v-for="game in games"
         :key="game.id"
         class="game_card"
-        @click="goToGameDetails(game.id)"
+        @click="goToGameDetails(game.id, game.price)"
       >
         <img :src="game.background_image" :alt="game.name" class="game_image" />
         <div class="game_details">
@@ -40,8 +40,12 @@ export default {
   setup() {
     const router = useRouter();
 
-    const goToGameDetails = (gameId) => {
-      router.push(`/shop/${gameId}`);
+    const goToGameDetails = (gameId, price) => {
+      if (!price) {
+        console.error("Prezzo non definito per il gioco con ID:", gameId);
+        return;
+      }
+      router.push({ path: `/shop/${gameId}`, query: { price } });
     };
 
     return {
@@ -50,6 +54,7 @@ export default {
   },
 };
 </script>
+
 
   
   <style scoped>

@@ -15,7 +15,6 @@
         <p><strong>Totale: €40.00</strong></p>
       </div>
     </div>
-    <img class="goback" src="@/assets/IMG/back1.png" alt="gobackimg" @click="goBack">
   </div>
 </template>
 

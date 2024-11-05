@@ -2,7 +2,10 @@
   <div class="news-page">
     <MainBar />
     <div class="news-container">
-      <div v-if="loading" class="loading">Caricamento delle news...</div>
+      <div v-if="isLoadingNews" class="loading">Caricamento delle news...</div>
+      <div v-else-if="newsError" class="error">
+        <p>Errore nel caricamento delle notizie: {{ newsError }}</p>
+      </div>
       <div v-else class="news-grid">
         <div class="big-news">
           <h2>Notizia in evidenza</h2>
@@ -45,17 +48,15 @@ export default {
   setup() {
     const store = useStore();
 
+    // Stato di loading e error per le news
+    const isLoadingNews = computed(() => store.getters.isLoading('news'));
+    const newsError = computed(() => store.getters.getError('news'));
+
     // Ottieni le notizie da Vuex
-    const articles = computed(() => store.getters.allNews);
-    const loading = computed(() => articles.value.length === 0);
+    const articles = computed(() => store.getters.allNews || []);
+    console.log("Articles in NewsPage:", articles.value);
 
-    // Carica le notizie al montaggio, se necessario
-    onMounted(() => {
-      if (loading.value) {
-        store.dispatch('fetchNews');
-      }
-    });
-
+    // Popola displayItems con le notizie
     const displayItems = computed(() => {
       const items = [];
       articles.value.forEach((article, index) => {
@@ -67,14 +68,21 @@ export default {
       return items;
     });
 
+    // Carica le notizie al montaggio
+    onMounted(() => {
+      if (!articles.value.length) {
+        store.dispatch('fetchNews');
+      }
+    });
+
     return {
-      loading,
+      isLoadingNews,
+      newsError,
       displayItems,
     };
   },
 };
 </script>
-
 
 <style scoped>
 .news-page {
