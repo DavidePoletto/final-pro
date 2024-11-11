@@ -88,13 +88,15 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #2e2a2a;
+  background-color: #2f2c2c;
   color: #fff;
   min-height: 100vh;
+  
 }
 
 .bigimg_container {
   width: 100%;
+  position: sticky;
 }
 
 .big_container {
@@ -103,6 +105,7 @@ export default {
   align-items: center;
   max-width: 1400px;
   width: 100%;
-  padding: 0 20px;
+  padding: 20px;
+  border-radius: 12px;
 }
 </style>

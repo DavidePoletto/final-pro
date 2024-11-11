@@ -2,7 +2,6 @@
   <div class="cover_container">
     <div class="cover">
       <img ref="parallaxImage" class="parallax-image" src="@/assets/IMG/destiny2.jpg" alt="Destiny 2" />
-      <h1>Destiny 2: The Final Shape</h1>
     </div>
   </div>
 </template>
@@ -63,13 +62,6 @@ export default {
   transition: transform 0.9s ease-out;
 }
 
-.cover h1 {
-  color: white;
-  z-index: 1;
-  font-size: 2.5em;
-  padding: 20px;
-  position: relative;
-}
 
 @media (max-width: 768px) {
   .cover h1 {

@@ -5,6 +5,7 @@ import NewsPage from '@/views/Newspage.vue'
 import EventsPage from '@/views/EventsPage.vue'
 import CartPage from '@/views/CartPage.vue'
 import GameDetails from '@/views/GameDetails.vue';
+import store from '@/store';
 
 const routes = [
   {
@@ -33,7 +34,18 @@ const routes = [
     component: CartPage,
   },
   {
-    path: '/shop/:gameId', component: GameDetails, props: true
+    path: '/shop/:gameId',
+    name: 'GameDetails',
+    component: GameDetails,
+    beforeEnter: async (to, from, next) => {
+      try {
+        await store.dispatch('fetchGameDetails', to.params.gameId);
+        next(); // Procedi alla pagina solo quando i dati sono pronti
+      } catch (error) {
+        console.error("Errore nel caricamento dei dati:", error);
+        next(false); // Blocca la navigazione in caso di errore
+      }
+    },
   },
 
 ]

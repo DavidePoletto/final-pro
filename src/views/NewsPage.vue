@@ -8,25 +8,21 @@
       </div>
       <div v-else class="news-grid">
         <div class="big-news">
-          <h2>Notizia in evidenza</h2>
-          <p>Questa è la notizia in evidenza, visualizzata come primo elemento.</p>
+          <div class="big-newscontent">
+            <h2>Destiny 2: Un’Opera d’Arte senza Tempo, il Gioco Definitivo</h2>
+            <h3><em>Metacritic: “Non solo il miglior gioco mai creato, ma un capolavoro insuperabile che non potrà mai essere eguagliato.”</em></h3>
+            <p><a href="https://www.spaziogames.it/notizie/destiny-2-e-diventato-il-miglior-gioco-del-2024-su-metacritic">Scopri di più</a></p>
+          </div>
         </div>
 
-        <div v-for="(item, index) in displayItems" :key="index" :class="{ 'news-item': !item.isSeparator, 'separator-div': item.isSeparator }">
-          <template v-if="!item.isSeparator">
-            <div class="news-image">
-              <img :src="item.image_url || 'placeholder.jpg'" alt="News Image" />
-            </div>
-            <div class="news-overlay">
-              <h2 class="news-title">{{ item.title }}</h2>
-              <a :href="item.link" target="_blank" class="read-more">Scopri di più</a>
-            </div>
-          </template>
-          <template v-else>
-            <div class="separator-content">
-              <p>{{ item.content }}</p>
-            </div>
-          </template>
+        <div v-for="(item, index) in articles" :key="index" class="news-item">
+          <div class="news-image">
+            <img :src="item.image_url || 'placeholder.jpg'" alt="News Image" />
+          </div>
+          <a :href="item.link" target="_blank" class="news-overlay">
+            <h2 class="news-title">{{ item.title }}</h2>
+            <p class="read-more">Scopri di più</p>
+          </a>
         </div>
       </div>
     </div>
@@ -48,27 +44,12 @@ export default {
   setup() {
     const store = useStore();
 
-    // Stato di loading e error per le news
     const isLoadingNews = computed(() => store.getters.isLoading('news'));
     const newsError = computed(() => store.getters.getError('news'));
 
-    // Ottieni le notizie da Vuex
     const articles = computed(() => store.getters.allNews || []);
     console.log("Articles in NewsPage:", articles.value);
 
-    // Popola displayItems con le notizie
-    const displayItems = computed(() => {
-      const items = [];
-      articles.value.forEach((article, index) => {
-        items.push(article);
-        if ((index + 1) % 3 === 0) {
-          items.push({ isSeparator: true, content: 'Contenuto separatore' });
-        }
-      });
-      return items;
-    });
-
-    // Carica le notizie al montaggio
     onMounted(() => {
       if (!articles.value.length) {
         store.dispatch('fetchNews');
@@ -78,7 +59,7 @@ export default {
     return {
       isLoadingNews,
       newsError,
-      displayItems,
+      articles,
     };
   },
 };
@@ -91,10 +72,8 @@ export default {
   align-items: center;
   background-color: #111;
   color: #fff;
-  background-image: url(@/assets/IMG/newsbackground1.jpg);
+  background-image: url(@/assets/IMG/newsbackground6.jpg);
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   height: 100%;
 }
 
@@ -104,83 +83,126 @@ export default {
   width: 100%;
   padding: 0 20px;
   height: 100%;
+  min-height: 80vh;
 }
 
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(16, 130px);
   grid-auto-flow: dense;
+  gap: 10px;
   margin-bottom: 100px;
 }
 
-.news-item {
-  border: 1px solid red;
-  position: relative;
-  display: flex;
-}
-
 .big-news {
-  grid-column: span 10;
-  grid-row: span 4;
+  grid-column: span 12;
+  grid-row: span 5;
   background-color: #222;
   color: #fff;
-  padding: 20px;
+  background-image: url('@/assets/IMG/destinygoty.webp');
+}
+
+.big-news h2 {
+  color: rgb(255, 255, 255);
+  font-size: xx-large;
+  transition: 0.3s;
+  margin: 0;
+}
+
+.big-news h3 {
+  margin-top: 0;
+}
+.big-news a {
+  color: #ffcc00;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.big-newscontent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+  transition: opacity 0.3s;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}
+
+.big-news:hover .big-newscontent {
+  opacity: 1; /* Cambia opacity dell'intero contenitore su hover di .big-news */
 }
 
 .news-item:nth-child(2) {
-  grid-column: span 5;
+  grid-column: span 6;
   grid-row: span 4;
-  display: flex;
-  position: relative;
 }
-
-.news-item:nth-child(2) .news-overlay {
-  position: absolute;
-}
-
-.news-item:nth-child(2) .news-image {
-  width: 100%;
-}
-
 
 .news-item:nth-child(3),
-.news-item:nth-child(4),
-.news-item:nth-child(5),
+.news-item:nth-child(4) {
+  grid-column: span 6;
+  grid-row: span 2;
+}
+
+.news-item:nth-child(5) {
+  grid-column: span 6;
+  grid-row: span 2;
+}
+
 .news-item:nth-child(6),
-.news-item:nth-child(7),
-.news-item:nth-child(8),
+.news-item:nth-child(7) {
+  grid-column: span 3;
+  grid-row: span 2;
+}
+
+.news-item:nth-child(8) {
+  grid-column: span 12;
+  grid-row: span 3;
+}
+
 .news-item:nth-child(9),
 .news-item:nth-child(10),
-.news-item:nth-child(11),
-.news-item:nth-child(12),
-.news-item:nth-child(13),
-.news-item:nth-child(14),
-.news-item:nth-child(15) {
-  grid-column: span 5;
-  grid-row: span 2;
+.news-item:nth-child(11) {
+  grid-column: span 4;
+  grid-row: span 3;
+}
+
+.news-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .news-image {
   height: 100%;
-  width: 50%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .news-image img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .news-overlay {
-  position: relative;
-  top: 0;
-  left: 0;
+  position: absolute;
   display: flex;
   flex-direction: column;
-  background: white;
-  color: #000000;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
   transition: opacity 0.3s;
-  width: 50%;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
 }
 
 .news-item:hover .news-overlay {
@@ -188,39 +210,25 @@ export default {
 }
 
 .news-title {
-  font-size: 1.2em;
+  font-size: 1.5em;
   font-weight: bold;
-  max-width: 200px;
+  text-align: center;
+  padding: 10px;
+  align-items: center;
 }
 
 .read-more {
   color: #ffcc00;
   font-weight: bold;
-  text-decoration: none;
-  transition: color 0.3s;
 }
 
 .read-more:hover {
   color: #ffdd57;
 }
 
-.separator-div {
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  grid-column: 1 / -1;
-}
-
 .loading {
   display: flex;
   justify-content: center;
-}
-
-.load-more {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 </style>

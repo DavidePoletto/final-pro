@@ -52,17 +52,18 @@ export default {
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
-  transition: width 0.2s ease, background-color 0.3s ease;
+  transition: width 0.3s ease-out, background-color 0.5s ease-out;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50px;
 }
 
 .header_container.scrolled {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.95);
   margin-top: 0;
-  border-radius: 0px;
+  border-radius: 0;
 }
 
 .main_bar {
@@ -71,6 +72,10 @@ export default {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 50px;
+}
+
+.header_container.scrolled .main_bar {
+  background-color: transparent; /* Sfondo trasparente quando scorre */
 }
 
 .logo_container {

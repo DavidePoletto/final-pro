@@ -34,14 +34,26 @@ export default createStore({
       state.news = news || []; // Imposta un array vuoto come fallback
       state.newsLoaded = true;
     },
-    addToCart(state, item) {
-      const existingItem = state.cartItems.find(cartItem => cartItem.id === item.id);
+    addToCart(state, game) {
+      const existingItem = state.cartItems.find((item) => item.id === game.id);
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += 1; // Aumenta la quantità se il gioco è già nel carrello
       } else {
-        state.cartItems.push({ ...item, quantity: 1 });
+        state.cartItems.push({ ...game, quantity: 1 }); // Aggiunge il gioco al carrello
       }
     },
+
+    removeFromCart(state, gameId) {
+      const item = state.cartItems.find((item) => item.id === gameId);
+      if (item && item.quantity > 1) {
+        item.quantity -= 1;
+      }
+    },
+    
+    removeItem(state, gameId) {
+      state.cartItems = state.cartItems.filter((item) => item.id !== gameId);
+    },
+
     setGamePrice(state, { gameId, price }) {
       state.gamePrices[gameId] = price;
     },

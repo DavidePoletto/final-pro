@@ -13,35 +13,23 @@
             : 'none',
         }"
       >
-        <div v-if="loading" class="loading">Caricamento dettagli del gioco...</div>
-        
-        <div v-else class="content_overlay">
+      
+        <div class="content_overlay">
           <h2 class="game_title">{{ gameDetails.name }}</h2>
-          
+          <p class="game_producer">{{ producer }}</p>
+          <p class="game_platforms">{{ availablePlatforms }}</p>
           <div class="game_rating">
             <span>{{ gameDetails.rating.toFixed(1) }}</span>
             <span v-html="generateStars(gameDetails.rating)"></span>
             <span>({{ gameDetails.ratings_count }} voti)</span>
           </div>
-          <p class="game_producer">Produttore: {{ producer }}</p>
           <p class="price">€{{ price }}</p>
           <button @click="addToCart">Aggiungi al carrello</button>
         </div>
       </div>
-
-      <div class="platform_container">
-        <p class="game_platforms">Disponibile su: {{ availablePlatforms }}</p>
-      </div>
-
-      <div class="metacritic_container">
-        <div><img class="logo" src="../assets/IMG/Metacritic.png" alt=""></div>
-        <div class="valutation"><p class="game_metacritic">Metacritic: {{ gameDetails.metacritic }}</p></div>
-      </div>
-      
+        
       <div class="additional_info">
-       
         <div class="info_box">
-          <h2 class="title_description">Informazioni</h2>
           <p class="game_description">{{ gameDetails.description_raw }}</p>
         </div>
 
@@ -67,9 +55,7 @@
           </li>
         </ul>
         </div>
-        
 
-        
         <div class="system_requirements" v-if="pcRequirements">
           <h3>Requisiti di Sistema</h3>
           <p v-html="pcRequirements"></p>
@@ -105,10 +91,8 @@ export default {
     const gameId = route.params.gameId;
     const loading = ref(true);
     const gameDetails = computed(() => store.getters.getCachedGameDetails(gameId));
-    
     const price = computed(() => store.getters.getGamePrice(gameId) || route.query.price);
 
-    // Chiamata per ottenere i dettagli del gioco solo se non sono già in cache
     const fetchGameDetails = async () => {
       if (!gameDetails.value) {
         await store.dispatch('fetchGameDetails', gameId);
@@ -118,7 +102,6 @@ export default {
 
     onMounted(fetchGameDetails);
 
-    // Restanti computed properties
     const availablePlatforms = computed(() => {
       return gameDetails.value?.parent_platforms
         ? gameDetails.value.parent_platforms.map(platform => platform.platform.name).join(', ')
@@ -136,18 +119,16 @@ export default {
 
     const producer = computed(() => gameDetails.value?.developers?.map(dev => dev.name).join(', ') || 'Sconosciuto');
 
-    // Funzione per le stelle della valutazione
     const getStarRating = (title) => {
       const ratingMap = {
         exceptional: "5 stelle",
         recommended: "4 stelle",
         meh: "3 stelle",
-        skip: "1 stella",
+        skip: "1-2 stelle",
       };
       return ratingMap[title] || title;
     };
 
-    // Funzione per generare stelle visive
     const generateStars = (rating) => {
       const fullStars = Math.floor(rating);
       const halfStar = rating % 1 >= 0.5 ? 1 : 0;
@@ -160,16 +141,26 @@ export default {
       );
     };
 
-    // Funzione per aggiungere al carrello
     const addToCart = () => {
-      store.commit('addToCart', {
-        id: gameDetails.value.id,
-        name: gameDetails.value.name,
-        price: parseFloat(price.value),
-        image: gameDetails.value.background_image,
-      });
-      alert(`${gameDetails.value.name} aggiunto al carrello!`);
-    };
+  store.commit('addToCart', {
+    id: gameDetails.value.id,
+    name: gameDetails.value.name,
+    price: parseFloat(price.value),
+    image: gameDetails.value.background_image,
+  });
+  showNotification(`${gameDetails.value.name} è stato aggiunto al carrello!`);
+};
+
+const showNotification = (message) => {
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.innerText = message;
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+};
 
     return {
       gameDetails,
@@ -186,18 +177,19 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .page {
   display: flex;
   flex-direction: column;
   background-color: #000000;
   color: #fff;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
 }
 
 .game_details_container {
   width: 100%;
-  min-height: 60vh;
+  min-height: 100vh;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -212,17 +204,26 @@ export default {
 }
 
 .content_overlay {
-  background-color: #333;
+  background-color: rgba(0, 0, 0, 0.8);
   padding: 20px;
-  position: absolute;
-  top: 300px;
-  left: 50px;
-  width: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  margin-left: 150px;
 }
 
 .game_title {
   font-size: 2.5rem;
   margin-bottom: 10px;
+}
+
+.game_producer {
+  margin: 20px 0 0 0;
+}
+
+.game_platforms {
+  font-weight: 600;
 }
 
 .game_rating {
@@ -236,11 +237,10 @@ export default {
 .price {
   font-size: 1.5rem;
   font-weight: bold;
-  margin-top: 10px;
+  margin: 30px 0 10px 0;
 }
 
 button {
-  margin-top: 20px;
   padding: 10px 20px;
   font-size: 1rem;
   color: #ffffff;
@@ -248,43 +248,33 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 30px;
 }
 
 button:hover {
   background-color: #c56b10;
 }
 
-.metacritic_container {
-  background-color: #302d2d;
-  position: absolute;
-  width: 300px;
-  top: 550px;
-  left: 800px;
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  padding: 20px;
-  width: 50px;
-}
-
-.platform_container {
-  background-color: #333;
-  position: absolute;
-  width: 400px;
-  top: 550px;
-  left: 1200px;
-}
-
 .additional_info {
   padding: 20px;
-  margin-top: 200px;
   background-color: #000000;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.info_box {
+  padding: 30px;
+  background-color: #000000;
+  margin-top: 50px;
+  max-width: 1300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.2em;
 }
 
 .user_ratings {
@@ -304,7 +294,6 @@ button:hover {
   font-size: 20px;
 }
 
-/* Barre di avanzamento per le valutazioni */
 .rating_item {
   margin-bottom: 15px;
 }
@@ -329,17 +318,6 @@ button:hover {
   transition: width 0.3s ease;
 }
 
-.info_box {
-  padding: 30px;
-  background-color: #000000;
-  margin-top: 50px;
-  max-width: 1600px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: justify;
-}
 
 .system_requirements {
   width: 100%;
@@ -364,4 +342,21 @@ button:hover {
   border-radius: 5px;
 }
 
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #db7d12;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 3s ease;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(10px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(10px); }
+}
 </style>

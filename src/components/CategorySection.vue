@@ -1,7 +1,9 @@
 <template>
   <div class="section_container">
     <h2>{{ title }}</h2>
-    <div v-if="loading">Caricamento...</div>
+    <div v-if="loading" class="loading-spinner-container">
+      <div class="loading-spinner"></div> <!-- Spinner di caricamento -->
+    </div>
     <div v-else class="game_list">
       <div
         v-for="game in games"
@@ -60,7 +62,7 @@ export default {
   <style scoped>
   .section_container {
   width: 100%;
-  margin: 40px 0;
+  min-height: 600px;
 }
 
 .section_container h2 {
@@ -68,6 +70,28 @@ export default {
   font-size: 1.8rem;
   text-align: left;
   margin: 20px 20px 30px 40px;
+}
+
+.loading-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20%;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #e07509;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .game_list {

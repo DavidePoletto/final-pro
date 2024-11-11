@@ -4,21 +4,39 @@
     <div class="cart_container">
       <div class="cart">
         <h2>Carrello</h2>
-        <p>Articolo 1 - €20.00</p>
-        <p>Articolo 2 - €15.00</p>
-        <!-- Aggiungi più articoli o usa un ciclo v-for per generare elementi dinamici -->
+        <div v-if="cartItems.length" class="cart-items">
+          <div v-for="item in cartItems" :key="item.id" class="cart-item">
+            <img :src="item.image" alt="Game Cover" class="item-image" />
+            <div class="item-details">
+              <p class="item-name">{{ item.name }}</p>
+              <p class="item-price">€{{ item.price.toFixed(2) }}</p>
+              <div class="item-quantity">
+                <button @click="decreaseQuantity(item)">-</button>
+                <span>{{ item.quantity }}</span>
+                <button @click="increaseQuantity(item)">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p v-else class="empty-cart-message">Il tuo carrello è vuoto.</p>
       </div>
       <div class="summary">
         <h2>Riepilogo Ordine</h2>
-        <p>Totale parziale: €35.00</p>
-        <p>Spedizione: €5.00</p>
-        <p><strong>Totale: €40.00</strong></p>
+        <div class="summary-details">
+          <p>Subtotale: €{{ subtotal.toFixed(2) }}</p>
+          <p>Spedizione: €0.00</p>
+          <hr />
+          <p class="total">Totale: €{{ subtotal.toFixed(2) }}</p>
+          <button class="checkout-btn" @click="goToCheckout">Procedi al pagamento</button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 import ParallaxBackground from '@/components/ParallaxBackground.vue';
 
 export default {
@@ -26,11 +44,38 @@ export default {
     ParallaxBackground,
   },
   setup() {
-    const goBack = () => {
-      window.history.back();
+    const store = useStore();
+
+    // Ottieni gli elementi del carrello da Vuex
+    const cartItems = computed(() => store.getters.cartItems);
+
+    // Calcola il totale del carrello
+    const subtotal = computed(() =>
+      cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0)
+    );
+
+    const increaseQuantity = (item) => {
+      store.commit('addToCart', item);
     };
+
+    const decreaseQuantity = (item) => {
+      if (item.quantity > 1) {
+        store.commit('removeFromCart', item.id);
+      } else {
+        store.commit('removeItem', item.id); // Rimuove l'elemento se la quantità è 1
+      }
+    };
+
+    const goToCheckout = () => {
+      alert("Procedi al pagamento");
+    };
+
     return {
-      goBack,
+      cartItems,
+      subtotal,
+      increaseQuantity,
+      decreaseQuantity,
+      goToCheckout,
     };
   },
 };
@@ -52,12 +97,12 @@ export default {
   padding: 20px;
   width: 90%;
   max-width: 1200px;
-  height: 60vh;
+  height: 70vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: 20px;
-  z-index: 4;
+  z-index: 5;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -74,6 +119,59 @@ export default {
   border-radius: 5px;
 }
 
+.cart-items {
+  margin-top: 1rem;
+}
+
+.cart-item {
+  display: flex;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.item-name {
+  font-size: 1.1rem;
+}
+
+.item-price {
+  font-size: 0.9rem;
+  color: #db7d12;
+}
+
+.item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-quantity button {
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  color: white;
+  background-color: #555;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.item-quantity button:hover {
+  background-color: #777;
+}
+
 .summary {
   flex: 1;
   padding: 20px;
@@ -82,33 +180,41 @@ export default {
   border-radius: 5px;
 }
 
+.summary-details {
+  margin-top: 1rem;
+}
+
+.total {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #db7d12;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.checkout-btn:hover {
+  background-color: #c56b10;
+}
+
+.empty-cart-message {
+  color: #bbb;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
 h2 {
   margin-bottom: 1rem;
   font-size: 1.5rem;
-  color: #db7d12; /* Colore arancione per risaltare */
-}
-
-.goback {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 20;
-  width: 50px;
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .cart_container {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 95%;
-  }
-  .cart, .summary {
-    width: 100%;
-    margin-bottom: 1rem;
-  }
+  color: #db7d12;
 }
 </style>
-
-  
