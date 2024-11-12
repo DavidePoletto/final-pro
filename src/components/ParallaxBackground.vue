@@ -12,14 +12,19 @@
 
     <!-- Small boxes for mouse-following effect -->
     <div class="small_box_container">
-      <div class="small_box" v-for="i in 4" :key="i" :class="'box-' + i"></div>
+      <div class="small_box box-1" @click="navigateToSection('nintendoGames')"></div>
+      <div class="small_box box-2" @click="navigateToSection('upcoming')"></div>
+      <div class="small_box box-3" @click="navigateToSection('multiplayer')"></div>
+      <div class="small_box box-4" @click="navigateToSection('newReleases')"></div>
     </div>
   </div>
 </template>
 
+
 <script>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import GameSwiper from './GameSwiper.vue';
+import { useRouter } from 'vue-router';
 import gta6Cover from '@/assets/IMG/games/gta6.jpg';
 import persona5Cover from '@/assets/IMG/games/persona5.jpg';
 import cyberpunkCover from '@/assets/IMG/games/cyberpunk.jpg';
@@ -39,6 +44,7 @@ export default {
   },
   setup() {
     const parallaxWrap = ref(null);
+    const router = useRouter();
     const recommendedGames = ref([
       { name: 'Gta6', cover: gta6Cover },
       { name: 'Persona 5', cover: persona5Cover },
@@ -46,6 +52,12 @@ export default {
       { name: 'Stalker 2', cover: stalker2Cover },
       { name: 'The Witcher', cover: theWitcherCover },
     ]);
+
+    const navigateToSection = (category) => {
+      router.push({ name: 'ShopPage', hash: `#${category}` });
+    };
+
+
 
     const parallax = (event) => {
       if (!parallaxWrap.value) return;
@@ -71,13 +83,35 @@ export default {
     };
 
     const handleMouseMove = (event) => {
-      document.querySelectorAll('.small_box').forEach((box, index) => {
-        const movementStrength = 15;
-        const offsetX = (event.clientX / window.innerWidth - 0.5) * movementStrength * (index % 2 === 0 ? 1 : -1);
-        const offsetY = (event.clientY / window.innerHeight - 0.5) * movementStrength * (index % 2 === 0 ? -1 : 1);
-        box.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-      });
-    };
+  document.querySelectorAll('.small_box').forEach((box, index) => {
+    const movementStrength = 15;
+    let offsetX, offsetY;
+
+    // Imposta direzioni diverse per ciascuna box
+    switch (index % 4) {
+      case 0: // Prima box: verso l'alto a destra
+        offsetX = (event.clientX / window.innerWidth - 0.5) * movementStrength;
+        offsetY = (event.clientY / window.innerHeight - 0.5) * -movementStrength;
+        break;
+      case 1: // Seconda box: verso il basso a sinistra
+        offsetX = (event.clientX / window.innerWidth - 0.5) * -movementStrength;
+        offsetY = (event.clientY / window.innerHeight - 0.5) * movementStrength;
+        break;
+      case 2: // Terza box: verso l'alto a sinistra
+        offsetX = (event.clientX / window.innerWidth - 0.5) * -movementStrength;
+        offsetY = (event.clientY / window.innerHeight - 0.5) * -movementStrength;
+        break;
+      case 3: // Quarta box: verso il basso a destra
+        offsetX = (event.clientX / window.innerWidth - 0.5) * movementStrength;
+        offsetY = (event.clientY / window.innerHeight - 0.5) * movementStrength;
+        break;
+    }
+
+    // Applica la trasformazione alla box
+    box.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+  });
+};
+
 
     onMounted(() => {
       document.addEventListener('mousemove', parallax);
@@ -92,6 +126,7 @@ export default {
     return {
       parallaxWrap,
       recommendedGames,
+      navigateToSection,
     };
   },
 };
@@ -181,30 +216,6 @@ export default {
   animation: fly 10s linear infinite;
 }
 
-.small_box_container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 40vh;
-  max-height: 250px;
-  position: absolute;
-  bottom: 30px;
-  column-gap: 5%;
-  z-index: 4;
-  pointer-events: none;
-}
-
-.small_box {
-  width: 150px;
-  height: 200px;
-  background-image: url(@/assets/IMG/destiny2.jpg);
-  background-position: center;
-  background-size: cover;
-  border-radius: 8px;
-  transition: transform 0.1s ease-out;
-  pointer-events: auto;
-}
-
 @keyframes fly {
   0% {
     transform: translateX(0);
@@ -213,4 +224,65 @@ export default {
     transform: translateX(120vw);
   }
 }
+
+.small_box_container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 40vh;
+  max-height: 250px;
+  position: absolute;
+  bottom: 70px;
+  column-gap: 9%;
+  pointer-events: none;
+}
+
+.small_box {
+  width: 150px;
+  height: 200px;
+  background-color: #1a1a1a;
+  background-position: center;
+  background-size: cover;
+  border-radius: 15px;
+  cursor: default;
+  pointer-events: auto;
+  filter: brightness(90%);
+  z-index: 2;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Effetto al passaggio del mouse */
+.small_box:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+  filter: brightness(110%);
+  z-index: 5;
+  border: 2px solid rgb(255, 255, 255);
+  box-sizing: border-box;
+}
+
+.small_box:hover::after {
+  opacity: 1;
+}
+
+/* Immagini specifiche per ciascuna box */
+.small_box:first-child {
+  background-image: url(../assets/IMG/nintendo.jpg);
+}
+
+.small_box:nth-child(2) {
+  background-image: url(../assets/IMG/nuoveuscite.webp);
+}
+
+.small_box:nth-child(3) {
+  background-image: url(../assets/IMG/multiplayer.jpg);
+}
+
+.small_box:nth-child(4) {
+  background-image: url(../assets/IMG/pcgames.webp);
+}
+
 </style>

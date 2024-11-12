@@ -57,19 +57,18 @@ export default {
 };
 </script>
 
-
-  
-  <style scoped>
-  .section_container {
+<style scoped>
+.section_container {
   width: 100%;
   min-height: 600px;
+  margin-bottom: 100px
 }
 
 .section_container h2 {
   color: #ffffff;
-  font-size: 1.8rem;
+  font-size: 2.5rem;
   text-align: left;
-  margin: 20px 20px 30px 40px;
+  margin: 20px 20px 20px 40px;
 }
 
 .loading-spinner-container {

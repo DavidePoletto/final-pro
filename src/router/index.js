@@ -17,6 +17,7 @@ const routes = [
     path: '/ShopPage',
     name: 'ShopPage',
     component: ShopPage,
+    props: (route) => ({ category: route.query.category })
   },
   {
     path: '/NewsPage',

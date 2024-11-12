@@ -7,9 +7,8 @@ export default createStore({
       newReleases: [],
       topRated: [],
       upcoming: [],
-      singleplayer: [],
+      nintendoGames: [],
       multiplayer: [],
-      openWorld: [],
     },
     gameDetailsCache: {},
     gamePrices: {}, // Stato per memorizzare i prezzi dei giochi
@@ -79,9 +78,8 @@ export default createStore({
         commit('setGames', { category: 'newReleases', games: data.newReleases });
         commit('setGames', { category: 'topRated', games: data.topRated });
         commit('setGames', { category: 'upcoming', games: data.upcoming });
-        commit('setGames', { category: 'singleplayer', games: data.singleplayerGames });
+        commit('setGames', { category: 'nintendoGames', games: data.nintendoGames });
         commit('setGames', { category: 'multiplayer', games: data.multiplayerGames });
-        commit('setGames', { category: 'openWorld', games: data.openWorldGames });
       } catch (error) {
         commit('setError', { key: 'games', error: error.message });
         console.error("Errore nel caricamento dei giochi dal server:", error.message);
@@ -126,9 +124,8 @@ export default createStore({
     newReleases: (state) => state.games.newReleases,
     topRatedGames: (state) => state.games.topRated,
     upcomingGames: (state) => state.games.upcoming,
-    singleplayerGames: (state) => state.games.singleplayer,
+    nintendoGames: (state) => state.games.nintendoGames,
     multiplayerGames: (state) => state.games.multiplayer,
-    openWorldGames: (state) => state.games.openWorld,
     cartItems: (state) => state.cartItems,
     getGamePrice: (state) => (gameId) => state.gamePrices[gameId],
     isLoading: (state) => (key) => state.loading[key],

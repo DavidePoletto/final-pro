@@ -7,7 +7,7 @@
         <h1>GAMEVERSE</h1>
         <h2>VIDEO GAME STORE</h2>
         <p>
-          Benvenuto su GAMEVERSE, qui potrai trovare una vasta scelta di videogames e card game!
+          Benvenuto su Gameverse, dove i mondi virtuali ti attendono e ogni gioco diventa un'avventura epica da vivere.
         </p>
         <div class="shop_button">
           <button @click="navigateToShop">SHOP NOW</button>
@@ -75,51 +75,73 @@ export default {
 }
 
 .info_box {
-  width: 600px;
+  max-width: 550px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
-  color: rgb(255, 255, 255);
+  align-items: center;
+  color: #ffffff;
   position: fixed;
   z-index: 5;
   margin-top: 100px;
   margin-left: 30px;
+  padding: 20px;
 }
 
 .info_box h1 {
   font-size: 4.5vw;
   margin: 0;
+  background: linear-gradient(90deg, #ff4d00, #ffffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* Testo sfumato */
+  font-weight: 700;
 }
 
 .info_box h2 {
-  margin: 0;
   font-size: 2.8vw;
   font-weight: 400;
+  color: #ffffff;
+  margin: 0;
   line-height: 0.3;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
 .info_box p {
-  padding: 10px;
-  font-size: 1vw;
-  text-align: left;
+  font-size: 1.1vw;
+  color: #ffffff;
+  text-align: center;
+  font-weight: 400;
 }
 
+
 .shop_button {
-  width: 50%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  width: 100%;
+  gap: 50px;
 }
 
 .shop_button button {
   border: none;
-  height: 30px;
-  width: 100px;
-  background-color: rgb(219, 125, 18);
+  height: 35px;
+  width: 110px;
+  background: linear-gradient(90deg, #f59904, #ff781e); /* Sfondo sfumato per pulsanti */
   color: white;
   font-weight: bold;
-  border-radius: 3px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-size: 0.9rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Ombra morbida */
 }
+
+.shop_button button:hover {
+  transform: scale(1.08);
+  box-shadow: 0px 6px 15px rgba(255, 112, 175, 0.5), 0px 6px 15px rgba(255, 218, 68, 0.5); /* Effetto brillante */
+}
+
 
 .small_box_container {
   display: flex;

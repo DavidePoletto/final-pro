@@ -11,6 +11,7 @@
         :title="categoryTitles[category]"
         :games="games"
         :loading="loading"
+        :id="category"
       />
     </div>
     <MainFooter />
@@ -19,8 +20,9 @@
 
 <script>
 import MainFooter from '@/components/footer.vue';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 import MainBar from '@/components/Header.vue';
 import ParallaxImage from '@/components/ParallaxImage.vue';
 import CategorySection from '@/components/CategorySection.vue';
@@ -35,6 +37,7 @@ export default {
 
   setup() {
     const store = useStore();
+    const route = useRoute();
 
     const generateRandomPrice = () => (Math.random() * (40 - 5) + 5).toFixed(2);
 
@@ -53,26 +56,43 @@ export default {
       newReleases: mapGamesWithPrice(store.getters.newReleases),
       topRated: mapGamesWithPrice(store.getters.topRatedGames),
       upcoming: mapGamesWithPrice(store.getters.upcomingGames),
-      singleplayer: mapGamesWithPrice(store.getters.singleplayerGames),
+      nintendoGames: mapGamesWithPrice(store.getters.nintendoGames),
       multiplayer: mapGamesWithPrice(store.getters.multiplayerGames),
-      openWorld: mapGamesWithPrice(store.getters.openWorldGames),
     }));
 
     const loading = computed(() => !Object.values(gamesWithPrices.value).some(games => games.length));
 
     const categoryTitles = {
       trending: 'TENDENZA',
-      newReleases: 'NOVITÀ',
+      newReleases: 'PC',
       topRated: 'PIÚ VOTATI',
       upcoming: 'IN USCITA',
-      singleplayer: 'SINGLEPLAYER',
+      nintendoGames: 'GIOCHI NINTENDO',
       multiplayer: 'MULTIPLAYER',
-      openWorld: 'OPEN WORLD',
+    };
+
+    const scrollToCategory = () => {
+      const category = window.location.hash.substring(1); // Rimuove il simbolo #
+      if (category) {
+        const section = document.getElementById(category);
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
     };
 
     onMounted(() => {
-      store.dispatch('fetchShopGames');
+      store.dispatch('fetchShopGames').then(() => {
+        scrollToCategory(); // Scrolla alla sezione dopo il caricamento
+      });
     });
+
+    watch(
+      () => route.hash,
+      () => {
+        scrollToCategory(); // Scrolla alla sezione ogni volta che cambia l'hash
+      }
+    );
 
     return {
       loading,
@@ -91,7 +111,6 @@ export default {
   background-color: #2f2c2c;
   color: #fff;
   min-height: 100vh;
-  
 }
 
 .bigimg_container {
