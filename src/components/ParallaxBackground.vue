@@ -285,4 +285,56 @@ export default {
   background-image: url(../assets/IMG/pcgames.webp);
 }
 
+@keyframes continuousMovement {
+  0% { transform: translate(0px, 0px); }
+  25% { transform: translate(5px, -5px); }
+  50% { transform: translate(-5px, 5px); }
+  75% { transform: translate(6px, 6px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+@media (max-width: 1024px) {
+  .big_box {
+    width: 60%;
+    height: 30%;
+    top: 50%;
+  }
+
+  .small_box {
+    width: 120px;
+    height: 150px;
+  }
+
+  .small_box_container {
+    height: 30vh;
+    column-gap: 6%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .meteor {
+    left: -250px;
+    width: 250%;
+    height: 83%; /* Aggiunta l'altezza al 100% per coprire l'intero viewport */
+    object-fit: contain; /* Mostra l'immagine completa senza tagliarla */
+    z-index: 10;
+    animation: continuousMovement 8s infinite ease-in-out;
+  }
+
+  .rocket {
+    z-index: 20;
+  }
+
+  .big_box {
+    width: 90%;
+    height: 25%;
+    top: 50%;
+  }
+
+  .small_box_container {
+  display: none;
+}
+}
+
 </style>

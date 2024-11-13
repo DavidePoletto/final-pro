@@ -15,13 +15,18 @@
         </div>
       </div>
     </div>
+    <!-- Condizione per visualizzare ShopPage solo su smartphone -->
+    <div v-if="isMobile" class="shop_section">
+      <ShopPage />
+    </div>
   </div>
 </template>
 
 <script>
 import MainBar from '@/components/Header.vue';
 import ParallaxBackground from '@/components/ParallaxBackground.vue';
-import { onMounted } from 'vue';
+import ShopPage from '@/views/ShopPage.vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -29,17 +34,28 @@ export default {
   components: {
     MainBar,
     ParallaxBackground,
+    ShopPage,
   },
   setup() {
     const store = useStore();
     const router = useRouter();
+    const isMobile = ref(window.innerWidth <= 480);
+
+    // Rileva il ridimensionamento della finestra
+    const handleResize = () => {
+      isMobile.value = window.innerWidth <= 480;
+    };
 
     onMounted(() => {
-  store.dispatch('fetchShopGames');
-  store.dispatch('fetchNews');
-  console.log("Data loading triggered in Main component");
-});
+      store.dispatch('fetchShopGames');
+      store.dispatch('fetchNews');
+      window.addEventListener('resize', handleResize);
+    });
 
+    // Rimuovi l'evento al momento dello smontaggio
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', handleResize);
+    });
 
     const navigateToShop = () => {
       router.push('/ShopPage');
@@ -52,6 +68,7 @@ export default {
     return {
       navigateToShop,
       navigateToNews,
+      isMobile,
     };
   },
 };
@@ -115,7 +132,6 @@ export default {
   font-weight: 400;
 }
 
-
 .shop_button {
   display: flex;
   justify-content: center;
@@ -142,6 +158,10 @@ export default {
   box-shadow: 0px 6px 15px rgba(255, 112, 175, 0.5), 0px 6px 15px rgba(255, 218, 68, 0.5); /* Effetto brillante */
 }
 
+.shop_section {
+  background-color: #f5f5f5;
+  width: 100%;
+}
 
 .small_box_container {
   display: flex;
@@ -164,29 +184,86 @@ export default {
   background-size: cover;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .info_box {
     width: 80%;
-    top: 20px;
-    left: 20px;
+    margin-top: 80px;
+    margin-left: 20px;
+    padding: 15px;
   }
 
   .info_box h1 {
-    font-size: 7vw;
+    font-size: 6vw;
   }
 
   .info_box h2 {
-    font-size: 5vw;
+    font-size: 4.5vw;
   }
 
   .info_box p {
-    width: 100%;
+    font-size: 1.5vw;
+  }
+
+  .shop_button button {
+    height: 30px;
+    width: 100px;
+    font-size: 0.8rem;
   }
 
   .small_box_container {
     height: 15vh;
-    column-gap: 1%;
+    column-gap: 2%;
+    justify-content: center;
+  }
+}
+
+/* Mobile (Telefoni) */
+@media (max-width: 480px) {
+  .container {
+    justify-content: center;
+  }
+
+  .info_box {
+    width: 95%;
+    padding: 5px;
+    text-align: center;
+    margin: 0;
+    position: absolute;
+    top: 110px;
+  }
+
+  .info_box h1 {
+    font-size: 10vw;
+  }
+
+  .info_box h2 {
+    font-size: 6vw;
+  }
+
+  .info_box p {
+    font-size: 4vw;
+    margin: 10px 0;
+  }
+
+  .shop_button {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    display: none; /* Nascondi i pulsanti su dispositivi mobili */
+  }
+
+  .small_box_container {
+    height: auto;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    column-gap: 5%;
+    justify-content: center;
+  }
+
+  .small_box {
+    width: 90px;
+    height: 90px;
+    margin: 5px;
   }
 }
 </style>
-

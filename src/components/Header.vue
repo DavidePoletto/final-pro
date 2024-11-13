@@ -4,18 +4,37 @@
   </div>
   <div class="header_container" :class="{ 'scrolled': isScrolled }">
     <header class="main_bar">
-      <div class="menu">
+      <div class="menu" v-if="!isMobileMenuOpen">
         <div><router-link to="/">HOME</router-link></div>
         <div><router-link to="/ShopPage">SHOP</router-link></div>
         <div><router-link to="/NewsPage">NEWS</router-link></div>
         <div><router-link to="/EventsPage">EVENTS</router-link></div>
       </div>
+
+      <div class="hamburger_icon" @click="toggleMobileMenu" v-if="!isMobileMenuOpen">
+        ☰
+      </div>
+
+      <div class="mobile_menu" v-if="isMobileMenuOpen">
+        <div><router-link to="/" @click="closeMobileMenu">HOME</router-link></div>
+        <div><router-link to="/NewsPage" @click="closeMobileMenu">NEWS</router-link></div>
+        <div><router-link to="/EventsPage" @click="closeMobileMenu">EVENTS</router-link></div>
+        <!-- Icona carrello visibile solo nel menu mobile -->
+        <router-link to="/CartPage" @click="closeMobileMenu">
+          <img class="cart_in_menu" src="../assets/IMG/cart.png" alt="cart icon">
+        </router-link>
+        <div class="close_menu" @click="closeMobileMenu">✕</div>
+      </div>
     </header>
   </div>
+  <!-- Carrello visibile su desktop -->
   <div class="cart_container">
     <router-link to="/CartPage"><img class="cart" src="../assets/IMG/cart.png" alt="icon"></router-link>
   </div>
 </template>
+
+
+
 
 <script>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
@@ -24,9 +43,18 @@ export default {
   name: 'MainBar',
   setup() {
     const isScrolled = ref(false);
+    const isMobileMenuOpen = ref(false);
 
     const handleScroll = () => {
       isScrolled.value = window.scrollY > 100;
+    };
+
+    const toggleMobileMenu = () => {
+      isMobileMenuOpen.value = !isMobileMenuOpen.value;
+    };
+
+    const closeMobileMenu = () => {
+      isMobileMenuOpen.value = false;
     };
 
     onMounted(() => {
@@ -39,10 +67,14 @@ export default {
 
     return {
       isScrolled,
+      isMobileMenuOpen,
+      toggleMobileMenu,
+      closeMobileMenu,
     };
   }
 };
 </script>
+
 
 <style scoped>
 .header_container {
@@ -125,12 +157,85 @@ export default {
   right: 10px;
 }
 
-.login {
-  width: 60px;
-}
-
 .cart {
   width: 40px;
+}
+
+.hamburger_icon {
+  display: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.mobile_menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.mobile_menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.close_menu {
+  font-size: 2rem;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  color: white;
+}
+
+.cart_in_menu {
+  width: 40px;
+  margin-top: 20px;
+  display: none; /* Nascondi su desktop */
+}
+
+@media (max-width: 768px) {
+  .header_container {
+    width: auto;
+    top: 0px;
+    right: 10px;
+    left: auto;
+    transform: none;     
+    border-radius: 15px;
+    margin: 0;
+  }
+
+  .main_bar {
+    background-color: transparent;
+  }
+
+  .menu {
+    display: none;
+  }
+
+  .hamburger_icon {
+    display: block;
+  }
+
+  .cart_container {
+    display: none;
+  }
+
+  .mobile_menu .cart_in_menu {
+    display: block;
+  }
 }
 </style>
 

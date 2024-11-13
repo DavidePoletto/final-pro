@@ -127,4 +127,10 @@ export default {
   padding: 20px;
   border-radius: 12px;
 }
+
+@media (max-width: 768px) {
+  .big_container {
+    padding: 0;
+  }
+}
 </style>

@@ -116,5 +116,11 @@
   .footer_bottom p {
     margin: 0;
   }
+
+  @media (max-width: 768px) {
+    .footer_bottom {
+      padding: 0;
+    }
+  }
   </style>
   
