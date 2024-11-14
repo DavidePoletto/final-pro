@@ -163,5 +163,10 @@ export default {
   .game_card {
     width: 100%; /* Un gioco per riga */
   }
+
+  .section_container h2 {
+    text-align: center;
+    margin: 0;
+  }
 }
 </style>

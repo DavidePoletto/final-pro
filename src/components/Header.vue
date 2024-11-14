@@ -10,30 +10,29 @@
         <div><router-link to="/NewsPage">NEWS</router-link></div>
         <div><router-link to="/EventsPage">EVENTS</router-link></div>
       </div>
-
-      <div class="hamburger_icon" @click="toggleMobileMenu" v-if="!isMobileMenuOpen">
-        ☰
-      </div>
-
-      <div class="mobile_menu" v-if="isMobileMenuOpen">
+    </header>
+  </div>
+  
+  <!-- Icona hamburger/chiusura visibile su smartphone -->
+  <div class="header_smartphone" :class="{ 'scrolled': isScrolled }">
+    <div class="hamburger_icon" @click="toggleMobileMenu">
+      {{ isMobileMenuOpen ? '✕' : '☰' }}
+    </div>
+    <div class="mobile_menu" v-show="isMobileMenuOpen">
         <div><router-link to="/" @click="closeMobileMenu">HOME</router-link></div>
         <div><router-link to="/NewsPage" @click="closeMobileMenu">NEWS</router-link></div>
         <div><router-link to="/EventsPage" @click="closeMobileMenu">EVENTS</router-link></div>
-        <!-- Icona carrello visibile solo nel menu mobile -->
         <router-link to="/CartPage" @click="closeMobileMenu">
           <img class="cart_in_menu" src="../assets/IMG/cart.png" alt="cart icon">
         </router-link>
-        <div class="close_menu" @click="closeMobileMenu">✕</div>
       </div>
-    </header>
   </div>
+
   <!-- Carrello visibile su desktop -->
   <div class="cart_container">
     <router-link to="/CartPage"><img class="cart" src="../assets/IMG/cart.png" alt="icon"></router-link>
   </div>
 </template>
-
-
 
 
 <script>
@@ -207,18 +206,14 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .header_container {
-    width: auto;
-    top: 0px;
-    right: 10px;
-    left: auto;
-    transform: none;     
-    border-radius: 15px;
-    margin: 0;
+
+  .logo_container {
+    width: 40%;
+    left: 10px;
   }
 
-  .main_bar {
-    background-color: transparent;
+  .header_container {
+    display: none;
   }
 
   .menu {
@@ -227,6 +222,9 @@ export default {
 
   .hamburger_icon {
     display: block;
+    padding: 10px;
+    margin-right: 10px;
+    z-index: 50;
   }
 
   .cart_container {
@@ -235,6 +233,21 @@ export default {
 
   .mobile_menu .cart_in_menu {
     display: block;
+  }
+
+  .header_smartphone {
+    position: fixed;
+    z-index: 20;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    transition: 0.3s;
+  }
+
+  .header_smartphone.scrolled {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    border-radius: 0;
   }
 }
 </style>

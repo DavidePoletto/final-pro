@@ -312,7 +312,7 @@ export default {
 }
 
 /* Mobile */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .meteor {
     left: -250px;
     width: 250%;
@@ -323,7 +323,7 @@ export default {
   }
 
   .rocket {
-    z-index: 20;
+    z-index: 10;
   }
 
   .big_box {

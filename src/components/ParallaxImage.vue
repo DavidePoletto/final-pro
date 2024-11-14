@@ -64,8 +64,9 @@ export default {
 
 
 @media (max-width: 768px) {
-  .cover h1 {
-    font-size: 1.8em; /* Riduce la dimensione del titolo su schermi piccoli */
+  .parallax-image {
+    z-index: 50;
+    top: -50px;
   }
 }
 </style>

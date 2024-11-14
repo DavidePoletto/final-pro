@@ -15,7 +15,6 @@
         </div>
       </div>
     </div>
-    <!-- Condizione per visualizzare ShopPage solo su smartphone -->
     <div v-if="isMobile" class="shop_section">
       <ShopPage />
     </div>
@@ -39,11 +38,11 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
-    const isMobile = ref(window.innerWidth <= 480);
+    const isMobile = ref(window.innerWidth <= 768);
 
     // Rileva il ridimensionamento della finestra
     const handleResize = () => {
-      isMobile.value = window.innerWidth <= 480;
+      isMobile.value = window.innerWidth <= 768;
     };
 
     onMounted(() => {
@@ -217,8 +216,7 @@ export default {
   }
 }
 
-/* Mobile (Telefoni) */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .container {
     justify-content: center;
   }
@@ -249,7 +247,7 @@ export default {
     flex-direction: column;
     gap: 10px;
     width: 100%;
-    display: none; /* Nascondi i pulsanti su dispositivi mobili */
+    display: none;
   }
 
   .small_box_container {

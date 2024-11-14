@@ -164,7 +164,7 @@ export default {
   grid-row: span 1;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
   .news_section {
     max-width: 90%; /* Riduci la larghezza massima al 90% della viewport quando la larghezza dello schermo è inferiore a 1200px */
     padding: 0 10px; /* Riduci leggermente il padding */
@@ -178,7 +178,7 @@ export default {
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 480px) {
   .news_section {
     max-width: 100%; /* Larghezza massima 100% su schermi piccoli */
     padding: 0; /* Elimina il padding per occupare l'intera larghezza */

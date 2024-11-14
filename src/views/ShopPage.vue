@@ -132,5 +132,12 @@ export default {
   .big_container {
     padding: 0;
   }
+
+  .Shop_page {
+    background-image: url(../assets/IMG/underground.jpg);
+    background-color:#9a1d34;
+    background-size: cover;
+
+  }
 }
 </style>
