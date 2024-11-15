@@ -9,6 +9,7 @@
 import { watch, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export default {
   name: 'App',

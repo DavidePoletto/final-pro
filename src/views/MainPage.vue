@@ -162,27 +162,6 @@ export default {
   width: 100%;
 }
 
-.small_box_container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 20vh;
-  max-height: 200px;
-  position: absolute;
-  bottom: 30px;
-  column-gap: 5%;
-  z-index: 4;
-}
-
-.small_box {
-  border: 1px solid red;
-  aspect-ratio: 1 / 1;
-  margin: 5px;
-  background-image: url(@/assets/IMG/destiny2.jpg);
-  background-position: center;
-  background-size: cover;
-}
-
 @media (max-width: 1024px) {
   .info_box {
     width: 80%;

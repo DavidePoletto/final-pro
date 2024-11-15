@@ -1,21 +1,21 @@
 <template>
   <div ref="parallaxWrap" class="parallax_wrap" @mousemove="handleMouseMove">
-    <img class="first_bg" src="../assets/IMG/sfondo1.png" alt="background" />
+    <img class="first_bg" src="../assets/IMG/backgrounds/sfondo1.png" alt="background" />
     
     <div v-show="showBigBox" class="big_box">
       <GameSwiper />
     </div>
     
-    <img class="second_bg" src="../assets/IMG/sfondo2.png" alt="background2" />
-    <img class="meteor" src="../assets/IMG/sfondo3.png" alt="background3" />
+    <img class="second_bg" src="../assets/IMG/backgrounds/sfondo2.png" alt="background2" />
+    <img class="meteor" src="../assets/IMG/backgrounds/sfondo3.png" alt="background3" />
     <div class="rocket"></div>
 
     <!-- Small boxes for mouse-following effect -->
-    <div class="small_box_container">
-      <div class="small_box box-1" @click="navigateToSection('nintendoGames')"></div>
-      <div class="small_box box-2" @click="navigateToSection('upcoming')"></div>
-      <div class="small_box box-3" @click="navigateToSection('multiplayer')"></div>
-      <div class="small_box box-4" @click="navigateToSection('newReleases')"></div>
+    <div class="small_box_container" v-show="showBigBox">
+      <div class="small_box box-1" @click="navigateToSection('nintendoGames')"><h3>NINTENDO</h3></div>
+      <div class="small_box box-2" @click="navigateToSection('upcoming')"><h3>IN USCITA</h3></div>
+      <div class="small_box box-3" @click="navigateToSection('multiplayer')"><h3>MULTYPLAYER</h3></div>
+      <div class="small_box box-4" @click="navigateToSection('newReleases')"><h3>PC GAMES</h3></div>
     </div>
   </div>
 </template>
@@ -210,7 +210,7 @@ export default {
   left: -100px;
   width: 100px;
   height: 100px;
-  background-image: url('../assets/IMG/rocket.png');
+  background-image: url('../assets/IMG/icons/rocket.png');
   background-size: cover;
   z-index: 4;
   animation: fly 10s linear infinite;
@@ -240,13 +240,10 @@ export default {
 .small_box {
   width: 150px;
   height: 200px;
-  background-color: #1a1a1a;
-  background-position: center;
   background-size: cover;
   border-radius: 15px;
   cursor: default;
   pointer-events: auto;
-  filter: brightness(90%);
   z-index: 2;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
   position: relative;
@@ -254,7 +251,17 @@ export default {
   cursor: pointer;
 }
 
-/* Effetto al passaggio del mouse */
+.small_box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2); /* Scurisci l'immagine con il colore nero trasparente */
+  z-index: 1;
+}
+
 .small_box:hover {
   transform: scale(1.1);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
@@ -268,7 +275,6 @@ export default {
   opacity: 1;
 }
 
-/* Immagini specifiche per ciascuna box */
 .small_box:first-child {
   background-image: url(../assets/IMG/nintendo.jpg);
 }
@@ -283,6 +289,22 @@ export default {
 
 .small_box:nth-child(4) {
   background-image: url(../assets/IMG/pcgames.webp);
+}
+
+.small_box h3 {
+  color: white;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 40%;
+  left: 50%;
+  text-align: center;
+  z-index: 2;
+  opacity: 0; /* Nascondi il testo inizialmente */
+  transition: opacity 0.3s ease; /* Transizione per un effetto di fade-in */
+}
+
+.small_box:hover h3 {
+  opacity: 1;
 }
 
 @keyframes continuousMovement {

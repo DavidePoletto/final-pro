@@ -4,7 +4,7 @@
     <div class="events_container">
       <SwiperComponent />
       <div class="title_box">
-        <h1>Events</h1>
+        <h1>EVENTI</h1>
       </div>
       <div class="news_section">
         <div class="news_grid">
@@ -63,7 +63,7 @@ export default {
 .news_section {
   max-width: 1600px;
   width: 100%;
-  padding: 0 20px;
+  
   margin: 0 auto;
 }
 
@@ -166,16 +166,29 @@ export default {
 
 @media (max-width: 1024px) {
   .news_section {
-    max-width: 90%; /* Riduci la larghezza massima al 90% della viewport quando la larghezza dello schermo è inferiore a 1200px */
-    padding: 0 10px; /* Riduci leggermente il padding */
+    max-width: 90%;
   }
 }
 
 @media (max-width: 768px) {
   .news_section {
     max-width: 100%; /* Rendi la sezione piena larghezza su schermi piccoli */
-    padding: 0 5px; /* Riduci ancora di più il padding */
   }
+  .title_box h1 {
+    margin: 20px 0 0 0;
+  }
+  .title_box {
+    margin: 20px 0 0px 0;
+  }
+  .news_grid {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
+  .news_item {
+  background-color: #fff;
+  padding: 150px;
+}
 }
 
 @media (max-width: 480px) {

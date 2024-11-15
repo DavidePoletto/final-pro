@@ -6,6 +6,7 @@ import EventsPage from '@/views/EventsPage.vue'
 import CartPage from '@/views/CartPage.vue'
 import GameDetails from '@/views/GameDetails.vue';
 import store from '@/store';
+import CheckoutPage from '@/views/CheckoutPage.vue';
 
 const routes = [
   {
@@ -34,6 +35,12 @@ const routes = [
     name: 'CartPage',
     component: CartPage,
   },
+
+  { path: '/checkout',
+    name: 'Checkout',
+    component: CheckoutPage
+  },
+
   {
     path: '/shop/:gameId',
     name: 'GameDetails',

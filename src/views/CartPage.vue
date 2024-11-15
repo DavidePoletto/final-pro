@@ -37,6 +37,7 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import ParallaxBackground from '@/components/ParallaxBackground.vue';
 
 export default {
@@ -44,6 +45,7 @@ export default {
     ParallaxBackground,
   },
   setup() {
+    const router = useRouter();
     const store = useStore();
 
     // Ottieni gli elementi del carrello da Vuex
@@ -67,7 +69,8 @@ export default {
     };
 
     const goToCheckout = () => {
-      alert("Procedi al pagamento");
+    store.commit('clearCart'); // Se vuoi svuotare il carrello dopo l'acquisto
+    router.push({ name: 'Checkout' });
     };
 
     return {
@@ -216,5 +219,13 @@ h2 {
   margin-bottom: 1rem;
   font-size: 1.5rem;
   color: #db7d12;
+}
+
+@media (max-width: 768px) {
+  .cart_container {
+    z-index: 20;
+    flex-direction: column;
+    padding: 10px;
+  }
 }
 </style>

@@ -48,6 +48,10 @@ export default createStore({
         item.quantity -= 1;
       }
     },
+
+    clearCart(state) {
+      state.cartItems = []; // svuota il carrello
+    },
     
     removeItem(state, gameId) {
       state.cartItems = state.cartItems.filter((item) => item.id !== gameId);

@@ -7,7 +7,8 @@
         <p>Errore nel caricamento delle notizie: {{ newsError }}</p>
       </div>
       <div v-else class="news-grid">
-        <div class="big-news">
+        <div class="big-news" @click="toggleOverlay(-1)" :class="{ active: activeIndex === -1 }">
+          <div class="big-image"></div>
           <div class="big-newscontent">
             <h2>Destiny 2: Un’Opera d’Arte senza Tempo, il Gioco Definitivo</h2>
             <h3><em>Metacritic: “Non solo il miglior gioco mai creato, ma un capolavoro insuperabile che non potrà mai essere eguagliato.”</em></h3>
@@ -19,10 +20,10 @@
           <div class="news-image">
             <img :src="item.image_url || 'placeholder.jpg'" alt="News Image" />
           </div>
-          <a :href="item.link" target="_blank" class="news-overlay">
+          <div class="news-overlay" @click="toggleOverlay(index)" :class="{ active: activeIndex === index }">
             <h2 class="news-title">{{ item.title }}</h2>
-            <p class="read-more">Scopri di più</p>
-          </a>
+            <a :href="item.link" target="_blank" class="read-more">Scopri di più</a>
+          </div>
         </div>
       </div>
     </div>
@@ -31,7 +32,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import MainFooter from '@/components/footer.vue';
 import MainBar from '@/components/Header.vue';
@@ -43,12 +44,15 @@ export default {
   },
   setup() {
     const store = useStore();
+    const activeIndex = ref(null);
 
     const isLoadingNews = computed(() => store.getters.isLoading('news'));
     const newsError = computed(() => store.getters.getError('news'));
-
     const articles = computed(() => store.getters.allNews || []);
-    console.log("Articles in NewsPage:", articles.value);
+
+    const toggleOverlay = (index) => {
+      activeIndex.value = activeIndex.value === index ? null : index;
+    };
 
     onMounted(() => {
       if (!articles.value.length) {
@@ -60,6 +64,8 @@ export default {
       isLoadingNews,
       newsError,
       articles,
+      activeIndex,
+      toggleOverlay,
     };
   },
 };
@@ -72,7 +78,7 @@ export default {
   align-items: center;
   background-color: #111;
   color: #fff;
-  background-image: url(@/assets/IMG/newsbackground6.jpg);
+  background-image: url(@/assets/IMG/backgrounds/newsbackground6.jpg);
   background-size: cover;
   height: 100%;
 }
@@ -98,28 +104,40 @@ export default {
 .big-news {
   grid-column: span 12;
   grid-row: span 5;
-  background-color: #222;
-  color: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.big-image {
   background-image: url('@/assets/IMG/destinygoty.webp');
+  height: 100%;
+  width: 100%;
+  background-size: cover; /* assicura che l'immagine copra l'intero contenitore */
+  background-position: center;
+  object-fit: cover; /* ridimensionamento dell'immagine */
+  overflow: hidden;
 }
 
-.big-news h2 {
-  color: rgb(255, 255, 255);
-  font-size: xx-large;
-  transition: 0.3s;
-  margin: 0;
+.big-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.big-news h3 {
-  margin-top: 0;
-}
-.big-news a {
+.big-news a:link,
+.big-news a:visited {
   color: #ffcc00;
-  font-weight: bold;
-  text-decoration: none;
 }
 
 .big-newscontent {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -128,13 +146,16 @@ export default {
   color: #ffffff;
   transition: opacity 0.3s;
   opacity: 0;
-  width: 100%;
   height: 100%;
   text-decoration: none;
 }
 
-.big-news:hover .big-newscontent {
-  opacity: 1; /* Cambia opacity dell'intero contenitore su hover di .big-news */
+.big-newscontent:hover {
+  opacity: 1;
+}
+
+.big-news.active .big-newscontent {
+  opacity: 1;
 }
 
 .news-item:nth-child(2) {
@@ -176,6 +197,7 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .news-image {
@@ -209,12 +231,15 @@ export default {
   opacity: 1;
 }
 
+.news-item.active .news-overlay {
+  opacity: 1;
+}
+
 .news-title {
   font-size: 1.5em;
   font-weight: bold;
   text-align: center;
   padding: 10px;
-  align-items: center;
 }
 
 .read-more {
@@ -231,11 +256,12 @@ export default {
   justify-content: center;
 }
 
+/* Stile per smartphone */
 @media (max-width: 768px) {
   .news-grid {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Spaziatura tra gli articoli */
+    gap: 15px;
   }
 
   .news-container {
@@ -243,11 +269,21 @@ export default {
   }
 
   .big-news {
-    order: -1; /* Mantiene il riquadro big-news come primo elemento */
+    order: -1;
     width: 100%;
-    height: 192px;
+    height: 30vh;
     margin-bottom: 20px;
     background-size: cover;
+  }
+
+  .big-newscontent {
+    font-size: 0.9em;
+    padding: 10px 0;
+  }
+
+  .big-newscontent h2 {
+    margin: 0;
+    font-size: 1em;
   }
 
   .news-item {
@@ -277,7 +313,7 @@ export default {
 /* Layout per smartphone molto piccoli (max-width: 480px) */
 @media (max-width: 480px) {
   .news-grid {
-    gap: 10px; /* Riduce la spaziatura per schermi più piccoli */
+    gap: 10px;
   }
 
   .big-news {
