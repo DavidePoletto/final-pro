@@ -62,7 +62,7 @@
     height: 30vw;
     overflow: visible;
     margin-left: auto;
-    margin-right: auto; /* Centratura orizzontale */
+    margin-right: auto;
   }
   
   .swiper-slide {
@@ -113,7 +113,6 @@
     }
   }
   
-  /* Media query per tablet */
   @media (max-width: 768px) {
     .swiper {
       width: 90vw;
@@ -128,7 +127,6 @@
     }
   }
   
-  /* Media query per smartphone */
   @media (max-width: 480px) {
     .swiper {
       width: 100%;

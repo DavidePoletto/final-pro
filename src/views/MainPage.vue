@@ -40,7 +40,6 @@ export default {
     const router = useRouter();
     const isMobile = ref(window.innerWidth <= 768);
 
-    // Rileva il ridimensionamento della finestra
     const handleResize = () => {
       isMobile.value = window.innerWidth <= 768;
     };
@@ -51,7 +50,6 @@ export default {
       window.addEventListener('resize', handleResize);
     });
 
-    // Rimuovi l'evento al momento dello smontaggio
     onBeforeUnmount(() => {
       window.removeEventListener('resize', handleResize);
     });
@@ -110,7 +108,7 @@ export default {
   background: linear-gradient(90deg, #ff4d00, #ffffff);
   background-clip: text;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; /* Testo sfumato */
+  -webkit-text-fill-color: transparent;
   font-weight: 700;
 }
 
@@ -142,19 +140,19 @@ export default {
   border: none;
   height: 35px;
   width: 110px;
-  background: linear-gradient(90deg, #f59904, #ff781e); /* Sfondo sfumato per pulsanti */
+  background: linear-gradient(90deg, #f59904, #ff781e);
   color: white;
   font-weight: bold;
   border-radius: 6px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   font-size: 0.9rem;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Ombra morbida */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .shop_button button:hover {
   transform: scale(1.08);
-  box-shadow: 0px 6px 15px rgba(255, 112, 175, 0.5), 0px 6px 15px rgba(255, 218, 68, 0.5); /* Effetto brillante */
+  box-shadow: 0px 6px 15px rgba(255, 112, 175, 0.5), 0px 6px 15px rgba(255, 218, 68, 0.5);
 }
 
 .shop_section {
@@ -187,12 +185,6 @@ export default {
     width: 100px;
     font-size: 0.8rem;
   }
-
-  .small_box_container {
-    height: 15vh;
-    column-gap: 2%;
-    justify-content: center;
-  }
 }
 
 @media (max-width: 768px) {
@@ -223,24 +215,8 @@ export default {
   }
 
   .shop_button {
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
     display: none;
-  }
-
-  .small_box_container {
-    height: auto;
-    flex-wrap: wrap;
-    row-gap: 10px;
-    column-gap: 5%;
-    justify-content: center;
-  }
-
-  .small_box {
-    width: 90px;
-    height: 90px;
-    margin: 5px;
   }
 }
 </style>
+

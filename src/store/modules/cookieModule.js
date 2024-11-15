@@ -1,4 +1,3 @@
-// store/modules/cookieModule.js
 import Cookies from 'js-cookie';
 
 export const state = {

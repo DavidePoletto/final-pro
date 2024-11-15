@@ -8,26 +8,35 @@
       </div>
       <div class="news_section">
         <div class="news_grid">
-          <div class="news_item one"></div>
-          <div class="news_item two"></div>
-          <div class="news_item three"></div>
-          <div class="news_item four"></div>
-          <div class="news_item five"></div>
-          <div class="news_item six"> </div>
-          <div class="news_item seven"></div>
-          <div class="news_item eight"></div>
-          <div class="news_item nine"></div>
+          <div
+            v-for="(event, index) in events"
+            :key="index"
+            class="news_item"
+            :style="{ backgroundImage: `url(${event.image})` }"
+            :class="event.class"
+          ></div>
         </div>
       </div>
     </div>
-    <MainFooter/>
+    <MainFooter />
   </div>
 </template>
 
 <script>
 import MainBar from '@/components/Header.vue';
 import SwiperComponent from '@/components/SwiperComponent.vue';
-import MainFooter from '@/components/footer.vue'
+import MainFooter from '@/components/footer.vue';
+
+// Import delle immagini
+import event1 from '@/assets/IMG/eventsIMG/event1.jpg';
+import event2 from '@/assets/IMG/eventsIMG/event2.jpg';
+import event3 from '@/assets/IMG/eventsIMG/event3.jpg';
+import event4 from '@/assets/IMG/eventsIMG/event4.jpg';
+import event5 from '@/assets/IMG/eventsIMG/event5.jpg';
+import event6 from '@/assets/IMG/eventsIMG/event6.jpg';
+import event7 from '@/assets/IMG/eventsIMG/event7.jpg';
+import event8 from '@/assets/IMG/eventsIMG/event8.jpg';
+import event9 from '@/assets/IMG/eventsIMG/event9.png';
 
 export default {
   components: {
@@ -35,8 +44,26 @@ export default {
     SwiperComponent,
     MainFooter,
   },
+  setup() {
+    const events = [
+      { image: event1, class: 'one' },
+      { image: event2, class: 'two' },
+      { image: event3, class: 'three' },
+      { image: event4, class: 'four' },
+      { image: event5, class: 'five' },
+      { image: event6, class: 'six' },
+      { image: event7, class: 'seven' },
+      { image: event8, class: 'eight' },
+      { image: event9, class: 'nine' },
+    ];
+
+    return {
+      events,
+    };
+  },
 };
 </script>
+
 
 <style scoped>
 .Events_page {
@@ -54,7 +81,6 @@ export default {
 }
 
 .title_box h1 {
-  display: flex;
   margin-left: 200px;
   color: #fff;
   font-weight: 500;
@@ -63,7 +89,6 @@ export default {
 .news_section {
   max-width: 1600px;
   width: 100%;
-  
   margin: 0 auto;
 }
 
@@ -71,95 +96,67 @@ export default {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-auto-rows: minmax(150px, auto);
-  grid-gap: 13px;
+  gap: 13px;
   margin-bottom: 50px;
 }
 
 .news_item {
-  background-color: #fff;
-  padding: 20px;
+  background-size: cover;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
-  color: #333;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: 0.2s ease-in-out;
+  transition: transform 0.2s, filter 0.2s;
 }
 
 .news_item:hover {
   filter: brightness(60%);
   transform: scale(1.03);
-
 }
 
-/* Dimensioni diverse per i box */
+/* Specifiche dimensioni dei box */
 .news_item.one {
-  background-image: url(../assets/IMG/eventsIMG/event1.jpg);
-  background-size: cover;
   grid-column: span 2;
   grid-row: span 3;
 }
 
 .news_item.two {
-  background-image: url(../assets/IMG/eventsIMG/event2.jpg);
-  background-position: center;
-  background-size: cover;
   grid-column: span 4;
   grid-row: span 2;
 }
 
 .news_item.three {
-  background-image: url(../assets/IMG/eventsIMG/event3.jpg);
-  background-position: center;
-  background-size: cover;
   grid-column: span 1;
   grid-row: span 2;
 }
 
 .news_item.four {
-  background-image: url(../assets/IMG/eventsIMG/event4.jpg);
-  background-position: center;
   grid-column: span 3;
   grid-row: span 4;
 }
 
 .news_item.five {
-  background-image: url(../assets/IMG/eventsIMG/event5.jpg);
-  background-position: center;
-  background-size: cover;
   grid-column: span 2;
   grid-row: span 1;
 }
 
 .news_item.six {
-  background-image: url(../assets/IMG/eventsIMG/event6.jpg);
-  background-position: center;
-  background-size: cover;
   grid-column: span 3;
   grid-row: span 2;
 }
 
 .news_item.seven {
-  background-image: url(../assets/IMG/eventsIMG/event7.jpg);
-  background-position: center;
-  background-size: cover;
   grid-column: span 6;
   grid-row: span 2;
 }
 
 .news_item.eight {
-  background-image: url(../assets/IMG/eventsIMG/event8.jpg);
-  background-position: center;
-  background-size: cover;
   grid-column: span 3;
   grid-row: span 1;
 }
 
 .news_item.nine {
-  background-image: url(../assets/IMG/eventsIMG/event9.png);
-  background-position: center;
-  background-size: cover;
   grid-column: span 3;
   grid-row: span 1;
 }
@@ -172,29 +169,25 @@ export default {
 
 @media (max-width: 768px) {
   .news_section {
-    max-width: 100%; /* Rendi la sezione piena larghezza su schermi piccoli */
+    max-width: 100%;
   }
   .title_box h1 {
     margin: 20px 0 0 0;
   }
-  .title_box {
-    margin: 20px 0 0px 0;
-  }
   .news_grid {
     display: flex;
     flex-direction: column;
+    gap: 10px;
     padding: 10px;
   }
   .news_item {
-  background-color: #fff;
-  padding: 150px;
-}
+    height: 150px;
+  }
 }
 
 @media (max-width: 480px) {
   .news_section {
-    max-width: 100%; /* Larghezza massima 100% su schermi piccoli */
-    padding: 0; /* Elimina il padding per occupare l'intera larghezza */
+    padding: 0;
   }
 }
 </style>

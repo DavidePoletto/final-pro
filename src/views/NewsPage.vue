@@ -7,20 +7,45 @@
         <p>Errore nel caricamento delle notizie: {{ newsError }}</p>
       </div>
       <div v-else class="news-grid">
-        <div class="big-news" @click="toggleOverlay(-1)" :class="{ active: activeIndex === -1 }">
+        <div
+          class="big-news"
+          @click="toggleOverlay(-1)"
+          :class="{ active: activeIndex === -1 }"
+        >
           <div class="big-image"></div>
           <div class="big-newscontent">
             <h2>Destiny 2: Un’Opera d’Arte senza Tempo, il Gioco Definitivo</h2>
-            <h3><em>Metacritic: “Non solo il miglior gioco mai creato, ma un capolavoro insuperabile che non potrà mai essere eguagliato.”</em></h3>
-            <p><a href="https://www.spaziogames.it/notizie/destiny-2-e-diventato-il-miglior-gioco-del-2024-su-metacritic">Scopri di più</a></p>
+            <h3>
+              <em
+                >Metacritic: “Non solo il miglior gioco mai creato, ma un
+                capolavoro insuperabile che non potrà mai essere
+                eguagliato.”</em
+              >
+            </h3>
+            <p>
+              <a
+                href="https://www.spaziogames.it/notizie/destiny-2-e-diventato-il-miglior-gioco-del-2024-su-metacritic"
+                target="_blank"
+              >
+                Scopri di più
+              </a>
+            </p>
           </div>
         </div>
 
-        <div v-for="(item, index) in articles" :key="index" class="news-item">
+        <div
+          v-for="(item, index) in articlesWithFallback"
+          :key="index"
+          class="news-item"
+        >
           <div class="news-image">
-            <img :src="item.image_url || 'placeholder.jpg'" alt="News Image" />
+            <img :src="item.image_url" alt="News Image" />
           </div>
-          <div class="news-overlay" @click="toggleOverlay(index)" :class="{ active: activeIndex === index }">
+          <div
+            class="news-overlay"
+            @click="toggleOverlay(index)"
+            :class="{ active: activeIndex === index }"
+          >
             <h2 class="news-title">{{ item.title }}</h2>
             <a :href="item.link" target="_blank" class="read-more">Scopri di più</a>
           </div>
@@ -32,10 +57,10 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue';
-import { useStore } from 'vuex';
-import MainFooter from '@/components/footer.vue';
-import MainBar from '@/components/Header.vue';
+import { computed, onMounted, ref } from "vue";
+import { useStore } from "vuex";
+import MainFooter from "@/components/footer.vue";
+import MainBar from "@/components/Header.vue";
 
 export default {
   components: {
@@ -46,9 +71,16 @@ export default {
     const store = useStore();
     const activeIndex = ref(null);
 
-    const isLoadingNews = computed(() => store.getters.isLoading('news'));
-    const newsError = computed(() => store.getters.getError('news'));
+    const isLoadingNews = computed(() => store.getters.isLoading("news"));
+    const newsError = computed(() => store.getters.getError("news"));
     const articles = computed(() => store.getters.allNews || []);
+
+    const articlesWithFallback = computed(() =>
+      articles.value.map((article) => ({
+        ...article,
+        image_url: article.image_url || "placeholder.jpg",
+      }))
+    );
 
     const toggleOverlay = (index) => {
       activeIndex.value = activeIndex.value === index ? null : index;
@@ -56,20 +88,21 @@ export default {
 
     onMounted(() => {
       if (!articles.value.length) {
-        store.dispatch('fetchNews');
+        store.dispatch("fetchNews");
       }
     });
 
     return {
       isLoadingNews,
       newsError,
-      articles,
+      articlesWithFallback,
       activeIndex,
       toggleOverlay,
     };
   },
 };
 </script>
+
 
 <style scoped>
 .news-page {
@@ -115,10 +148,9 @@ export default {
   background-image: url('@/assets/IMG/destinygoty.webp');
   height: 100%;
   width: 100%;
-  background-size: cover; /* assicura che l'immagine copra l'intero contenitore */
+  background-size: cover;
   background-position: center;
-  object-fit: cover; /* ridimensionamento dell'immagine */
-  overflow: hidden;
+  object-fit: cover;
 }
 
 .big-image img {
@@ -256,7 +288,6 @@ export default {
   justify-content: center;
 }
 
-/* Stile per smartphone */
 @media (max-width: 768px) {
   .news-grid {
     display: flex;
@@ -310,7 +341,6 @@ export default {
   }
 }
 
-/* Layout per smartphone molto piccoli (max-width: 480px) */
 @media (max-width: 480px) {
   .news-grid {
     gap: 10px;

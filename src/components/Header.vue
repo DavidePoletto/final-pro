@@ -13,7 +13,6 @@
     </header>
   </div>
   
-  <!-- Icona hamburger/chiusura visibile su smartphone -->
   <div class="header_smartphone" :class="{ 'scrolled': isScrolled }">
     <div class="hamburger_icon" @click="toggleMobileMenu">
       {{ isMobileMenuOpen ? '✕' : '☰' }}
@@ -28,7 +27,6 @@
       </div>
   </div>
 
-  <!-- Carrello visibile su desktop -->
   <div class="cart_container">
     <router-link to="/CartPage"><img class="cart" src="../assets/IMG/icons/cart.png" alt="icon"></router-link>
   </div>
@@ -106,7 +104,7 @@ export default {
 }
 
 .header_container.scrolled .main_bar {
-  background-color: transparent; /* Sfondo trasparente quando scorre */
+  background-color: transparent;
 }
 
 .logo_container {
@@ -202,7 +200,7 @@ export default {
 .cart_in_menu {
   width: 40px;
   margin-top: 20px;
-  display: none; /* Nascondi su desktop */
+  display: none;
 }
 
 @media (max-width: 768px) {

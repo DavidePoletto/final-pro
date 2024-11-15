@@ -2,7 +2,7 @@
   <div class="section_container">
     <h2>{{ title }}</h2>
     <div v-if="loading" class="loading-spinner-container">
-      <div class="loading-spinner"></div> <!-- Spinner di caricamento -->
+      <div class="loading-spinner"></div>
     </div>
     <div v-else class="game_list">
       <div
@@ -44,7 +44,7 @@ export default {
 
     const goToGameDetails = (gameId, price) => {
       if (!price) {
-        console.error("Prezzo non definito per il gioco con ID:", gameId);
+        console.error('Prezzo non definito per il gioco con ID:', gameId);
         return;
       }
       router.push({ path: `/shop/${gameId}`, query: { price } });
@@ -61,7 +61,7 @@ export default {
 .section_container {
   width: 100%;
   min-height: 600px;
-  margin-bottom: 100px
+  margin-bottom: 100px;
 }
 
 .section_container h2 {
@@ -155,14 +155,14 @@ export default {
 
 @media (max-width: 1024px) {
   .game_card {
-    width: calc(50% - 20px); /* Due giochi per riga */
+    width: calc(50% - 20px);
   }
 }
 
 @media (max-width: 768px) {
   .game_card {
     width: 100%;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6), 0 10px 30px rgba(0, 0, 0, 0.20);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6), 0 10px 30px rgba(0, 0, 0, 0.2);
   }
 
   .game_image {
@@ -170,10 +170,10 @@ export default {
   }
 
   .game_list {
-    margin: 0 30px 0 30px ;
+    margin: 0 30px;
     padding: 20px;
-    max-height: 500px; /* Altezza fissa per la lista */
-    overflow-y: auto; /* Abilita lo scroll verticale */
+    max-height: 500px;
+    overflow-y: auto;
     background-color: rgb(122, 6, 6);
     border-radius: 20px;
   }

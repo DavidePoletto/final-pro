@@ -45,14 +45,12 @@ export default {
     ParallaxBackground,
   },
   setup() {
-    const router = useRouter();
     const store = useStore();
+    const router = useRouter();
 
-    // Ottieni gli elementi del carrello da Vuex
     const cartItems = computed(() => store.getters.cartItems);
 
-    // Calcola il totale del carrello
-    const subtotal = computed(() =>
+    const subtotal = computed(() => 
       cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0)
     );
 
@@ -61,15 +59,11 @@ export default {
     };
 
     const decreaseQuantity = (item) => {
-      if (item.quantity > 1) {
-        store.commit('removeFromCart', item.id);
-      } else {
-        store.commit('removeItem', item.id); // Rimuove l'elemento se la quantità è 1
-      }
+      store.commit(item.quantity > 1 ? 'removeFromCart' : 'removeItem', item.id);
     };
 
     const goToCheckout = () => {
-      router.push({ name: 'Checkout' }); // Assicurati che la rotta "Checkout" sia correttamente configurata nel router
+      router.push({ name: 'Checkout' });
     };
 
     return {
@@ -160,7 +154,7 @@ export default {
   gap: 10px;
 }
 
-.item-quantity button {
+button {
   padding: 5px 10px;
   font-size: 0.8rem;
   color: white;
@@ -168,9 +162,10 @@ export default {
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.item-quantity button:hover {
+button:hover {
   background-color: #777;
 }
 
@@ -200,7 +195,7 @@ export default {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
   margin-top: 10px;
 }
 
@@ -228,3 +223,4 @@ h2 {
   }
 }
 </style>
+

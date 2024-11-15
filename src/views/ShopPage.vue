@@ -41,15 +41,12 @@ export default {
 
     const generateRandomPrice = () => (Math.random() * (40 - 5) + 5).toFixed(2);
 
-    const mapGamesWithPrice = (games) => {
-      return (games || []).map((game) => {
+    const mapGamesWithPrice = (games) =>
+      (games || []).map((game) => {
         const price = store.getters.getGamePrice(game.id) || generateRandomPrice();
-        if (!store.getters.getGamePrice(game.id)) {
-          store.commit('setGamePrice', { gameId: game.id, price });
-        }
+        store.commit('setGamePrice', { gameId: game.id, price });
         return { ...game, price };
       });
-    };
 
     const gamesWithPrices = computed(() => ({
       trending: mapGamesWithPrice(store.getters.trendingGames),
@@ -60,7 +57,9 @@ export default {
       multiplayer: mapGamesWithPrice(store.getters.multiplayerGames),
     }));
 
-    const loading = computed(() => !Object.values(gamesWithPrices.value).some(games => games.length));
+    const loading = computed(() =>
+      !Object.values(gamesWithPrices.value).some((games) => games.length)
+    );
 
     const categoryTitles = {
       trending: 'TENDENZA',
@@ -72,27 +71,18 @@ export default {
     };
 
     const scrollToCategory = () => {
-      const category = window.location.hash.substring(1); // Rimuove il simbolo #
-      if (category) {
-        const section = document.getElementById(category);
-        if (section) {
-          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+      const category = window.location.hash.substring(1);
+      const section = document.getElementById(category);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     };
 
     onMounted(() => {
-      store.dispatch('fetchShopGames').then(() => {
-        scrollToCategory(); // Scrolla alla sezione dopo il caricamento
-      });
+      store.dispatch('fetchShopGames').then(scrollToCategory);
     });
 
-    watch(
-      () => route.hash,
-      () => {
-        scrollToCategory(); // Scrolla alla sezione ogni volta che cambia l'hash
-      }
-    );
+    watch(() => route.hash, scrollToCategory);
 
     return {
       loading,
@@ -103,7 +93,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .Shop_page {
   display: flex;
   flex-direction: column;
@@ -141,8 +131,9 @@ export default {
 
   .Shop_page {
     background-image: url(../assets/IMG/underground.jpg);
-    background-color:#9a1d34;
+    background-color: #9a1d34;
     background-size: cover;
   }
 }
 </style>
+

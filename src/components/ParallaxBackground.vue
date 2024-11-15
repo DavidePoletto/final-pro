@@ -87,31 +87,28 @@ export default {
     const movementStrength = 15;
     let offsetX, offsetY;
 
-    // Imposta direzioni diverse per ciascuna box
     switch (index % 4) {
-      case 0: // Prima box: verso l'alto a destra
+      case 0:
         offsetX = (event.clientX / window.innerWidth - 0.5) * movementStrength;
         offsetY = (event.clientY / window.innerHeight - 0.5) * -movementStrength;
         break;
-      case 1: // Seconda box: verso il basso a sinistra
+      case 1:
         offsetX = (event.clientX / window.innerWidth - 0.5) * -movementStrength;
         offsetY = (event.clientY / window.innerHeight - 0.5) * movementStrength;
         break;
-      case 2: // Terza box: verso l'alto a sinistra
+      case 2:
         offsetX = (event.clientX / window.innerWidth - 0.5) * -movementStrength;
         offsetY = (event.clientY / window.innerHeight - 0.5) * -movementStrength;
         break;
-      case 3: // Quarta box: verso il basso a destra
+      case 3:
         offsetX = (event.clientX / window.innerWidth - 0.5) * movementStrength;
         offsetY = (event.clientY / window.innerHeight - 0.5) * movementStrength;
         break;
     }
 
-    // Applica la trasformazione alla box
     box.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
   });
 };
-
 
     onMounted(() => {
       document.addEventListener('mousemove', parallax);
@@ -131,7 +128,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .parallax_wrap {
@@ -178,9 +174,9 @@ export default {
 .big_box:hover {
   transform: translate(-50%, -50%) scale(1.05);
   box-shadow: 
-    0 8px 16px rgba(0, 0, 0, 0.4),  /* Ombra più grande durante l'hover */
+    0 8px 16px rgba(0, 0, 0, 0.4),
     0 16px 32px rgba(0, 0, 0, 0.3), 
-    0 24px 48px rgba(0, 0, 0, 0.2); /* Effetto più profondo e diffuso */
+    0 24px 48px rgba(0, 0, 0, 0.2);
 }
 
 .second_bg {
@@ -258,7 +254,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2); /* Scurisci l'immagine con il colore nero trasparente */
+  background-color: rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -299,8 +295,8 @@ export default {
   left: 50%;
   text-align: center;
   z-index: 2;
-  opacity: 0; /* Nascondi il testo inizialmente */
-  transition: opacity 0.3s ease; /* Transizione per un effetto di fade-in */
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .small_box:hover h3 {
@@ -333,13 +329,12 @@ export default {
   }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
   .meteor {
     left: -250px;
     width: 250%;
-    height: 83%; /* Aggiunta l'altezza al 100% per coprire l'intero viewport */
-    object-fit: contain; /* Mostra l'immagine completa senza tagliarla */
+    height: 83%; 
+    object-fit: contain;
     z-index: 10;
     animation: continuousMovement 8s infinite ease-in-out;
   }
@@ -358,5 +353,4 @@ export default {
   display: none;
 }
 }
-
 </style>

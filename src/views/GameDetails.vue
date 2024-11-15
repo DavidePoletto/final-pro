@@ -1,73 +1,57 @@
 <template>
   <div class="page">
     <MainBar />
-    <div v-if="loading" class="loading-container"><p>Caricamento in corso...</p></div>
+    <div v-if="loading" class="loading-container">
+      <p>Caricamento in corso...</p>
+    </div>
 
     <div v-if="gameDetails">
       <div
-        :class="['game_details_container', { 'default-bg': !gameDetails.background_image_additional && !gameDetails.background_image }]"
-        :style="{
-          backgroundImage: gameDetails.background_image_additional
-            ? `url(${gameDetails.background_image_additional})`
-            : gameDetails.background_image
-            ? `url(${gameDetails.background_image})`
-            : 'none',
-        }"
+        :class="['game_details_container', { 'default-bg': !backgroundImage }]"
+        :style="{ backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none' }"
       >
-      
         <div class="content_overlay">
           <h2 class="game_title">{{ gameDetails.name }}</h2>
           <p class="game_producer">{{ producer }}</p>
           <p class="game_platforms">{{ availablePlatforms }}</p>
           <div class="game_rating">
-          <span v-if="gameDetails.rating !== undefined">{{ gameDetails.rating.toFixed(1) }}</span>
-          <span v-else>N/A</span>
-          <span v-html="generateStars(gameDetails.rating || 0)"></span>
-          <span>({{ gameDetails.ratings_count || 0 }} voti)</span>
-        </div>
+            <span>{{ gameDetails.rating?.toFixed(1) || 'N/A' }}</span>
+            <span v-html="generateStars(gameDetails.rating || 0)"></span>
+            <span>({{ gameDetails.ratings_count || 0 }} voti)</span>
+          </div>
           <p class="price">€{{ price }}</p>
-          <button @click="addToCart" :class="{ 'added': addedToCart }"> {{ addedToCart ? 'Aggiunto al carrello' : 'Aggiungi al carrello' }}</button>
+          <button @click="addToCart" :class="{ 'added': addedToCart }">
+            {{ addedToCart ? 'Aggiunto al carrello' : 'Aggiungi al carrello' }}
+          </button>
         </div>
       </div>
-        
+
       <div class="additional_info">
         <div class="info_box">
           <p class="game_description">{{ gameDetails.description_raw }}</p>
         </div>
-
-        <GameScreenshots v-if="gameDetails.screenshots && gameDetails.screenshots.length" :screenshots="gameDetails.screenshots" />
-
-        <div class="user_ratings" v-if="gameDetails.ratings && gameDetails.ratings.length">
-        <div class="star_value">
+        <GameScreenshots v-if="gameDetails.screenshots?.length" :screenshots="gameDetails.screenshots" />
+        <div class="user_ratings" v-if="gameDetails.ratings?.length">
           <h3>Valutazioni degli utenti</h3>
-          <div class="star">
-            <span>{{ gameDetails.rating ? gameDetails.rating.toFixed(1) : 'N/A' }}</span>
-            <span v-html="generateStars(gameDetails.rating || 0)"></span>
-            <span>({{ gameDetails.ratings_count || 0 }} voti)</span>
-          </div>
+          <ul>
+            <li v-for="rating in gameDetails.ratings" :key="rating.id" class="rating_item">
+              <div class="rating_text">
+                {{ getStarRating(rating.title) }}: {{ rating.count }} voti ({{ rating.percent }}%)
+              </div>
+              <div class="progress_bar_container">
+                <div class="progress_bar" :style="{ width: rating.percent + '%' }"></div>
+              </div>
+            </li>
+          </ul>
         </div>
-        <ul>
-          <li v-for="rating in gameDetails.ratings" :key="rating.id" class="rating_item">
-            <div class="rating_text">
-              {{ getStarRating(rating.title) }}: {{ rating.count }} voti ({{ rating.percent }}%)
-            </div>
-            <div class="progress_bar_container">
-              <div class="progress_bar" :style="{ width: rating.percent + '%' }"></div>
-            </div>
-          </li>
-        </ul>
-      </div>
-
         <div class="system_requirements" v-if="pcRequirements">
           <h3>Requisiti di Sistema</h3>
           <p v-html="pcRequirements"></p>
         </div>
       </div>
     </div>
-    
-    <div v-else>
-      Caricamento fallito o gioco non trovato.
-    </div>
+
+    <div v-else>Caricamento fallito o gioco non trovato.</div>
 
     <MainFooter />
   </div>
@@ -92,46 +76,43 @@ export default {
     const store = useStore();
     const gameId = route.params.gameId;
     const loading = ref(true);
+    const addedToCart = ref(false);
+
     const gameDetails = computed(() => store.getters.getCachedGameDetails(gameId));
     const price = computed(() => store.getters.getGamePrice(gameId) || route.query.price);
-    const addedToCart = ref(false);
+    const backgroundImage = computed(() =>
+      gameDetails.value?.background_image_additional || gameDetails.value?.background_image
+    );
 
     const fetchGameDetails = async () => {
       loading.value = true;
-      if (!gameDetails.value) {
-        await store.dispatch('fetchGameDetails', gameId);
-      }
+      if (!gameDetails.value) await store.dispatch('fetchGameDetails', gameId);
       loading.value = false;
     };
 
-    onMounted(fetchGameDetails);
-
-    const availablePlatforms = computed(() => {
-      return gameDetails.value?.parent_platforms
+    const availablePlatforms = computed(() =>
+      gameDetails.value?.parent_platforms
         ? gameDetails.value.parent_platforms.map(platform => platform.platform.name).join(', ')
+        : 'N/A'
+    );
+
+    const pcRequirements = computed(() => {
+      const pcPlatform = gameDetails.value?.platforms?.find(platform => platform.platform.slug === 'pc');
+      return pcPlatform?.requirements?.minimum
+        ? pcPlatform.requirements.minimum.replace(/\n/g, '<br />')
         : 'N/A';
     });
 
-    const pcRequirements = computed(() => {
-  if (!gameDetails.value?.platforms || !Array.isArray(gameDetails.value.platforms)) {
-    return 'N/A';
-  }
-  const pcPlatform = gameDetails.value.platforms.find(
-    platform => platform.platform.slug === 'pc'
-  );
-  return pcPlatform?.requirements?.minimum
-    ? pcPlatform.requirements.minimum.replace(/\n/g, '<br />')
-    : 'N/A';
-});
-
-    const producer = computed(() => gameDetails.value?.developers?.map(dev => dev.name).join(', ') || 'Sconosciuto');
+    const producer = computed(() =>
+      gameDetails.value?.developers?.map(dev => dev.name).join(', ') || 'Sconosciuto'
+    );
 
     const getStarRating = (title) => {
       const ratingMap = {
-        exceptional: "5 stelle",
-        recommended: "4 stelle",
-        meh: "3 stelle",
-        skip: "1-2 stelle",
+        exceptional: '5 stelle',
+        recommended: '4 stelle',
+        meh: '3 stelle',
+        skip: '1-2 stelle',
       };
       return ratingMap[title] || title;
     };
@@ -140,12 +121,7 @@ export default {
       const fullStars = Math.floor(rating);
       const halfStar = rating % 1 >= 0.5 ? 1 : 0;
       const emptyStars = 5 - fullStars - halfStar;
-
-      return (
-        '★'.repeat(fullStars) +
-        (halfStar ? '½' : '') +
-        '☆'.repeat(emptyStars)
-      );
+      return '★'.repeat(fullStars) + (halfStar ? '½' : '') + '☆'.repeat(emptyStars);
     };
 
     const addToCart = () => {
@@ -155,13 +131,11 @@ export default {
         price: parseFloat(price.value),
         image: gameDetails.value.background_image,
       });
-
       addedToCart.value = true;
-      
-      setTimeout(() => {
-        addedToCart.value = false;
-      }, 2000);
-};
+      setTimeout(() => (addedToCart.value = false), 2000);
+    };
+
+    onMounted(fetchGameDetails);
 
     return {
       gameDetails,
@@ -174,6 +148,7 @@ export default {
       getStarRating,
       generateStars,
       addedToCart,
+      backgroundImage,
     };
   },
 };
@@ -194,7 +169,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Altezza dell'intera viewport */
+  height: 100vh;
   color: #fff;
   font-size: 1.5rem;
   background-color: #333;
@@ -268,8 +243,8 @@ button {
 }
 
 button.added {
-  background-color: #4CAF50; /* Colore verde per indicare aggiunta al carrello */
-  transform: scale(1.05); /* Leggero ingrandimento per enfatizzare */
+  background-color: #4CAF50;
+  transform: scale(1.05);
 }
 
 .additional_info {
@@ -332,7 +307,6 @@ button.added {
   background-color: #db7d12;
   transition: width 0.3s ease;
 }
-
 
 .system_requirements {
   width: 100%;
@@ -410,7 +384,6 @@ button.added {
   }
 }
 
-/* Media query per smartphone */
 @media (max-width: 480px) {
   .content_overlay {
     padding: 10px;

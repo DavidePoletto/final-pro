@@ -3,7 +3,7 @@ import cookieModule from './modules/cookieModule';
 
 export default createStore({
   modules: {
-    cookieModule, // Aggiungi il modulo cookie
+    cookieModule,
   },
   state: {
     games: {
@@ -15,7 +15,7 @@ export default createStore({
       multiplayer: [],
     },
     gameDetailsCache: {},
-    gamePrices: {}, // Stato per memorizzare i prezzi dei giochi
+    gamePrices: {},
     news: [],
     newsLoaded: false,
     cartItems: [],
@@ -33,16 +33,16 @@ export default createStore({
       state.games[category] = games;
     },
     setNews(state, news) {
-      console.log("Committing news to state:", news); // Debug: verifica il commit
-      state.news = news || []; // Imposta un array vuoto come fallback
+      console.log("Committing news to state:", news);
+      state.news = news || [];
       state.newsLoaded = true;
     },
     addToCart(state, game) {
       const existingItem = state.cartItems.find((item) => item.id === game.id);
       if (existingItem) {
-        existingItem.quantity += 1; // Aumenta la quantità se il gioco è già nel carrello
+        existingItem.quantity += 1;
       } else {
-        state.cartItems.push({ ...game, quantity: 1 }); // Aggiunge il gioco al carrello
+        state.cartItems.push({ ...game, quantity: 1 });
       }
     },
 
@@ -54,7 +54,7 @@ export default createStore({
     },
 
     clearCart(state) {
-      state.cartItems = []; // svuota il carrello
+      state.cartItems = [];
     },
     
     removeItem(state, gameId) {
@@ -99,7 +99,7 @@ export default createStore({
       commit('setLoading', { key: 'news', value: true });
       commit('setError', { key: 'news', error: null });
       try {
-        const response = await fetch('https://server-node-lcxi.onrender.com/api/news/gaming?page_size=14'); // Richiedi tutte le notizie in una sola chiamata
+        const response = await fetch('https://server-node-lcxi.onrender.com/api/news/gaming?page_size=14');
         const data = await response.json();
         console.log("Data from API:", data);
         commit('setNews', data.articles);
@@ -112,7 +112,6 @@ export default createStore({
     },
       async fetchGameDetails({ state, commit }, gameId) {
         if (state.gameDetailsCache[gameId]) {
-          // Gioco già in cache, ritorna subito senza chiamare l'API
           return state.gameDetailsCache[gameId];
         }
     
@@ -120,7 +119,7 @@ export default createStore({
           const response = await fetch(`https://server-node-lcxi.onrender.com/api/shop/games/${gameId}`);
           const data = await response.json();
           commit('setGameDetails', { gameId, details: data });
-          return data; // Ritorna i dettagli ottenuti
+          return data;
         } catch (error) {
           console.error('Errore nel caricamento dei dettagli del gioco:', error.message);
           throw error;

@@ -77,7 +77,6 @@ export default {
   height: 100%;
 }
 
-/* Stile per smartphone */
 @media (max-width: 768px) {
   .swiper {
     height: 60vw;
