@@ -69,8 +69,7 @@ export default {
     };
 
     const goToCheckout = () => {
-    store.commit('clearCart'); // Se vuoi svuotare il carrello dopo l'acquisto
-    router.push({ name: 'Checkout' });
+      router.push({ name: 'Checkout' }); // Assicurati che la rotta "Checkout" sia correttamente configurata nel router
     };
 
     return {

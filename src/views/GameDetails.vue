@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <MainBar />
+    <div v-if="loading" class="loading-container"><p>Caricamento in corso...</p></div>
 
     <div v-if="gameDetails">
       <div
@@ -19,12 +20,13 @@
           <p class="game_producer">{{ producer }}</p>
           <p class="game_platforms">{{ availablePlatforms }}</p>
           <div class="game_rating">
-            <span>{{ gameDetails.rating.toFixed(1) }}</span>
-            <span v-html="generateStars(gameDetails.rating)"></span>
-            <span>({{ gameDetails.ratings_count }} voti)</span>
-          </div>
+          <span v-if="gameDetails.rating !== undefined">{{ gameDetails.rating.toFixed(1) }}</span>
+          <span v-else>N/A</span>
+          <span v-html="generateStars(gameDetails.rating || 0)"></span>
+          <span>({{ gameDetails.ratings_count || 0 }} voti)</span>
+        </div>
           <p class="price">€{{ price }}</p>
-          <button @click="addToCart">Aggiungi al carrello</button>
+          <button @click="addToCart" :class="{ 'added': addedToCart }"> {{ addedToCart ? 'Aggiunto al carrello' : 'Aggiungi al carrello' }}</button>
         </div>
       </div>
         
@@ -35,16 +37,16 @@
 
         <GameScreenshots v-if="gameDetails.screenshots && gameDetails.screenshots.length" :screenshots="gameDetails.screenshots" />
 
-        <div class="user_ratings" v-if="gameDetails.ratings.length">
-          <div class="star_value">
-            <h3>Valutazioni degli utenti</h3>
-            <div class="star">
-              <span>{{ gameDetails.rating.toFixed(1) }}</span>
-              <span v-html="generateStars(gameDetails.rating)"></span>
-              <span>({{ gameDetails.ratings_count }} voti)</span>
-            </div>
+        <div class="user_ratings" v-if="gameDetails.ratings && gameDetails.ratings.length">
+        <div class="star_value">
+          <h3>Valutazioni degli utenti</h3>
+          <div class="star">
+            <span>{{ gameDetails.rating ? gameDetails.rating.toFixed(1) : 'N/A' }}</span>
+            <span v-html="generateStars(gameDetails.rating || 0)"></span>
+            <span>({{ gameDetails.ratings_count || 0 }} voti)</span>
           </div>
-          <ul>
+        </div>
+        <ul>
           <li v-for="rating in gameDetails.ratings" :key="rating.id" class="rating_item">
             <div class="rating_text">
               {{ getStarRating(rating.title) }}: {{ rating.count }} voti ({{ rating.percent }}%)
@@ -54,7 +56,7 @@
             </div>
           </li>
         </ul>
-        </div>
+      </div>
 
         <div class="system_requirements" v-if="pcRequirements">
           <h3>Requisiti di Sistema</h3>
@@ -92,8 +94,10 @@ export default {
     const loading = ref(true);
     const gameDetails = computed(() => store.getters.getCachedGameDetails(gameId));
     const price = computed(() => store.getters.getGamePrice(gameId) || route.query.price);
+    const addedToCart = ref(false);
 
     const fetchGameDetails = async () => {
+      loading.value = true;
       if (!gameDetails.value) {
         await store.dispatch('fetchGameDetails', gameId);
       }
@@ -109,13 +113,16 @@ export default {
     });
 
     const pcRequirements = computed(() => {
-      const pcPlatform = gameDetails.value?.platforms.find(
-        platform => platform.platform.slug === 'pc'
-      );
-      return pcPlatform?.requirements?.minimum
-        ? pcPlatform.requirements.minimum.replace(/\n/g, '<br />')
-        : 'N/A';
-    });
+  if (!gameDetails.value?.platforms || !Array.isArray(gameDetails.value.platforms)) {
+    return 'N/A';
+  }
+  const pcPlatform = gameDetails.value.platforms.find(
+    platform => platform.platform.slug === 'pc'
+  );
+  return pcPlatform?.requirements?.minimum
+    ? pcPlatform.requirements.minimum.replace(/\n/g, '<br />')
+    : 'N/A';
+});
 
     const producer = computed(() => gameDetails.value?.developers?.map(dev => dev.name).join(', ') || 'Sconosciuto');
 
@@ -142,24 +149,18 @@ export default {
     };
 
     const addToCart = () => {
-  store.commit('addToCart', {
-    id: gameDetails.value.id,
-    name: gameDetails.value.name,
-    price: parseFloat(price.value),
-    image: gameDetails.value.background_image,
-  });
-  showNotification(`${gameDetails.value.name} è stato aggiunto al carrello!`);
-};
+      store.commit('addToCart', {
+        id: gameDetails.value.id,
+        name: gameDetails.value.name,
+        price: parseFloat(price.value),
+        image: gameDetails.value.background_image,
+      });
 
-const showNotification = (message) => {
-  const notification = document.createElement('div');
-  notification.className = 'notification';
-  notification.innerText = message;
-  document.body.appendChild(notification);
-
-  setTimeout(() => {
-    notification.remove();
-  }, 3000);
+      addedToCart.value = true;
+      
+      setTimeout(() => {
+        addedToCart.value = false;
+      }, 2000);
 };
 
     return {
@@ -172,6 +173,7 @@ const showNotification = (message) => {
       producer,
       getStarRating,
       generateStars,
+      addedToCart,
     };
   },
 };
@@ -181,15 +183,25 @@ const showNotification = (message) => {
 .page {
   display: flex;
   flex-direction: column;
-  background-color: #000000;
+  background-color: #333;
   color: #fff;
+  min-height: 100vh;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
 }
 
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Altezza dell'intera viewport */
+  color: #fff;
+  font-size: 1.5rem;
+  background-color: #333;
+}
+
 .game_details_container {
   width: 100%;
-  min-height: 100vh;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -197,10 +209,13 @@ const showNotification = (message) => {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: 100vh;
+  background-color: #333;
 }
 
 .default-bg {
-  background-color: #423e3e;
+  background-color: #333;
+  min-height: 100vh;
 }
 
 .content_overlay {
@@ -249,15 +264,16 @@ button {
   border-radius: 5px;
   cursor: pointer;
   margin-bottom: 30px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-button:hover {
-  background-color: #c56b10;
+button.added {
+  background-color: #4CAF50; /* Colore verde per indicare aggiunta al carrello */
+  transform: scale(1.05); /* Leggero ingrandimento per enfatizzare */
 }
 
 .additional_info {
-  padding: 20px;
-  background-color: #000000;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -266,7 +282,6 @@ button:hover {
 
 .info_box {
   padding: 30px;
-  background-color: #000000;
   margin-top: 50px;
   max-width: 1300px;
   display: flex;
@@ -279,7 +294,7 @@ button:hover {
 
 .user_ratings {
   width: 60%;
-  background-color: #000000;
+  background-color: #3a3a3a;
   padding: 30px;
   margin-top: 100px;
 }
@@ -338,7 +353,7 @@ button:hover {
   line-height: 1.5;
   white-space: pre-line;
   padding: 10px;
-  background-color: #222;
+  background-color: #333;
   border-radius: 5px;
 }
 
@@ -358,5 +373,76 @@ button:hover {
   0% { opacity: 0; transform: translateY(10px); }
   10%, 90% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(10px); }
+}
+
+@media (max-width: 768px) {
+  .content_overlay {
+    max-width: 100%;
+    margin-left: 0;
+    padding: 15px;
+  }
+
+  .info_box {
+    margin: 0;
+  }
+
+  .game_title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .price {
+    font-size: 1.3rem;
+  }
+
+  .user_ratings, .system_requirements {
+    width: 80%;
+    margin-top: 60px;
+  }
+
+  .notification {
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .game_description {
+    font-size: 0.9em;
+  }
+}
+
+/* Media query per smartphone */
+@media (max-width: 480px) {
+  .content_overlay {
+    padding: 10px;
+    max-width: 100%;
+    margin: 0;
+    text-align: center;
+  }
+
+  .game_title {
+    font-size: 1.8rem;
+  }
+
+  .price {
+    font-size: 1.2rem;
+  }
+
+  .game_rating {
+    font-size: 1.2rem;
+  }
+
+  .system_requirements h3 {
+    font-size: 1rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 8px 15px;
+  }
+
+  .notification {
+    bottom: 10px;
+    right: 10px;
+  }
 }
 </style>

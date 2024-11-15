@@ -1,6 +1,10 @@
 import { createStore } from 'vuex';
+import cookieModule from './modules/cookieModule';
 
 export default createStore({
+  modules: {
+    cookieModule, // Aggiungi il modulo cookie
+  },
   state: {
     games: {
       trending: [],

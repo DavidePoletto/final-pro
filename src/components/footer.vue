@@ -7,9 +7,9 @@
           <h3>Quick Links</h3>
           <ul>
             <li><router-link to="/">Home</router-link></li>
-            <li><router-link to="/shop">Shop</router-link></li>
-            <li><router-link to="/news">News</router-link></li>
-            <li><router-link to="/events">Eventi</router-link></li>
+            <li><router-link to="/ShopPage">Shop</router-link></li>
+            <li><router-link to="/NewsPage">News</router-link></li>
+            <li><router-link to="/EventsPage">Eventi</router-link></li>
           </ul>
         </div>
         
@@ -30,6 +30,8 @@
   </template>
   
   <script>
+  import '@fortawesome/fontawesome-free/css/all.min.css';
+  
   export default {
     name: 'MainFooter',
   };

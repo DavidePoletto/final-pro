@@ -34,7 +34,7 @@
             modules: [Navigation, Pagination, Autoplay],
             loop: true,
             slidesPerView: 'auto',
-            spaceBetween: -70,
+            spaceBetween: 20,
             centeredSlides: true,
             autoplay: {
               delay: 3000,
@@ -61,6 +61,8 @@
     width: 70vw;
     height: 30vw;
     overflow: visible;
+    margin-left: auto;
+    margin-right: auto; /* Centratura orizzontale */
   }
   
   .swiper-slide {
@@ -75,6 +77,7 @@
     transition: transform 0.3s ease;
     margin: 0;
     padding: 0;
+    box-shadow: 10px 4px 20px rgba(0, 0, 0, 0.9);
   }
   
   .swiper-slide-active {
@@ -102,6 +105,41 @@
     object-fit: cover;
     width: 100%;
     height: 100%;
+  }
+
+  @media (max-width: 1024px) {
+    .swiper {
+      overflow: hidden;
+    }
+  }
+  
+  /* Media query per tablet */
+  @media (max-width: 768px) {
+    .swiper {
+      width: 90vw;
+      height: 40vw;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+    }
+  
+    .swiper-slide {
+      width: 100%;
+    }
+  }
+  
+  /* Media query per smartphone */
+  @media (max-width: 480px) {
+    .swiper {
+      width: 100%;
+      height: auto;
+      overflow: hidden;
+      margin: 0;
+    }
+  
+    .swiper-pagination {
+      bottom: 0px;
+    }
   }
   </style>
   

@@ -161,12 +161,30 @@ export default {
 
 @media (max-width: 768px) {
   .game_card {
-    width: 100%; /* Un gioco per riga */
+    width: 100%;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6), 0 10px 30px rgba(0, 0, 0, 0.20);
+  }
+
+  .game_image {
+    height: 20vh;
+  }
+
+  .game_list {
+    margin: 0 30px 0 30px ;
+    padding: 20px;
+    max-height: 500px; /* Altezza fissa per la lista */
+    overflow-y: auto; /* Abilita lo scroll verticale */
+    background-color: rgb(122, 6, 6);
+    border-radius: 20px;
+  }
+
+  .section_container {
+    margin-bottom: 50px;
   }
 
   .section_container h2 {
     text-align: center;
-    margin: 0;
+    margin: 0 0 20px 0;
   }
 }
 </style>

@@ -108,7 +108,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #2f2c2c;
+  background-color: #333;
   color: #fff;
   min-height: 100vh;
 }
@@ -128,6 +128,12 @@ export default {
   border-radius: 12px;
 }
 
+@media (max-width: 1024px) {
+  .big_container {
+    padding: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .big_container {
     padding: 0;
@@ -137,7 +143,6 @@ export default {
     background-image: url(../assets/IMG/underground.jpg);
     background-color:#9a1d34;
     background-size: cover;
-
   }
 }
 </style>
