@@ -1,11 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MainPage from '@/views/MainPage.vue'
 import ShopPage from '@/views/ShopPage.vue'
-import NewsPage from '@/views/Newspage.vue'
+import NewsPage from '@/views/NewsPage.vue'
 import EventsPage from '@/views/EventsPage.vue'
 import CartPage from '@/views/CartPage.vue'
 import GameDetails from '@/views/GameDetails.vue';
-import store from '@/store';
 import CheckoutPage from '@/views/CheckoutPage.vue';
 
 const routes = [
