@@ -1,6 +1,6 @@
 <template>
   <div class="logo_container">
-    <img class="logo" src="../assets/IMG/icons/GAmeverse1.png" alt="logo">
+    <img class="logo" src="../assets/IMG/icons/GAmeverse1.webp" alt="logo">
   </div>
   <div class="header_container" :class="{ 'scrolled': isScrolled }">
     <header class="main_bar">
@@ -22,13 +22,13 @@
         <div><router-link to="/NewsPage" @click="closeMobileMenu">NEWS</router-link></div>
         <div><router-link to="/EventsPage" @click="closeMobileMenu">EVENTI</router-link></div>
         <router-link to="/CartPage" @click="closeMobileMenu">
-          <img class="cart_in_menu" src="../assets/IMG/icons/cart.png" alt="cart icon">
+          <img class="cart_in_menu" src="../assets/IMG/icons/cart.webp" alt="cart icon">
         </router-link>
       </div>
   </div>
 
   <div class="cart_container">
-    <router-link to="/CartPage"><img class="cart" src="../assets/IMG/icons/cart.png" alt="icon"></router-link>
+    <router-link to="/CartPage"><img class="cart" src="../assets/IMG/icons/cart.webp" alt="icon"></router-link>
   </div>
 </template>
 

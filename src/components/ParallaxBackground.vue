@@ -1,13 +1,13 @@
 <template>
   <div ref="parallaxWrap" class="parallax_wrap" @mousemove="handleMouseMove">
-    <img class="first_bg" src="../assets/IMG/backgrounds/sfondo1.png" alt="background" />
+    <img class="first_bg" src="../assets/IMG/backgrounds/sfondo1.webp" alt="background" />
     
     <div v-show="showBigBox" class="big_box">
       <GameSwiper />
     </div>
     
-    <img class="second_bg" src="../assets/IMG/backgrounds/sfondo2.png" alt="background2" />
-    <img class="meteor" src="../assets/IMG/backgrounds/sfondo3.png" alt="background3" />
+    <img class="second_bg" src="../assets/IMG/backgrounds/sfondo2.webp" alt="background2" />
+    <img class="meteor" src="../assets/IMG/backgrounds/sfondo3.webp" alt="background3" />
     <div class="rocket"></div>
 
     <!-- Small boxes for mouse-following effect -->
@@ -25,11 +25,11 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import GameSwiper from './GameSwiper.vue';
 import { useRouter } from 'vue-router';
-import gta6Cover from '@/assets/IMG/games/gta6.jpg';
-import persona5Cover from '@/assets/IMG/games/persona5.jpg';
-import cyberpunkCover from '@/assets/IMG/games/cyberpunk.jpg';
-import stalker2Cover from '@/assets/IMG/games/stalker2.jpg';
-import theWitcherCover from '@/assets/IMG/games/thewitcher.jpg';
+import gta6Cover from '@/assets/IMG/games/gta6.webp';
+import persona5Cover from '@/assets/IMG/games/persona5.webp';
+import cyberpunkCover from '@/assets/IMG/games/cyberpunk.webp';
+import stalker2Cover from '@/assets/IMG/games/stalker2.webp';
+import theWitcherCover from '@/assets/IMG/games/thewitcher.webp';
 
 export default {
   name: 'ParallaxBackground',
@@ -206,7 +206,7 @@ export default {
   left: -100px;
   width: 100px;
   height: 100px;
-  background-image: url('../assets/IMG/icons/rocket.png');
+  background-image: url('../assets/IMG/icons/rocket.webp');
   background-size: cover;
   z-index: 4;
   animation: fly 10s linear infinite;
@@ -272,7 +272,7 @@ export default {
 }
 
 .small_box:first-child {
-  background-image: url(../assets/IMG/nintendo.jpg);
+  background-image: url(../assets/IMG/nintendo.webp);
 }
 
 .small_box:nth-child(2) {
@@ -280,7 +280,7 @@ export default {
 }
 
 .small_box:nth-child(3) {
-  background-image: url(../assets/IMG/multiplayer.jpg);
+  background-image: url(../assets/IMG/multiplayer.webp);
 }
 
 .small_box:nth-child(4) {

@@ -111,7 +111,7 @@ export default {
   align-items: center;
   background-color: #111;
   color: #fff;
-  background-image: url(@/assets/IMG/backgrounds/newsbackground6.jpg);
+  background-image: url(@/assets/IMG/backgrounds/newsbackground6.webp);
   background-size: cover;
   height: 100%;
 }

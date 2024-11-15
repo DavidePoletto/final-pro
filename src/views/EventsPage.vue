@@ -28,15 +28,15 @@ import SwiperComponent from '@/components/SwiperComponent.vue';
 import MainFooter from '@/components/footer.vue';
 
 // Import delle immagini
-import event1 from '@/assets/IMG/eventsIMG/event1.jpg';
-import event2 from '@/assets/IMG/eventsIMG/event2.jpg';
-import event3 from '@/assets/IMG/eventsIMG/event3.jpg';
-import event4 from '@/assets/IMG/eventsIMG/event4.jpg';
-import event5 from '@/assets/IMG/eventsIMG/event5.jpg';
-import event6 from '@/assets/IMG/eventsIMG/event6.jpg';
-import event7 from '@/assets/IMG/eventsIMG/event7.jpg';
-import event8 from '@/assets/IMG/eventsIMG/event8.jpg';
-import event9 from '@/assets/IMG/eventsIMG/event9.png';
+import event1 from '@/assets/IMG/eventsIMG/event1.webp';
+import event2 from '@/assets/IMG/eventsIMG/event2.webp';
+import event3 from '@/assets/IMG/eventsIMG/event3.webp';
+import event4 from '@/assets/IMG/eventsIMG/event4.webp';
+import event5 from '@/assets/IMG/eventsIMG/event5.webp';
+import event6 from '@/assets/IMG/eventsIMG/event6.webp';
+import event7 from '@/assets/IMG/eventsIMG/event7.webp';
+import event8 from '@/assets/IMG/eventsIMG/event8.webp';
+import event9 from '@/assets/IMG/eventsIMG/event9.webp';
 
 export default {
   components: {
@@ -115,7 +115,6 @@ export default {
   transform: scale(1.03);
 }
 
-/* Specifiche dimensioni dei box */
 .news_item.one {
   grid-column: span 2;
   grid-row: span 3;

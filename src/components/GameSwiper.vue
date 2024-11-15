@@ -2,19 +2,19 @@
   <div class="swiper" ref="swiperContainer">
     <div class="swiper-wrapper">
       <div class="swiper-slide" @click="goToGameDetails(972995)">
-        <img class="swiperone" src="@/assets/IMG/games/gta6.jpg" alt="gta6 img" />
+        <img class="swiperone" src="@/assets/IMG/games/gta6.webp" alt="gta6 img" />
       </div>
       <div class="swiper-slide" @click="goToGameDetails(41494)">
-        <img class="swiperone" src="@/assets/IMG/games/cyberpunk.jpg" alt="cyberpunk img" />
+        <img class="swiperone" src="@/assets/IMG/games/cyberpunk.webp" alt="cyberpunk img" />
       </div>
       <div class="swiper-slide" @click="goToGameDetails(339958)">
-        <img class="swiperone" src="@/assets/IMG/games/persona5.jpg" alt="persona5 img" />
+        <img class="swiperone" src="@/assets/IMG/games/persona5.webp" alt="persona5 img" />
       </div>
       <div class="swiper-slide" @click="goToGameDetails(3328)">
-        <img class="swiperone" src="@/assets/IMG/games/thewitcher.jpg" alt="thewitcher img" />
+        <img class="swiperone" src="@/assets/IMG/games/thewitcher.webp" alt="thewitcher img" />
       </div>
       <div class="swiper-slide" @click="goToGameDetails(58386)">
-        <img class="swiperone" src="@/assets/IMG/games/stalker2.jpg" alt="stalker2 img" />
+        <img class="swiperone" src="@/assets/IMG/games/stalker2.webp" alt="stalker2 img" />
       </div>
     </div>
   </div>

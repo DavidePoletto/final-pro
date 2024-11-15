@@ -1,7 +1,7 @@
 <template>
   <div class="cover_container">
     <div class="cover">
-      <img ref="parallaxImage" class="parallax-image" src="@/assets/IMG/destiny2.jpg" alt="Destiny 2" />
+      <img ref="parallaxImage" class="parallax-image" src="@/assets/IMG/destiny2.webp" alt="Destiny 2" />
     </div>
   </div>
 </template>

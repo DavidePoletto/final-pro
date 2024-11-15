@@ -2,7 +2,7 @@
   <div class="swiper" ref="swiperContainer">
     <div class="swiper-wrapper">
       <div class="swiper-slide">
-        <img class="swiperone" src="../assets/IMG/eventsIMG/giveaway.jpg" alt="giveaway image" />
+        <img class="swiperone" src="../assets/IMG/eventsIMG/giveaway.webp" alt="giveaway image" />
       </div>
       <div class="swiper-slide">
         <img class="swiperone" src="../assets/IMG/eventsIMG/nerd.webp" alt="slideimg" />

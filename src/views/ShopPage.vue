@@ -130,7 +130,6 @@ export default {
   }
 
   .Shop_page {
-    background-image: url(../assets/IMG/underground.jpg);
     background-color: #9a1d34;
     background-size: cover;
   }
