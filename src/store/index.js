@@ -1,9 +1,11 @@
 import { createStore } from 'vuex';
 import cookieModule from './modules/cookieModule';
+import authModule from './modules/authModule';
 
 export default createStore({
   modules: {
     cookieModule,
+    authModule,
   },
   state: {
     games: {

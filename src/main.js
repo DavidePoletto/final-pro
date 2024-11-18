@@ -9,3 +9,12 @@ app.use(store);
 app.use(router)
 
 app.mount('#app')
+
+const originalWarn = console.warn;
+
+console.warn = (...args) => {
+  if (args[0]?.includes('Swiper Loop Warning')) {
+    return;
+  }
+  originalWarn(...args);
+};

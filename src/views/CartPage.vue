@@ -54,13 +54,24 @@ export default {
       cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0)
     );
 
-    const increaseQuantity = (item) => {
-      store.commit('addToCart', item);
+        const increaseQuantity = (item) => {
+      store.dispatch('cartModule/addToCart', { gameId: item.id, quantity: 1 });
     };
 
     const decreaseQuantity = (item) => {
-      store.commit(item.quantity > 1 ? 'removeFromCart' : 'removeItem', item.id);
+      if (item.quantity > 1) {
+        store.dispatch('cartModule/addToCart', { gameId: item.id, quantity: -1 });
+      } else {
+        store.dispatch('cartModule/removeFromCart', item.id);
+      }
     };
+
+    const fetchCart = () => {
+      store.dispatch('cartModule/fetchCart');
+    };
+
+    fetchCart();
+
 
     const goToCheckout = () => {
       router.push({ name: 'Checkout' });

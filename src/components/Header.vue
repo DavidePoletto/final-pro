@@ -4,7 +4,7 @@
   </div>
   <div class="header_container" :class="{ 'scrolled': isScrolled }">
     <header class="main_bar">
-      <div class="menu" v-if="!isMobileMenuOpen">
+      <div class="menu">
         <div><router-link to="/">HOME</router-link></div>
         <div><router-link to="/ShopPage">SHOP</router-link></div>
         <div><router-link to="/NewsPage">NEWS</router-link></div>
@@ -12,35 +12,50 @@
       </div>
     </header>
   </div>
-  
+
   <div class="header_smartphone" :class="{ 'scrolled': isScrolled }">
     <div class="hamburger_icon" @click="toggleMobileMenu">
       {{ isMobileMenuOpen ? '✕' : '☰' }}
     </div>
     <div class="mobile_menu" v-show="isMobileMenuOpen">
-        <div><router-link to="/" @click="closeMobileMenu">HOME</router-link></div>
-        <div><router-link to="/NewsPage" @click="closeMobileMenu">NEWS</router-link></div>
-        <div><router-link to="/EventsPage" @click="closeMobileMenu">EVENTI</router-link></div>
-        <router-link to="/CartPage" @click="closeMobileMenu">
-          <img class="cart_in_menu" src="../assets/IMG/icons/cart.webp" alt="cart icon">
-        </router-link>
+      <div><router-link to="/" @click="closeMobileMenu">HOME</router-link></div>
+      <div><router-link to="/ShopPage" @click="closeMobileMenu">SHOP</router-link></div>
+      <div><router-link to="/NewsPage" @click="closeMobileMenu">NEWS</router-link></div>
+      <div><router-link to="/EventsPage" @click="closeMobileMenu">EVENTI</router-link></div>
+      <router-link to="/CartPage" @click="closeMobileMenu">
+        <img class="cart_in_menu" src="../assets/IMG/icons/cart.webp" alt="cart icon">
+      </router-link>
+      <div class="auth-link">
+        <router-link v-if="!isAuthenticated" to="/login" @click="closeMobileMenu">Accedi</router-link>
+        <router-link v-else to="/profile" @click="closeMobileMenu">{{ user?.username || 'Profilo' }}</router-link>
       </div>
+    </div>
   </div>
 
   <div class="cart_container">
-    <router-link to="/CartPage"><img class="cart" src="../assets/IMG/icons/cart.webp" alt="icon"></router-link>
+    <router-link to="/CartPage">
+      <img class="cart" src="../assets/IMG/icons/cart.webp" alt="icon">
+    </router-link>
+    <router-link v-if="!isAuthenticated" to="/login">Accedi</router-link>
+    <router-link v-else to="/profile">{{ user?.username || 'Profilo' }}</router-link>
   </div>
 </template>
 
-
 <script>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   name: 'MainBar',
   setup() {
     const isScrolled = ref(false);
     const isMobileMenuOpen = ref(false);
+    const store = useStore();
+
+    // Calcolare se l'utente è autenticato
+    const isAuthenticated = computed(() => store.getters['authModule/isAuthenticated']);
+    // Ottieni l'utente dal Vuex store
+    const user = computed(() => store.getters['authModule/user']);
 
     const handleScroll = () => {
       isScrolled.value = window.scrollY > 100;
@@ -67,11 +82,12 @@ export default {
       isMobileMenuOpen,
       toggleMobileMenu,
       closeMobileMenu,
+      isAuthenticated,
+      user,
     };
-  }
+  },
 };
 </script>
-
 
 <style scoped>
 .header_container {
@@ -154,8 +170,30 @@ export default {
   right: 10px;
 }
 
+.cart_container a {
+  color: white;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
 .cart {
   width: 40px;
+}
+
+.auth-link {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.auth-link a {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
 }
 
 .hamburger_icon {
@@ -203,6 +241,35 @@ export default {
   display: none;
 }
 
+.user-dropdown {
+  position: relative;
+}
+
+.user-name {
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 1000;
+}
+
+.dropdown-menu span {
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
 
   .logo_container {
@@ -247,6 +314,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.95);
     border-radius: 0;
   }
+  
 }
 </style>
 
