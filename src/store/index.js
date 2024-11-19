@@ -1,12 +1,16 @@
 import { createStore } from 'vuex';
 import cookieModule from './modules/cookieModule';
 import authModule from './modules/authModule';
+import orderModule from './modules/orderModule';
+import createPersistedState from 'vuex-persistedstate';
 
 export default createStore({
   modules: {
     cookieModule,
     authModule,
+    orderModule,
   },
+  plugins: [createPersistedState()],
   state: {
     games: {
       trending: [],
@@ -20,7 +24,7 @@ export default createStore({
     gamePrices: {},
     news: [],
     newsLoaded: false,
-    cartItems: [],
+    cartItems: [], // Persistente grazie a vuex-persistedstate
     loading: {
       games: false,
       news: false,
@@ -35,7 +39,6 @@ export default createStore({
       state.games[category] = games;
     },
     setNews(state, news) {
-      console.log("Committing news to state:", news);
       state.news = news || [];
       state.newsLoaded = true;
     },
@@ -47,22 +50,17 @@ export default createStore({
         state.cartItems.push({ ...game, quantity: 1 });
       }
     },
-
     removeFromCart(state, gameId) {
       const item = state.cartItems.find((item) => item.id === gameId);
       if (item && item.quantity > 1) {
         item.quantity -= 1;
+      } else {
+        state.cartItems = state.cartItems.filter((item) => item.id !== gameId);
       }
     },
-
     clearCart(state) {
       state.cartItems = [];
     },
-    
-    removeItem(state, gameId) {
-      state.cartItems = state.cartItems.filter((item) => item.id !== gameId);
-    },
-
     setGamePrice(state, { gameId, price }) {
       state.gamePrices[gameId] = price;
     },
@@ -83,7 +81,6 @@ export default createStore({
       try {
         const response = await fetch('https://server-node-lcxi.onrender.com/api/shop/games');
         const data = await response.json();
-
         commit('setGames', { category: 'trending', games: data.trending });
         commit('setGames', { category: 'newReleases', games: data.newReleases });
         commit('setGames', { category: 'topRated', games: data.topRated });
@@ -92,7 +89,7 @@ export default createStore({
         commit('setGames', { category: 'multiplayer', games: data.multiplayerGames });
       } catch (error) {
         commit('setError', { key: 'games', error: error.message });
-        console.error("Errore nel caricamento dei giochi dal server:", error.message);
+        console.error('Errore nel caricamento dei giochi:', error.message);
       } finally {
         commit('setLoading', { key: 'games', value: false });
       }
@@ -103,7 +100,6 @@ export default createStore({
       try {
         const response = await fetch('https://server-node-lcxi.onrender.com/api/news/gaming?page_size=14');
         const data = await response.json();
-        console.log("Data from API:", data);
         commit('setNews', data.articles);
       } catch (error) {
         commit('setError', { key: 'news', error: error.message });
@@ -112,21 +108,20 @@ export default createStore({
         commit('setLoading', { key: 'news', value: false });
       }
     },
-      async fetchGameDetails({ state, commit }, gameId) {
-        if (state.gameDetailsCache[gameId]) {
-          return state.gameDetailsCache[gameId];
-        }
-    
-        try {
-          const response = await fetch(`https://server-node-lcxi.onrender.com/api/shop/games/${gameId}`);
-          const data = await response.json();
-          commit('setGameDetails', { gameId, details: data });
-          return data;
-        } catch (error) {
-          console.error('Errore nel caricamento dei dettagli del gioco:', error.message);
-          throw error;
-        }
-      },
+    async fetchGameDetails({ state, commit }, gameId) {
+      if (state.gameDetailsCache[gameId]) {
+        return state.gameDetailsCache[gameId];
+      }
+      try {
+        const response = await fetch(`https://server-node-lcxi.onrender.com/api/shop/games/${gameId}`);
+        const data = await response.json();
+        commit('setGameDetails', { gameId, details: data });
+        return data;
+      } catch (error) {
+        console.error('Errore nel caricamento dei dettagli del gioco:', error.message);
+        throw error;
+      }
+    },
   },
   getters: {
     trendingGames: (state) => state.games.trending,

@@ -50,28 +50,21 @@ export default {
 
     const cartItems = computed(() => store.getters.cartItems);
 
-    const subtotal = computed(() => 
+    const subtotal = computed(() =>
       cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0)
     );
 
-        const increaseQuantity = (item) => {
-      store.dispatch('cartModule/addToCart', { gameId: item.id, quantity: 1 });
+    const increaseQuantity = (item) => {
+      store.commit('addToCart', item);
     };
 
     const decreaseQuantity = (item) => {
       if (item.quantity > 1) {
-        store.dispatch('cartModule/addToCart', { gameId: item.id, quantity: -1 });
+        store.commit('addToCart', { ...item, quantity: -1 });
       } else {
-        store.dispatch('cartModule/removeFromCart', item.id);
+        store.commit('removeItem', item.id);
       }
     };
-
-    const fetchCart = () => {
-      store.dispatch('cartModule/fetchCart');
-    };
-
-    fetchCart();
-
 
     const goToCheckout = () => {
       router.push({ name: 'Checkout' });
@@ -87,6 +80,8 @@ export default {
   },
 };
 </script>
+
+
 
 <style scoped>
 .container {

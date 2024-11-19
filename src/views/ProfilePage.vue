@@ -9,17 +9,20 @@
       </div>
 
       <h3>I tuoi ordini</h3>
-      <div v-if="orders.length > 0" class="orders-container">
+      <div v-if="orders && orders.length > 0" class="orders-container">
         <div v-for="order in orders" :key="order._id" class="order">
           <p><strong>Ordine ID:</strong> {{ order._id }}</p>
-          <p><strong>Totale:</strong> €{{ order.totalAmount.toFixed(2) }}</p>
+          <p><strong>Totale:</strong> €{{ order.totalPrice.toFixed(2) }}</p>
           <p><strong>Data:</strong> {{ new Date(order.createdAt).toLocaleDateString() }}</p>
           <ul>
             <li v-for="item in order.items" :key="item.gameId">
-              {{ item.quantity }} x {{ item.gameName }} @ €{{ item.price.toFixed(2) }}
+              {{ item.quantity }} x {{ item.name }} @ €{{ item.price.toFixed(2) }}
             </li>
           </ul>
         </div>
+      </div>
+      <div v-else-if="loading">
+        <p>Caricamento ordini...</p>
       </div>
       <div v-else>
         <p>Nessun ordine trovato.</p>
@@ -40,6 +43,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import ParallaxBackground from '@/components/ParallaxBackground.vue';
 
 export default {
@@ -47,22 +51,31 @@ export default {
     ParallaxBackground,
   },
   computed: {
+    ...mapState('orderModule', ['orders', 'loading']), // Corretto namespace
     user() {
       return this.$store.state.authModule.user;
     },
-    orders() {
-      return this.$store.state.authModule.orders || [];
-    },
   },
   methods: {
+    async fetchOrders() {
+      try {
+        await this.$store.dispatch('orderModule/fetchOrders'); // Corretto namespace
+      } catch (error) {
+        console.error('Errore durante il recupero degli ordini:', error);
+      }
+    },
     logout() {
       this.$store.dispatch('authModule/logout');
       this.$router.push('/login');
     },
   },
+  created() {
+    if (this.user) {
+      this.fetchOrders(); // Carica gli ordini all'accesso
+    }
+  },
 };
 </script>
-
 <style scoped>
 .container {
   width: 100%;

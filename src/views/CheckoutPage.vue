@@ -5,6 +5,14 @@
       <h2>Pagamento</h2>
       <div class="order-summary">
         <h3>Riepilogo Ordine</h3>
+        <div v-for="item in cartItems" :key="item.id" class="order-item">
+          <img :src="item.image" alt="Game Cover" class="item-image" />
+          <div class="item-details">
+            <p class="item-title">{{ item.name }}</p>
+            <p>Prezzo: €{{ item.price.toFixed(2) }}</p>
+            <p>Quantità: {{ item.quantity }}</p>
+          </div>
+        </div>
         <p>Subtotale: €{{ subtotal.toFixed(2) }}</p>
         <p>Spedizione: €0.00</p>
         <hr />
@@ -13,50 +21,35 @@
 
       <form class="payment-form" @submit.prevent="processPayment">
         <h3>Informazioni Spedizione</h3>
-
         <div class="form-group">
           <label for="name">Nome e Cognome</label>
-          <input type="text" id="name" v-model="name" required aria-label="Nome e Cognome" />
+          <input type="text" id="name" v-model="name" required />
         </div>
-
         <div class="form-group">
           <label for="city">Città</label>
-          <input type="text" id="city" v-model="city" required aria-label="Città" />
+          <input type="text" id="city" v-model="city" required />
         </div>
-
         <div class="form-group">
           <label for="postalCode">CAP</label>
-          <input type="text" id="postalCode" v-model="postalCode" required aria-label="CAP" />
+          <input type="text" id="postalCode" v-model="postalCode" required />
         </div>
-
         <div class="form-group">
           <label for="address">Via</label>
-          <input type="text" id="address" v-model="address" required aria-label="Indirizzo" />
+          <input type="text" id="address" v-model="address" required />
         </div>
 
         <h3>Informazioni Carta</h3>
-
         <div class="form-group">
-          <label for="cardNumber">Numero di Carta</label>
-          <input type="text" id="cardNumber" v-model="cardNumber" required maxlength="16" aria-label="Numero di Carta" />
+          <label for="cardNumber">Numero Carta</label>
+          <input type="text" id="cardNumber" v-model="cardNumber" required maxlength="16" />
         </div>
-
         <div class="form-group">
           <label for="expiryDate">Data di Scadenza</label>
-          <input
-            type="text"
-            id="expiryDate"
-            v-model="expiryDate"
-            required
-            placeholder="MM/AA"
-            maxlength="5"
-            aria-label="Data di Scadenza"
-          />
+          <input type="text" id="expiryDate" v-model="expiryDate" required placeholder="MM/AA" maxlength="5" />
         </div>
-
         <div class="form-group">
           <label for="cvv">CVV</label>
-          <input type="text" id="cvv" v-model="cvv" required maxlength="3" aria-label="CVV" />
+          <input type="text" id="cvv" v-model="cvv" required maxlength="3" />
         </div>
 
         <button type="submit" class="submit-btn">Completa il pagamento</button>
@@ -69,6 +62,7 @@
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import ParallaxBackground from '@/components/ParallaxBackground.vue';
+import { useRouter } from 'vue-router';
 
 export default {
   components: {
@@ -76,27 +70,20 @@ export default {
   },
   setup() {
     const store = useStore();
-    const subtotal = computed(() => {
-      const items = store.getters.cartItems || [];
-      return items.reduce((total, item) => total + (item.price * item.quantity || 0), 0);
-    });
+    const router = useRouter();
+
+    const cartItems = computed(() => store.getters.cartItems);
+    const subtotal = computed(() =>
+      cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0)
+    );
 
     const name = ref('');
     const city = ref('');
     const postalCode = ref('');
     const address = ref('');
-    const email = ref('');
     const cardNumber = ref('');
     const expiryDate = ref('');
     const cvv = ref('');
-
-    const processPayment = () => {
-      if (validatePaymentInfo()) {
-        alert('Pagamento completato con successo!');
-      } else {
-        alert('Si prega di controllare i dati della carta.');
-      }
-    };
 
     const validatePaymentInfo = () => {
       return (
@@ -106,21 +93,58 @@ export default {
       );
     };
 
+    const processPayment = async () => {
+      if (!validatePaymentInfo()) {
+        alert('Si prega di controllare i dati della carta.');
+        return;
+      }
+
+      try {
+        const orderData = {
+          items: cartItems.value.map((item) => ({
+            gameId: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image,
+          })),
+          totalPrice: subtotal.value,
+          shippingAddress: {
+            name: name.value,
+            address: address.value,
+            city: city.value,
+            postalCode: postalCode.value,
+          },
+        };
+
+        await store.dispatch('orderModule/createOrder', orderData);
+        alert('Pagamento completato con successo!');
+        store.commit('clearCart');
+        router.push('/profile');
+      } catch (error) {
+        alert('Errore durante il pagamento. Riprova più tardi.');
+        console.error('Errore pagamento:', error);
+      }
+    };
+
     return {
+      cartItems,
       subtotal,
       name,
       city,
       postalCode,
       address,
-      email,
       cardNumber,
       expiryDate,
       cvv,
+      validatePaymentInfo,
       processPayment,
     };
   },
 };
 </script>
+
+
 
 <style scoped>
 .container {
@@ -147,6 +171,21 @@ export default {
   max-height: 90vh;
 }
 
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.item-image {
+  width: 200px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+
 .order-summary {
   margin-bottom: 15px;
   font-size: 1rem;
@@ -167,8 +206,8 @@ label {
 }
 
 input {
-  width: 100%;
-  padding: 10px 0 10px 0;
+  width: 96%;
+  padding: 10px;
   font-size: 1rem;
   border: none;
   border-radius: 5px;
