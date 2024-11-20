@@ -2,7 +2,6 @@ import { createStore } from 'vuex';
 import cookieModule from './modules/cookieModule';
 import authModule from './modules/authModule';
 import orderModule from './modules/orderModule';
-import createPersistedState from 'vuex-persistedstate';
 
 export default createStore({
   modules: {
@@ -10,7 +9,6 @@ export default createStore({
     authModule,
     orderModule,
   },
-  plugins: [createPersistedState()],
   state: {
     games: {
       trending: [],
@@ -24,7 +22,7 @@ export default createStore({
     gamePrices: {},
     news: [],
     newsLoaded: false,
-    cartItems: [], // Persistente grazie a vuex-persistedstate
+    cartItems: [],
     loading: {
       games: false,
       news: false,
@@ -89,7 +87,6 @@ export default createStore({
         commit('setGames', { category: 'multiplayer', games: data.multiplayerGames });
       } catch (error) {
         commit('setError', { key: 'games', error: error.message });
-        console.error('Errore nel caricamento dei giochi:', error.message);
       } finally {
         commit('setLoading', { key: 'games', value: false });
       }
@@ -103,7 +100,6 @@ export default createStore({
         commit('setNews', data.articles);
       } catch (error) {
         commit('setError', { key: 'news', error: error.message });
-        console.error('Errore nel caricamento delle news:', error.message);
       } finally {
         commit('setLoading', { key: 'news', value: false });
       }
@@ -118,7 +114,6 @@ export default createStore({
         commit('setGameDetails', { gameId, details: data });
         return data;
       } catch (error) {
-        console.error('Errore nel caricamento dei dettagli del gioco:', error.message);
         throw error;
       }
     },

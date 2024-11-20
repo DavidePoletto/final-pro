@@ -45,7 +45,15 @@
         </div>
         <div class="form-group">
           <label for="expiryDate">Data di Scadenza</label>
-          <input type="text" id="expiryDate" v-model="expiryDate" required placeholder="MM/AA" maxlength="5" />
+          <input
+            type="text"
+            id="expiryDate"
+            v-model="expiryDate"
+            required
+            placeholder="MM/AA"
+            maxlength="5"
+            @input="formatExpiryDate"
+          />
         </div>
         <div class="form-group">
           <label for="cvv">CVV</label>
@@ -85,6 +93,21 @@ export default {
     const expiryDate = ref('');
     const cvv = ref('');
 
+    const formatExpiryDate = () => {
+      if (!expiryDate.value) return;
+
+      // Rimuove i caratteri non numerici
+      let cleaned = expiryDate.value.replace(/\D/g, '');
+
+      // Inserisce lo '/' al secondo carattere
+      if (cleaned.length > 2) {
+        cleaned = cleaned.slice(0, 2) + '/' + cleaned.slice(2, 4);
+      }
+
+      // Limita il valore massimo a 5 caratteri (MM/AA)
+      expiryDate.value = cleaned.slice(0, 5);
+    };
+
     const validatePaymentInfo = () => {
       return (
         cardNumber.value.length === 16 &&
@@ -118,7 +141,6 @@ export default {
         };
 
         await store.dispatch('orderModule/createOrder', orderData);
-        alert('Pagamento completato con successo!');
         store.commit('clearCart');
         router.push('/profile');
       } catch (error) {
@@ -137,14 +159,13 @@ export default {
       cardNumber,
       expiryDate,
       cvv,
+      formatExpiryDate,
       validatePaymentInfo,
       processPayment,
     };
   },
 };
 </script>
-
-
 
 <style scoped>
 .container {

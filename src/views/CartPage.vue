@@ -27,7 +27,13 @@
           <p>Spedizione: €0.00</p>
           <hr />
           <p class="total">Totale: €{{ subtotal.toFixed(2) }}</p>
-          <button class="checkout-btn" @click="goToCheckout">Procedi al pagamento</button>
+          <button 
+            class="checkout-btn" 
+            @click="goToCheckout" 
+            :disabled="!cartItems.length"
+          >
+            Procedi al pagamento
+          </button>
         </div>
       </div>
     </div>
@@ -67,7 +73,9 @@ export default {
     };
 
     const goToCheckout = () => {
-      router.push({ name: 'Checkout' });
+      if (cartItems.value.length) {
+        router.push({ name: 'Checkout' });
+      }
     };
 
     return {
@@ -80,8 +88,6 @@ export default {
   },
 };
 </script>
-
-
 
 <style scoped>
 .container {
@@ -209,6 +215,11 @@ button:hover {
   background-color: #c56b10;
 }
 
+.checkout-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 .empty-cart-message {
   color: #bbb;
   text-align: center;
@@ -229,4 +240,3 @@ h2 {
   }
 }
 </style>
-

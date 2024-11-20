@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <ParallaxBackground :showBigBox="false" />
+    <router-link to="/" class="home-link">Torna alla Home</router-link>
     <div class="profile-container" v-if="user">
       <h1>Profilo di {{ user.username }}</h1>
       <div class="profile-details">
         <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>ID:</strong> {{ user._id }}</p>
       </div>
 
       <h3>I tuoi ordini</h3>
@@ -15,9 +15,9 @@
           <p><strong>Totale:</strong> €{{ order.totalPrice.toFixed(2) }}</p>
           <p><strong>Data:</strong> {{ new Date(order.createdAt).toLocaleDateString() }}</p>
           <ul>
-            <li v-for="item in order.items" :key="item.gameId">
+            <strong><li v-for="item in order.items" :key="item.gameId">
               {{ item.quantity }} x {{ item.name }} @ €{{ item.price.toFixed(2) }}
-            </li>
+            </li></strong>
           </ul>
         </div>
       </div>
@@ -29,9 +29,6 @@
       </div>
 
       <button @click="logout" class="logout-button">Esci</button>
-      <router-link to="/">
-        <button class="home-button">HOME</button>
-      </router-link>
     </div>
     <div v-else>
       <p class="no-user">Effettua l'accesso per visualizzare il tuo profilo.</p>
@@ -51,7 +48,7 @@ export default {
     ParallaxBackground,
   },
   computed: {
-    ...mapState('orderModule', ['orders', 'loading']), // Corretto namespace
+    ...mapState('orderModule', ['orders', 'loading']),
     user() {
       return this.$store.state.authModule.user;
     },
@@ -59,7 +56,7 @@ export default {
   methods: {
     async fetchOrders() {
       try {
-        await this.$store.dispatch('orderModule/fetchOrders'); // Corretto namespace
+        await this.$store.dispatch('orderModule/fetchOrders');
       } catch (error) {
         console.error('Errore durante il recupero degli ordini:', error);
       }
@@ -71,7 +68,7 @@ export default {
   },
   created() {
     if (this.user) {
-      this.fetchOrders(); // Carica gli ordini all'accesso
+      this.fetchOrders();
     }
   },
 };
@@ -87,6 +84,17 @@ export default {
   position: relative;
 }
 
+.home-link {
+  z-index: 50;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #fff;
+  text-decoration: underline;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 .profile-container {
   position: absolute;
   z-index: 50;
@@ -97,16 +105,27 @@ export default {
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   text-align: center;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
 }
 
 h1 {
-  color: #333;
+  color: #ff781e;
   margin-bottom: 20px;
 }
 
 .profile-details p,
 .orders-container p {
   margin: 5px 0;
+}
+
+.profile-container strong {
+  color: #ff531e;
+}
+
+.profile-container li {
+  color: #ff0000;
+  font-size: large;
 }
 
 .orders-container {
@@ -121,18 +140,21 @@ h1 {
   background: #fff;
 }
 
-.logout-button,
-.home-button,
-.login-button {
+.logout-button, .login-button {
   padding: 10px;
   font-size: 16px;
   color: #fff;
-  background-color: #ff4b5c;
+  background: linear-gradient(90deg, #f59904, #ff781e);
   border: none;
   border-radius: 5px;
   cursor: pointer;
   margin: 10px;
   width: 100px;
+}
+
+.logout-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0px 6px 15px rgba(255, 112, 175, 0.5), 0px 6px 15px rgba(255, 218, 68, 0.5);
 }
 
 .login-button {

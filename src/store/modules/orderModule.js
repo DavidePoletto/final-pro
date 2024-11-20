@@ -31,11 +31,11 @@ export default {
     },
     async createOrder({ commit }, orderData) {
         try {
-          const response = await createOrderAPI(orderData); // Chiamata API
-          commit('addOrder', response.order); // Aggiorna lo store
+          const response = await createOrderAPI(orderData);
+          commit('addOrder', response.order);
         } catch (error) {
           console.error('Errore durante la creazione dell\'ordine:', error);
-          throw error; // Lancia l'errore per gestirlo nel componente
+          throw error;
       }
     },
   },

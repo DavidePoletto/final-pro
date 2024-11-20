@@ -41,7 +41,7 @@ export default {
       email: '',
       password: '',
       username: '',
-      isLoginMode: true, // Modalità predefinita: Login
+      isLoginMode: true,
       loading: false,
       error: null,
     };
@@ -61,18 +61,16 @@ export default {
           const userData = { ...credentials, username: this.username };
           await this.$store.dispatch('authModule/register', userData);
         }
-        this.$router.push('/profile'); // Reindirizza al profilo
+        this.$router.push('/profile');
       } catch (error) {
-        // Visualizza il messaggio di errore
         this.error = error.message;
       } finally {
         this.loading = false;
       }
     },
     toggleMode() {
-      // Alterna tra login e registrazione
       this.isLoginMode = !this.isLoginMode;
-      this.error = null; // Resetta l'errore quando si cambia modalità
+      this.error = null;
     },
   },
 };
@@ -139,10 +137,15 @@ h1 {
   padding: 10px;
   font-size: 16px;
   color: #fff;
-  background-color: #007bff;
+  background: linear-gradient(90deg, #f59904, #ff781e);
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.auth-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0px 6px 15px rgba(255, 112, 175, 0.5), 0px 6px 15px rgba(255, 218, 68, 0.5);
 }
 
 .auth-button:disabled {
@@ -161,7 +164,7 @@ h1 {
 }
 
 .toggle-auth span {
-  color: #007bff;
+  color: #ff7b00;
   cursor: pointer;
   text-decoration: underline;
 }
