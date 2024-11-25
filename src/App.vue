@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- Popup informativo -->
     <div v-if="showPopup" class="popup-overlay">
       <div class="popup">
         <p>
@@ -32,15 +31,12 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    // Stato per il popup
     const showPopup = ref(false);
 
-    // Mostra il popup quando il sito è caricato
     onMounted(() => {
       showPopup.value = true;
     });
 
-    // Funzione per chiudere il popup
     const closePopup = () => {
       showPopup.value = false;
     };

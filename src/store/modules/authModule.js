@@ -71,7 +71,7 @@ export default {
         }
     
         commit('setError', errorMessage);
-        throw new Error(errorMessage); // Propaga l'errore al componente
+        throw new Error(errorMessage);
       } finally {
         commit('setLoading', false);
       }

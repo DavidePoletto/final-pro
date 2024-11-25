@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import store from '@/store'; // Importa il tuo store Vuex
+import store from '@/store';
 
-// Importa le pagine
+
 import MainPage from '@/views/MainPage.vue';
 import ShopPage from '@/views/ShopPage.vue';
 import NewsPage from '@/views/NewsPage.vue';
@@ -12,7 +12,6 @@ import CheckoutPage from '@/views/CheckoutPage.vue';
 import ProfilePage from '@/views/ProfilePage.vue';
 import LoginPage from '@/views/LoginPage.vue';
 
-// Definizione delle rotte
 const routes = [
   {
     path: '/',
@@ -68,12 +67,11 @@ const routes = [
   }
 ];
 
-// Configurazione del router
 const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior() {
-    return { top: 0 }; // Forza lo scroll all'inizio su ogni cambio di pagina
+    return { top: 0 };
   },
 });
 

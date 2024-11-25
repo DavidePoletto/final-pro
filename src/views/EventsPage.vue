@@ -26,8 +26,6 @@
 import MainBar from '@/components/Header.vue';
 import SwiperComponent from '@/components/SwiperComponent.vue';
 import MainFooter from '@/components/footer.vue';
-
-// Import delle immagini
 import event1 from '@/assets/IMG/eventsIMG/event1.webp';
 import event2 from '@/assets/IMG/eventsIMG/event2.webp';
 import event3 from '@/assets/IMG/eventsIMG/event3.webp';
