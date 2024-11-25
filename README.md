@@ -18,7 +18,7 @@
 </div>
 
 <div align="center">
-🔗 **Visit the live website here**: [GameVerse](https://gameversee.netlify.app/)
+  🔗 <strong>Visit the live website here</strong>: <a href="https://gameversee.netlify.app/">GameVerse</a>
 </div>
 
 ---
