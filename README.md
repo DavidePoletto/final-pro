@@ -1,6 +1,6 @@
 # GameVerse
 
-![GameVerse Logo](./path-to-your-logo/logo.png)
+![GameVerse Logo](https://github.com/DavidePoletto/final-pro/blob/main/src/assets/IMG/icons/GAmeverse1.webp?raw=true)
 
 **GameVerse** è una piattaforma completa per gli appassionati di videogiochi, che offre un vasto catalogo di giochi, notizie aggiornate sul mondo gaming, un sistema di registrazione/login per la gestione degli account utente e la possibilità di salvare ordini nel carrello.
 
@@ -49,6 +49,4 @@ Visita la demo del progetto all'indirizzo: [GameVerse](https://gameversee.netlif
 ### Istruzioni
 1. Clona il repository:
    ```bash
-   git clone https://github.com/tuo-username/GameVerse.git
-
- 
+   git clone https://github.com/DavidePoletto/final-pro.git
