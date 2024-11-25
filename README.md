@@ -1,7 +1,5 @@
-# GameVerse
-
 <div align="center">
-  <img src="https://github.com/DavidePoletto/final-pro/blob/main/src/assets/IMG/icons/GAmeverse1.webp?raw=true" alt="GameVerse Logo" width="200">
+  <img src="https://github.com/DavidePoletto/final-pro/blob/main/src/assets/IMG/icons/GAmeverse1.webp?raw=true" alt="GameVerse Logo" width="300">
 </div>
 
 **GameVerse** è una piattaforma completa per gli appassionati di videogiochi, che offre un vasto catalogo di giochi, notizie aggiornate sul mondo gaming, un sistema di registrazione/login per la gestione degli account utente e la possibilità di salvare ordini nel carrello.
@@ -13,8 +11,9 @@
 <div align="center">
   <img src="https://github.com/DavidePoletto/final-pro/blob/main/src/assets/IMG/backgrounds/Screenshot%202024-11-25%20022341.png?raw=true" alt="GameVerse Screenshot" width="800">
 </div>
-
+<div align="center">
 Visita la demo del progetto all'indirizzo: [GameVerse](https://gameversee.netlify.app/)
+</div>
 
 ---
 
