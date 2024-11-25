@@ -10,8 +10,13 @@
 </div>
 
 <div align="center">
-![Contributors](https://img.shields.io/github/contributors/DavidePoletto/custom-bottle?color=dark-green) ![Issues](https://img.shields.io/github/issues/DavidePoletto/custom-bottle)
+  <img src="https://img.shields.io/github/contributors/DavidePoletto/final-pro?color=dark-green" alt="Contributors Badge">
+  <img src="https://img.shields.io/github/issues/DavidePoletto/final-pro" alt="Issues Badge">
+  <img src="https://img.shields.io/github/forks/DavidePoletto/final-pro?color=blue" alt="Forks Badge">
+  <img src="https://img.shields.io/github/stars/DavidePoletto/final-pro?color=yellow" alt="Stars Badge">
+  <img src="https://img.shields.io/github/license/DavidePoletto/final-pro" alt="License Badge">
 </div>
+
 
 ---
 
