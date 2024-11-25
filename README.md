@@ -2,9 +2,11 @@
   <img src="https://github.com/DavidePoletto/final-pro/blob/main/src/assets/IMG/icons/GAmeverse1.webp?raw=true" alt="GameVerse Logo" width="300">
 </div>
 
-# Welcome to **GameVerse** 🎮✨
+<div align="center">
+# Welcome to **GameVerse**
 
 GameVerse is a comprehensive platform for gaming enthusiasts. It offers a vast catalog of games, updated news about the gaming world, a **registration/login system**, and the ability to save orders in the cart.
+</div>
 
 ---
 
