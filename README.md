@@ -2,94 +2,98 @@
   <img src="https://github.com/DavidePoletto/final-pro/blob/main/src/assets/IMG/icons/GAmeverse1.webp?raw=true" alt="GameVerse Logo" width="300">
 </div>
 
-**GameVerse** è una piattaforma completa per gli appassionati di videogiochi, che offre un vasto catalogo di giochi, notizie aggiornate sul mondo gaming, un sistema di registrazione/login per la gestione degli account utente e la possibilità di salvare ordini nel carrello.
+# Welcome to **GameVerse** 🎮✨
+
+GameVerse is a comprehensive platform for gaming enthusiasts. It offers a vast catalog of games, updated news about the gaming world, a **registration/login system**, and the ability to save orders in the cart.
 
 ---
 
-## Demo Online
+## 🌐 Online Demo
 
 <div align="center">
   <img src="https://github.com/DavidePoletto/final-pro/blob/main/src/assets/IMG/backgrounds/Screenshot%202024-11-25%20022341.png?raw=true" alt="GameVerse Screenshot" width="800">
 </div>
+
 <div align="center">
-Visita la demo del progetto all'indirizzo: [GameVerse](https://gameversee.netlify.app/)
+🔗 **Visit the live website here**: [GameVerse](https://gameversee.netlify.app/)
 </div>
 
 ---
 
-## Caratteristiche
+## 🚀 Features
 
-- **Catalogo Giochi**: Sfoglia giochi divisi in categorie come "Tendenze", "Novità", "Multiplayer", "Giochi Nintendo" e altro.
-- **Ricerca Avanzata**: Filtra e trova rapidamente i tuoi giochi preferiti.
-- **Dettagli Gioco**: Pagina dedicata con descrizioni, valutazioni Metacritic, screenshot e piattaforme supportate.
-- **Notizie**: Rimani aggiornato con una sezione dedicata al mondo del gaming.
-- **Carrello**: Aggiungi giochi al carrello per salvarli e consultarli in seguito.
-- **Registrazione/Login**: Sistema di autenticazione per la gestione degli account utente.
-- **Ordini Salvati**: Salva gli ordini effettuati nel carrello, pronti per essere consultati o completati.
-- **Responsività**: Design ottimizzato per desktop e dispositivi mobili.
-- **Swiper**: Showcase dinamico di giochi consigliati nella home page.
-
----
-
-## Tecnologie Utilizzate
-
-### Frontend
-- **Vue.js** (Composition API, Vuex, Vue Router)
-- **Swiper.js** (per slider dinamici)
-- **CSS3** (per uno stile personalizzato e responsivo)
-
-### Backend
-- **Node.js** (Express)
-- **Axios** (per chiamate API)
-- **RAWG API** (per il catalogo dei giochi)
-- **Newsdata.io API** (per le notizie)
-- **SQL** (per la gestione degli account e degli ordini)
-
-### Hosting
-- **Netlify** (per il frontend)
-- **Render** (per il backend)
+✔️ **Game Catalog**: Explore categories like "Trending", "New Releases", "Multiplayer", and more.  
+✔️ **Advanced Search**: Easily find your favorite games.  
+✔️ **Game Details**: Discover detailed information, Metacritic ratings, and supported platforms.  
+✔️ **News**: Stay updated on the gaming world.  
+✔️ **Cart**: Save and review the games you want to purchase.  
+✔️ **Registration/Login**: Secure user account management.  
+✔️ **Saved Orders**: Check your saved orders in the cart.  
+✔️ **Responsiveness**: Optimized design for all devices.  
+✔️ **Swiper**: Dynamic showcase of recommended games.
 
 ---
 
-## Installazione
+## 🛠️ Technologies Used
 
-### Requisiti
-- **Node.js** (v16 o superiore)
-- **NPM** o **Yarn**
+### 🎨 **Frontend**
+- **Vue.js** (Composition API, Vuex, Vue Router)  
+- **Swiper.js** (for dynamic sliders)  
+- **CSS3** (for a modern and responsive design)  
 
-### Istruzioni
-1. Clona il repository:
+### ⚙️ **Backend**
+- **Node.js** (Express)  
+- **Axios** (for API calls)  
+- **RAWG API** (game catalog)  
+- **Newsdata.io API** (gaming news)  
+- **SQL** (account and order management)
+
+### ☁️ **Hosting**
+- **Netlify** (Frontend)  
+- **Render** (Backend)
+
+---
+
+## 🖥️ Installation
+
+### Requirements
+- **Node.js** (v16 or higher)  
+- **NPM** or **Yarn**
+
+### Instructions
+1. Clone the repository:
    ```bash
    git clone https://github.com/DavidePoletto/final-pro.git
+
    
-2. Installa le dipendenze:
+2. Install dependencies:
    ```bash
    cd final-pro
    npm install
 
-3. Avvia il server di sviluppo:
+3. Start the development server:
    ```bash
    npm run dev
 
-4. Configura le variabili d'ambiente per il backend:
-   Crea un file .env nella directory del server con le seguenti variabili:
+4. Set up environment variables for the backend:
+   Create a .env file in the server directory with the following variables:
    ```bash
    RAWG_API_KEY=tuo_api_key
    NEWSDATA_API_KEY=tuo_api_key
    DATABASE_URL=tuo_database_url
 
-5. Avvia il backend:
+5. Start the backend:
    ```bash
    cd server
    node server.js
 
-6. Accedi al sito:
+6. Access the site:
    ```bash
    Frontend: http://localhost:3000
    Backend: http://localhost:5000
 
-### Licenza
-Questo progetto è rilasciato sotto la licenza MIT. Consulta il file LICENSE per ulteriori dettagli.
+### 📄 License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 
 
