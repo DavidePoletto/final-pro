@@ -62,3 +62,37 @@ Visita la demo del progetto all'indirizzo: [GameVerse](https://gameversee.netlif
 1. Clona il repository:
    ```bash
    git clone https://github.com/DavidePoletto/final-pro.git
+   
+2. Installa le dipendenze:
+   ```bash
+   cd final-pro
+   npm install
+
+3. Avvia il server di sviluppo:
+   ```bash
+   npm run dev
+
+4. Configura le variabili d'ambiente per il backend:
+   Crea un file .env nella directory del server con le seguenti variabili:
+   ```bash
+   RAWG_API_KEY=tuo_api_key
+   NEWSDATA_API_KEY=tuo_api_key
+   DATABASE_URL=tuo_database_url
+
+5. Avvia il backend:
+   ```bash
+   cd server
+   node server.js
+
+6. Accedi al sito:
+   ```bash
+   Frontend: http://localhost:3000
+   Backend: http://localhost:5000
+
+### Licenza
+Questo progetto è rilasciato sotto la licenza MIT. Consulta il file LICENSE per ulteriori dettagli.
+
+
+
+
+
