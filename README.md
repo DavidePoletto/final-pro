@@ -9,6 +9,10 @@
   </p>
 </div>
 
+<div align="center">
+![Contributors](https://img.shields.io/github/contributors/DavidePoletto/custom-bottle?color=dark-green) ![Issues](https://img.shields.io/github/issues/DavidePoletto/custom-bottle)
+</div>
+
 ---
 
 ## 🌐 Online Demo
