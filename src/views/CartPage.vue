@@ -65,11 +65,7 @@ export default {
     };
 
     const decreaseQuantity = (item) => {
-      if (item.quantity > 1) {
-        store.commit('addToCart', { ...item, quantity: -1 });
-      } else {
-        store.commit('removeItem', item.id);
-      }
+      store.commit('removeFromCart', item.id);
     };
 
     const goToCheckout = () => {
