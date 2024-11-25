@@ -1,52 +1,113 @@
-# GameVerse
+<div align="center">
+  <img src="https://github.com/DavidePoletto/final-pro/blob/main/src/assets/IMG/icons/GAmeverse1.webp?raw=true" alt="GameVerse Logo" width="300">
+</div>
 
-![GameVerse Logo](https://github.com/DavidePoletto/final-pro/blob/main/src/assets/IMG/icons/GAmeverse1.webp?raw=true)
+<div align="center">
+  <h1>Welcome to <b>GameVerse</b></h1>
+  <p>
+    GameVerse is a comprehensive platform for gaming enthusiasts. It offers a vast catalog of games, updated news about the gaming world, a <b>registration/login system</b>, and the ability to save orders in the cart.
+  </p>
+</div>
 
-**GameVerse** è una piattaforma completa per gli appassionati di videogiochi, che offre un vasto catalogo di giochi, notizie aggiornate sul mondo gaming, un sistema di registrazione/login per la gestione degli account utente e la possibilità di salvare ordini nel carrello.
+<div align="center">
+  <img src="https://img.shields.io/github/contributors/DavidePoletto/final-pro?color=dark-green" alt="Contributors Badge">
+  <img src="https://img.shields.io/github/issues/DavidePoletto/final-pro" alt="Issues Badge">
+  <img src="https://img.shields.io/github/forks/DavidePoletto/final-pro?color=blue" alt="Forks Badge">
+  <img src="https://img.shields.io/github/stars/DavidePoletto/final-pro?color=yellow" alt="Stars Badge">
+  <img src="https://img.shields.io/github/license/DavidePoletto/final-pro" alt="License Badge">
+</div>
 
-## Demo Online
 
-![Screenshot GameVerse](https://gameversee.netlify.app/path-to-screenshot.jpg)
+---
 
-Visita la demo del progetto all'indirizzo: [GameVerse](https://gameversee.netlify.app/)
+## 🌐 Online Demo
 
-## Caratteristiche
+<div align="center">
+  <img src="https://github.com/DavidePoletto/final-pro/blob/main/src/assets/IMG/backgrounds/Screenshot%202024-11-25%20022341.png?raw=true" alt="GameVerse Screenshot" width="800">
+</div>
 
-- **Catalogo Giochi**: Sfoglia giochi divisi in categorie come "Tendenze", "Novità", "Multiplayer", "Giochi Nintendo" e altro.
-- **Ricerca Avanzata**: Filtra e trova rapidamente i tuoi giochi preferiti.
-- **Dettagli Gioco**: Pagina dedicata con descrizioni, valutazioni Metacritic, screenshot e piattaforme supportate.
-- **Notizie**: Rimani aggiornato con una sezione dedicata al mondo del gaming.
-- **Carrello**: Aggiungi giochi al carrello per salvarli e consultarli in seguito.
-- **Registrazione/Login**: Sistema di autenticazione per la gestione degli account utente.
-- **Ordini Salvati**: Salva gli ordini effettuati nel carrello, pronti per essere consultati o completati.
-- **Responsività**: Design ottimizzato per desktop e dispositivi mobili.
-- **Swiper**: Showcase dinamico di giochi consigliati nella home page.
+<div align="center">
+  🔗 <strong>Visit the live website here</strong>: <a href="https://gameversee.netlify.app/">GameVerse</a>
+</div>
 
-## Tecnologie Utilizzate
+---
 
-### Frontend
-- **Vue.js** (Composition API, Vuex, Vue Router)
-- **Swiper.js** (per slider dinamici)
-- **CSS3** (per uno stile personalizzato e responsivo)
+## 🚀 Features
 
-### Backend
-- **Node.js** (Express)
-- **Axios** (per chiamate API)
-- **RAWG API** (per il catalogo dei giochi)
-- **Newsdata.io API** (per le notizie)
-- **SQL** (per la gestione degli account e degli ordini)
+✔️ **Game Catalog**: Explore categories like "Trending", "New Releases", "Multiplayer", and more.  
+✔️ **Advanced Search**: Easily find your favorite games.  
+✔️ **Game Details**: Discover detailed information, Metacritic ratings, and supported platforms.  
+✔️ **News**: Stay updated on the gaming world.  
+✔️ **Cart**: Save and review the games you want to purchase.  
+✔️ **Registration/Login**: Secure user account management.  
+✔️ **Saved Orders**: Check your saved orders in the cart.  
+✔️ **Responsiveness**: Optimized design for all devices.  
+✔️ **Swiper**: Dynamic showcase of recommended games.
 
-### Hosting
-- **Netlify** (per il frontend)
-- **Render** (per il backend)
+---
 
-## Installazione
+## 🛠️ Technologies Used
 
-### Requisiti
-- **Node.js** (v16 o superiore)
-- **NPM** o **Yarn**
+### 🎨 **Frontend**
+- **Vue.js** (Composition API, Vuex, Vue Router)  
+- **Swiper.js** (for dynamic sliders)  
+- **CSS3** (for a modern and responsive design)  
 
-### Istruzioni
-1. Clona il repository:
+### ⚙️ **Backend**
+- **Node.js** (Express)  
+- **Axios** (for API calls)  
+- **RAWG API** (game catalog)  
+- **Newsdata.io API** (gaming news)  
+- **MongoDB** (account and order management)
+
+### ☁️ **Hosting**
+- **Netlify** (Frontend)  
+- **Render** (Backend)
+
+---
+
+## 🖥️ Installation
+
+### Requirements
+- **Node.js** (v16 or higher)  
+- **NPM** or **Yarn**
+
+### Instructions
+1. Clone the repository:
    ```bash
    git clone https://github.com/DavidePoletto/final-pro.git
+
+   
+2. Install dependencies:
+   ```bash
+   cd final-pro
+   npm install
+
+3. Start the development server:
+   ```bash
+   npm run dev
+
+4. Set up environment variables for the backend:
+   Create a .env file in the server directory with the following variables:
+   ```bash
+   RAWG_API_KEY=tuo_api_key
+   NEWSDATA_API_KEY=tuo_api_key
+   DATABASE_URL=tuo_database_url
+
+5. Start the backend:
+   ```bash
+   cd server
+   node server.js
+
+6. Access the site:
+   ```bash
+   Frontend: http://localhost:3000
+   Backend: http://localhost:5000
+
+### 📄 License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+
+
+
+
