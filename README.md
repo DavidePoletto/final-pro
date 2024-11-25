@@ -3,9 +3,10 @@
 </div>
 
 <div align="center">
-# Welcome to **GameVerse**
-
-GameVerse is a comprehensive platform for gaming enthusiasts. It offers a vast catalog of games, updated news about the gaming world, a **registration/login system**, and the ability to save orders in the cart.
+  <h1>Welcome to <b>GameVerse</b></h1>
+  <p>
+    GameVerse is a comprehensive platform for gaming enthusiasts. It offers a vast catalog of games, updated news about the gaming world, a <b>registration/login system</b>, and the ability to save orders in the cart.
+  </p>
 </div>
 
 ---
