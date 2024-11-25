@@ -49,7 +49,7 @@
 - **Axios** (for API calls)  
 - **RAWG API** (game catalog)  
 - **Newsdata.io API** (gaming news)  
-- **SQL** (account and order management)
+- **MongoDB** (account and order management)
 
 ### ☁️ **Hosting**
 - **Netlify** (Frontend)  
